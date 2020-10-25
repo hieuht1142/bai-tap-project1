@@ -43,15 +43,11 @@ public abstract class OverSubscription extends PairGenerator {
         int maxIndexOfCore = allHosts.length + 5*k*k/4 - 1;
     	int minIndexOfCore = maxIndexOfCore - k + 1;
     	
-        for(Switch sw : switches)
-        {
-        	for(Link link : sw.physicalLayer.links.values())
-        	{
-        		if(isOversubscriptedLink(link, maxIndexOfCore, minIndexOfCore))
-        		{
+        for(Switch sw : switches) {
+        	for (Link link : sw.physicalLayer.links.values()) {
+        		if (isOversubscriptedLink(link, maxIndexOfCore, minIndexOfCore)) {
         			link.setBandwidth(OVERSUBSCRIPTION_BANDWIDTH);
-        		}
-        		else {
+        		} else {
         			link.setBandwidth(NORMAL_BANDWIDTH);
         		}
         	}
@@ -60,22 +56,19 @@ public abstract class OverSubscription extends PairGenerator {
     }
 	
 	@Override
-    public void setAllHosts(Integer[] allHosts)
-    {
+    public void setAllHosts(Integer[] allHosts) {
     	super.setAllHosts(allHosts);
     	this.modulo = allHosts.length;
     }
 	
-	public int getCoreSwitch(int source, int destination)
-    {
+	public int getCoreSwitch(int source, int destination) {
         int edge = G.adj(source).get(0);
         int agg = G.adj(edge).get(k/2);
         int core = G.adj(agg).get(k/2);
         return core;
     }
 
-    public int getRealCoreSwitch(int source, int destination)
-    {
+    public int getRealCoreSwitch(int source, int destination) {
         int edge = G.adj(source).get(0);
         Address address = G.getAddress(destination);
         Map<Integer, Map<Integer, Integer>> suffixTables = routing.getSuffixTables();

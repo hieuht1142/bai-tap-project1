@@ -12,10 +12,8 @@ import custom.fattree.FatTreeRoutingAlgorithm;
 import network.Topology;
 
 public class SameIDOutgoing extends OverSubscription {
-
 	
-    public SameIDOutgoing(FatTreeGraph G, FatTreeRoutingAlgorithm routing)
-    {
+    public SameIDOutgoing(FatTreeGraph G, FatTreeRoutingAlgorithm routing) {
     	super();
     	this.G = G;
     	this.routing = routing;
@@ -51,26 +49,19 @@ public class SameIDOutgoing extends OverSubscription {
             List<Integer> allTempDsts = new ArrayList<Integer>();
             List<Integer> allTempSrcs = new ArrayList<Integer>();
             
-            for(int j = i; j < i + (k/2); j++)
-            //if(!IsSameSubNet(previousSrc, src))
-            {
+            for (int j = i; j < i + (k/2); j++) {
             	int src =  allHosts[j];
             	boolean found = false;
-            	for(int k = 0; k < numOfHosts; k++)
-            	{
+            	for (int k = 0; k < numOfHosts; k++) {
             		int dst = allHosts[(k + delta) % numOfHosts];
-            		if(dst != src && !destinations.contains(dst) && !allTempDsts.contains(dst))
-            		{
-	            		if(sameHostID == -1)
-	            		{
+            		if (dst != src && !destinations.contains(dst) && !allTempDsts.contains(dst)) {
+	            		if(sameHostID == -1) {
 	            			sameHostID = getHostID(dst);
 	            			allTempDsts.add(dst);
 	            			found = true;
 	            			break;
-	            		}
-	            		else {
-	            			if(sameHostID == getHostID(dst))
-	            			{
+	            		} else {
+	            			if (sameHostID == getHostID(dst)) {
 	            				allTempDsts.add(dst);
 	            				found = true;
 	            				break;
@@ -79,23 +70,19 @@ public class SameIDOutgoing extends OverSubscription {
             		}
             	}
             	
-            	if(found)
-            	{
+            	if(found) {
             		allTempSrcs.add(src);
-            	}
-            	else {
+            	} else {
             		break;
             	}
             	
             }
             
-            if(allTempDsts.size() == k/2)
-            {
+            if (allTempDsts.size() == k/2) {
             	i += k/2;
             	System.out.print("\n");
             	sources.addAll(allTempSrcs); destinations.addAll(allTempDsts);
-            	for(int m = 0; m < allTempDsts.size(); m++)
-            	{
+            	for (int m = 0; m < allTempDsts.size(); m++) {
             		System.out.print(allTempDsts.get(m) + "(" + getHostID(allTempDsts.get(m)) + ") ");
             		int id = allTempDsts.get(m);
             		Address host = G.getAddress(id);
@@ -112,43 +99,35 @@ public class SameIDOutgoing extends OverSubscription {
 	}
 	
 	@Override
-	public void setAllHosts(Integer[] allHosts)
-	{
+	public void setAllHosts(Integer[] allHosts) {
 		super.setAllHosts(allHosts);
     	this.k =  (int)Math.cbrt(4*allHosts.length);
 	}
 	
-	private boolean IsSameSubNet(int preHost, int currHost)
-	{
-		if(Math.abs(preHost - currHost) >= k/2)
-		{
+	private boolean IsSameSubNet(int preHost, int currHost) {
+		if (Math.abs(preHost - currHost) >= k/2) {
 			return false;
 		}
-		if(preHost / (k/2) == currHost / (k/2))
-		{
+		if (preHost / (k/2) == currHost / (k/2)) {
 			return true;
 		}
 		return false;
 	}
 	
-	public int getHostID(int id)
-	{
+	public int getHostID(int id) {
 		Address host = G.getAddress(id);
 		int lastPart = host._4;
 		int hostID = 0;
-		if(lengthOfHostID == 8)
-		{
+		if (lengthOfHostID == 8) {
 			hostID = (lastPart << 24) >> 24;
 			
 		}
 		
-		if(lengthOfHostID == 16)
-		{
+		if (lengthOfHostID == 16) {
 			hostID = (lastPart << 16) >> 16;
 		}
 		
-		if(lengthOfHostID == 24)
-		{
+		if (lengthOfHostID == 24) {
 			hostID = (lastPart << 8) >> 8;
 		}
 		
@@ -157,8 +136,7 @@ public class SameIDOutgoing extends OverSubscription {
 	
 	private int lengthOfHostID = 8;
 	
-	private void setTypeOfAddresss()
-	{
+	private void setTypeOfAddresss() {
 		Address one = G.getAddress(0);
 		int firstPart = one._1;
 		int firstBit = firstPart >> 31;

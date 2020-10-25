@@ -34,15 +34,6 @@ public class RandomGenerator {
     }
 
     public static void main(String[] args) {
-//        int seed = (int) (System.currentTimeMillis() % 1e9);
-//        MRG31k3p.setPackageSeed(new int[]{seed,seed+1,seed+2,seed+3,seed+4,seed+5});
-//        RandomStream r = new MRG31k3p();
-//        StdOut.println(r.nextDouble());
-//        StdOut.println(r.nextDouble());
-//        StdOut.println(r.nextDouble());
-//        StdOut.println(r.nextDouble());
-//        StdOut.println(r.nextDouble());
-//        RandomGenerator.setSeed(123);
         StdOut.println(RandomGenerator.nextDouble());
         StdOut.println(RandomGenerator.nextDouble());
         StdOut.println(RandomGenerator.nextDouble());

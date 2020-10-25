@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import com.sun.java.swing.plaf.windows.TMSchema.State;
-
 import common.StdOut;
 import config.Constant;
 import custom.fattree.FatTreeFlowClassifier;
@@ -39,14 +37,6 @@ public class ThroughputExperiment {
         this.topology = network;
     }
 	
-	
-	/**
-	 * sdfsf
-	 * fdsfsd
-	 * @param trafficPattern là gì
-	 * @param verbose là gì?
-	 * @return gì?
-	 */
     public double[][] calThroughput(Map<Integer, Integer> trafficPattern, boolean verbose) {
     	
     	long start = System.currentTimeMillis();
@@ -54,9 +44,8 @@ public class ThroughputExperiment {
         
         DiscreteEventSimulator.Initialize(true, Constant.MAX_TIME, verbose);
         
-        DiscreteEventSimulator simulator = //new DiscreteEventSimulator(true, Constant.MAX_TIME, verbose);
-        		DiscreteEventSimulator.getInstance();
-        topology.clear(); // clear all the data, queue, ... in switches, hosts
+        DiscreteEventSimulator simulator = DiscreteEventSimulator.getInstance();
+        topology.clear();
         topology.setSimulator(simulator);
         
         simulator.initializeCollectionOfEvents();
@@ -92,22 +81,16 @@ public class ThroughputExperiment {
         StdOut.printf("Throughput : %.2f\n", throughput);
 
         double rawThroughput = throughput * Constant.LINK_BANDWIDTH / 100 / 1e9;
-        //StdOut.printf("RAW Throughput : %.2f GBit/s\n", rawThroughput);
 
         double alternativeRawThroughput = simulator.numReceived * Constant.PACKET_SIZE / (trafficPattern.size());
-        //StdOut.printf("b1: %f\n", alternativeRawThroughput);
-        alternativeRawThroughput = alternativeRawThroughput / (nPoint * interval);
         
+        alternativeRawThroughput = alternativeRawThroughput / (nPoint * interval);        
         
         long end = System.currentTimeMillis();
         NumberFormat formatter = new DecimalFormat("#0.00000");
         System.out.print("Execution time is " + formatter.format((end - start) / 1000d) + " seconds");
-        
-        
 
         GraphPanel.createAndShowGui(scores);
-
-        
 
         return points;
     }
@@ -115,84 +98,64 @@ public class ThroughputExperiment {
 
     public static void main(String[] args) {
 
-        //for(int timeOfRun = 0; timeOfRun < 100-3; timeOfRun++)
-        {
-            FatTreeGraph G = new FatTreeGraph(4);
-            FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
-            							new FatTreeFlowClassifier(G, false);
+    	FatTreeGraph G = new FatTreeGraph(4);
+        FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
+        							new FatTreeFlowClassifier(G, false);
+        
+        PairGenerator pairGenerator = //new StrideIndex(1);
+        								new StrideIndex(8);
+        								//new InterPodIncoming(ra, G);
+        								//new ForcePair(ra, G, 13);
+        								//new MinimalCoreSwitches(ra, G);
+        								//new SameIDOutgoing(G, ra);
+        Topology topology = new Topology(G, ra, pairGenerator);    
+		//new StaggeredProb(hosts, 4, 1, 0);
+		//new InterPodIncoming(hosts, k, ra, G);
+ 
+        ThroughputExperiment experiment = new ThroughputExperiment(topology);  
 
-            //Integer[] hosts = G.hosts().toArray(new Integer[0]);
-            
-            PairGenerator pairGenerator = //new StrideIndex(1);
-            								new StrideIndex(8);
-            								//new InterPodIncoming(ra, G);
-            								//new ForcePair(ra, G, 13);
-            								//new MinimalCoreSwitches(ra, G);
-            								//new SameIDOutgoing(G, ra);
-            Topology topology = new Topology(G, ra, pairGenerator);
-            
-			//new StaggeredProb(hosts, 4, 1, 0);
-			//new InterPodIncoming(hosts, k, ra, G);
+        Map<Integer, Integer> traffic = new HashMap<>();
 
-            
-            
-            ThroughputExperiment experiment = new ThroughputExperiment(topology);
-            
+        List<Integer> sourceNodeIDs = topology.getSourceNodeIDs();
+        List<Integer> destinationNodeIDs = topology.getDestinationNodeIDs();
 
-            Map<Integer, Integer> traffic = new HashMap<>();
+        int sizeOfFlow = sourceNodeIDs.size();
 
-            List<Integer> sourceNodeIDs //= new ArrayList<>();  
-            								= topology.getSourceNodeIDs();
-            List<Integer> destinationNodeIDs //= new ArrayList<>(); 
-            								= topology.getDestinationNodeIDs();
-            
+        for (int i = 0; i < sizeOfFlow; i++) {
+            traffic.put(sourceNodeIDs.get(i), destinationNodeIDs.get(i));
+        }
 
-            int sizeOfFlow = //1;
-                    sourceNodeIDs.size();
+        experiment.calThroughput(traffic, false);
 
-            for (int i = 0; i < sizeOfFlow; i++) {
-                traffic.put(sourceNodeIDs.get(i), destinationNodeIDs.get(i));
-            }
-
-
-            experiment.calThroughput(traffic, false);
-
-            //ThanhNT
-            int rxPacket = 0;
-            double thp = 0, privateThp = 0;
-            for (int i = 0; i < topology.getHosts().size(); i++) {
-                Host host = topology.getHosts().get(i);
-                if(host.type == TypeOfHost.Destination || host.type == TypeOfHost.Mix) {
-                    Host destinationNode = host;
-                    if (destinationNode.getReceivedPacketInNode() != 0) {
-                        
-                        rxPacket += destinationNode.getReceivedPacketInNode();
-                        privateThp = destinationNode.getReceivedPacketInNode()
-                                * Constant.PACKET_SIZE / (destinationNode.getLastRx() - destinationNode.getFirstTx());
-                        thp += privateThp;
-                        
-                    }
+        int rxPacket = 0;
+        double thp = 0, privateThp = 0;
+        for (int i = 0; i < topology.getHosts().size(); i++) {
+            Host host = topology.getHosts().get(i);
+            if(host.type == TypeOfHost.Destination || host.type == TypeOfHost.Mix) {
+                Host destinationNode = host;
+                if (destinationNode.getReceivedPacketInNode() != 0) {
+                    
+                    rxPacket += destinationNode.getReceivedPacketInNode();
+                    privateThp = destinationNode.getReceivedPacketInNode()
+                            * Constant.PACKET_SIZE / (destinationNode.getLastRx() - destinationNode.getFirstTx());
+                    thp += privateThp;
+                    
                 }
             }
-            
-            for (int i = 0; i < topology.getSwitches().size(); i++) {
-                Switch nodeSwitch = topology.getSwitches().get(i);
-                System.out.print("\nSwitch has id: " + nodeSwitch.getId() + " \n");
-                //Map<Integer, Integer> outgoingTraffic
-                if(nodeSwitch.getNetworkLayer().routingAlgorithm instanceof FatTreeFlowClassifier)
-                {
-	                FatTreeFlowClassifier ftfc = (FatTreeFlowClassifier)nodeSwitch.getNetworkLayer().routingAlgorithm;
-	                Map<Integer, Long> outgoingTraffic = ftfc.outgoingTraffic;
-	                for(Integer key: outgoingTraffic.keySet())
-	                {
-	                	System.out.println("\tFlow to node: " + key + " has capacity: " + outgoingTraffic.get(key));
-	                }
+        }
+        
+        for (int i = 0; i < topology.getSwitches().size(); i++) {
+            Switch nodeSwitch = topology.getSwitches().get(i);
+            System.out.print("\nSwitch has id: " + nodeSwitch.getId() + " \n");
+
+            if(nodeSwitch.getNetworkLayer().routingAlgorithm instanceof FatTreeFlowClassifier) {
+                FatTreeFlowClassifier ftfc = (FatTreeFlowClassifier)nodeSwitch.getNetworkLayer().routingAlgorithm;
+                Map<Integer, Long> outgoingTraffic = ftfc.outgoingTraffic;
+                
+                for(Integer key: outgoingTraffic.keySet()) {
+                	System.out.println("\tFlow to node: " + key + " has capacity: " + outgoingTraffic.get(key));
                 }
             }
-            
-            
-            
-            //Endof ThanhNT
         }
     }
 

@@ -11,9 +11,7 @@ public class W1 extends State {
     }
 
     @Override
-    public void act(){
+    public void act() {
 
-
-//        exitBuffer.getNode().networkLayer.controlFlow(exitBuffer);
     }
 }

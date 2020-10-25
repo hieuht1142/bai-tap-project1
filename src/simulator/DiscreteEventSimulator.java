@@ -1,8 +1,6 @@
 package simulator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import common.StdOut;
@@ -38,15 +36,13 @@ public class DiscreteEventSimulator extends Simulator {
     private static boolean IS_LIMIT = false, VERBOSE = false;
     private static double TIME_LIMIT = 0;
     
-    public static void Initialize(boolean isLimit, double timeLimit, boolean verbose)
-    {
+    public static void Initialize(boolean isLimit, double timeLimit, boolean verbose) {
     	IS_LIMIT = isLimit;
     	TIME_LIMIT = timeLimit;
     	VERBOSE = verbose;
     }
 
-    public static DiscreteEventSimulator getInstance()
-    {
+    public static DiscreteEventSimulator getInstance() {
     	if(!des.isAssigned)
     	{
 	    	des.isLimit = IS_LIMIT;
@@ -73,8 +69,7 @@ public class DiscreteEventSimulator extends Simulator {
 
     public double getTimeLimit() {
         return timeLimit;
-    }
-    
+    }    
     
     @Override
     public void start () {
@@ -88,7 +83,7 @@ public class DiscreteEventSimulator extends Simulator {
 		int countEvent = 0;
 		
 		try {
-			long startTime = System.currentTimeMillis();//remove redundant variable
+			long startTime = System.currentTimeMillis();
 			int lastPercentage = 0;
 			
 			while ((ev = removeFirstEvent()) != null && !stopped
@@ -97,15 +92,11 @@ public class DiscreteEventSimulator extends Simulator {
 				countEvent++;
 				ev.actions();
 	
-				
 				int percentage = (int) (currentTime ) / (int) Constant.EXPERIMENT_INTERVAL; 
-				if (percentage > lastPercentage) 
-				{ 
+				if (percentage > lastPercentage) { 
 					lastPercentage = percentage;
 					StdOut.printProgress("Progress", startTime, (long) timeLimit, currentTime); 
-				}
-				
-				 
+				} 
 			}
 			StdOut.print("\r");
 		} catch (Exception ex) {
@@ -128,8 +119,7 @@ public class DiscreteEventSimulator extends Simulator {
             if (ev == null) {
                 return null;
             } else {
-                this.currentTime = //(long) ev.time();
-                		ev.getEndTime();
+                this.currentTime = ev.getEndTime();
                 ev.setEndTime(-10);
                 
                 return ev;
@@ -151,49 +141,33 @@ public class DiscreteEventSimulator extends Simulator {
         this.getEventList().add(e);
     }
 
-    public void initializeCollectionOfEvents()
-    {
-    	//long startTime = System.currentTimeMillis();
-		// todo chu y kiem tra moi thu extends Element Class
+    public void initializeCollectionOfEvents() {
 		List<Host> allHosts = this.topology.getHosts();
 		for (Host host : allHosts) {
-			if (host.type != TypeOfHost.Destination) {//tuc no la source
-				//soonestEndTime will be updated later as events are executed
-				//host.physicalLayer.sourceQueue.sim = this;
+			if (host.type != TypeOfHost.Destination) {
 				halfSizeOfEvents++;
-				//soonestEndTime will be updated later as events are executed
 
-				//add uniWay of host(way from it)
 				UnidirectionalWay unidirectionalWay = host.physicalLayer.links.get(host.getId()).getWayToOtherNode(host);
-				//unidirectionalWay.sim = this;
 				halfSizeOfEvents++;
 
-				int connectedNodeID = host.physicalLayer.links
-						.get(host.getId()).getOtherNode(host).getId();
-				//host.physicalLayer.exitBuffers.get(connectedNodeID).sim = this;
+				int connectedNodeID = host.physicalLayer.links.get(host.getId()).getOtherNode(host).getId();
 				halfSizeOfEvents++;
 				
 			}
 
-
 		}
-		//lay event tu tat ca ca link truoc
+
 		List<Switch> allSwitches = this.topology.getSwitches();
 		for (Switch aSwitch : allSwitches) {
-			//add uniWay of switch(way from it)
 			for (Link link : aSwitch.physicalLayer.links.values()) {
-				//link.getWayToOtherNode(aSwitch).sim = this;
-				halfSizeOfEvents++;
-				
+				halfSizeOfEvents++;	
 			}
 			
 			for (ExitBuffer exitBuffer : aSwitch.physicalLayer.exitBuffers.values()) {
-				//exitBuffer.sim = this;
 				halfSizeOfEvents++;
 			}
 			
 			for (EntranceBuffer entranceBuffer : aSwitch.physicalLayer.entranceBuffers.values()) {
-				//entranceBuffer.sim = this;
 				halfSizeOfEvents++;
 			}
 		}
@@ -201,17 +175,10 @@ public class DiscreteEventSimulator extends Simulator {
 		System.out.println("Number of 1/2 events = " + halfSizeOfEvents);
     }
 
-    	
-
-    public long selectNextCurrentTime(long currentTime)
-    {
+    public long selectNextCurrentTime(long currentTime) {
     	long result = Long.MAX_VALUE;
 		
     	return result;
     }
-    
-    
-
-
 
 }

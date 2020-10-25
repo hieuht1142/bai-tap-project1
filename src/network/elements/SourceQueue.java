@@ -13,12 +13,9 @@ public class SourceQueue  extends Buffer{
     //todo nen bo  thuoc tinh desID di ko vi the nay chi gioi han moi sourceNode chi gui packet den duoc mot desNode duy nhat
     protected int sourceId;
     protected int destinationId;
-    protected long numGeneratedPacket; // so packet da tao, khoi tao bawng -1
-    
-
-       
-    public SourceQueue(int sourceId)
-    {
+    protected long numGeneratedPacket; // so packet da tao, khoi tao bang -1
+     
+    public SourceQueue(int sourceId) {
         this.id = sourceId;
     	this.sourceId = sourceId;
     	this.destinationId = sourceId;
@@ -39,16 +36,15 @@ public class SourceQueue  extends Buffer{
         return sourceId;
     }
 
-    public void setDestinationID(int destinationID)
-    {
+    public void setDestinationID(int destinationID) {
     	this.destinationId = destinationID;
     }
-    public int getDestinationID()
-    {
+    
+    public int getDestinationID() {
     	return this.destinationId;
     }
 
-    public boolean hasOnlyOnePacket(){
+    public boolean hasOnlyOnePacket() {
         return allPackets.size() == 1;
     }
 
@@ -58,15 +54,13 @@ public class SourceQueue  extends Buffer{
         numGeneratedPacket++;
         double timeSent = numGeneratedPacket * Constant.HOST_DELAY;
         Packet p = new Packet(0, sourceId, destinationId, timeSent);
-//        p.setState( new StateP1(physicalLayer.sourceQueue, p)); // state set o ngoai khi event xay ra
         insertPacket(p);
         return p;
     }
 
-    public Packet removePacket()
-    {
-        if(allPackets.size() == 1){
-            if(state instanceof Sq2){
+    public Packet removePacket() {
+        if(allPackets.size() == 1) {
+            if(state instanceof Sq2) {
                 state = new Sq1(this);
                 state.act();
             }
@@ -74,8 +68,7 @@ public class SourceQueue  extends Buffer{
         return allPackets.dequeue();
     }
 
-    public void insertPacket(Packet p)
-    {
+    public void insertPacket(Packet p) {
         allPackets.enqueue(p);
         if(state instanceof Sq1){
             state = new Sq2(this);
@@ -83,7 +76,7 @@ public class SourceQueue  extends Buffer{
 
     }
 
-    public boolean isDelayed(long currentTime){
+    public boolean isDelayed(long currentTime) {
         long r = currentTime/Constant.HOST_DELAY; // host delay chi thoi gian can thiet de gen packet tiep theo
 
         return r <= numGeneratedPacket;

@@ -12,7 +12,7 @@ public class UnidirectionalWay extends Element {
 	private Link link;
 	private Packet packet;
 
-	public UnidirectionalWay(Node from, Node to, Link link ){
+	public UnidirectionalWay(Node from, Node to, Link link ) {
 		this.fromNode = from;
 		this.toNode = to;
 		this.link = link;

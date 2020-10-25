@@ -34,36 +34,28 @@ public class HNotificationEvent extends Event {
     }
 
     @Override
-    public void actions()
-    {
-        //if(getElement() instanceof EntranceBuffer) 
-        {
-            EntranceBuffer entranceBuffer = (EntranceBuffer) element;
-            
-            UnidirectionalWay unidirectionalWay = entranceBuffer.physicalLayer.links.
-                    get(entranceBuffer.getConnectNode().getId())
-                    .getWayToOtherNode(entranceBuffer.getConnectNode());
+    public void actions() {
+    	EntranceBuffer entranceBuffer = (EntranceBuffer) element;
+        
+        UnidirectionalWay unidirectionalWay = entranceBuffer.physicalLayer.links.
+                get(entranceBuffer.getConnectNode().getId())
+                .getWayToOtherNode(entranceBuffer.getConnectNode());
 
-            if(unidirectionalWay.getState() instanceof W0 || unidirectionalWay.getState() instanceof W2) {
-                ExitBuffer sendExitBuffer = entranceBuffer.getConnectNode().physicalLayer
-                        .exitBuffers.get(entranceBuffer.physicalLayer.node.getId());
+        if(unidirectionalWay.getState() instanceof W0 || unidirectionalWay.getState() instanceof W2) {
+            ExitBuffer sendExitBuffer = entranceBuffer.getConnectNode().physicalLayer
+                    .exitBuffers.get(entranceBuffer.physicalLayer.node.getId());
 
-                if (sendExitBuffer.getState().type == Type.X00) {
-                    //sendExitBuffer.setState(new X01(sendExitBuffer));
-                	sendExitBuffer.setType(Type.X01);
-                    sendExitBuffer.getState().act();
-                }
-                if (sendExitBuffer.getState().type == Type.X10) {
-                    //sendExitBuffer.setState(new X11(sendExitBuffer));
-                	sendExitBuffer.setType(Type.X11);
-                    sendExitBuffer.getState().act();
-                }
-                if(unidirectionalWay.getState() instanceof W2){
-                    unidirectionalWay.setState(new W0(unidirectionalWay));
-                    unidirectionalWay.getState().act();
-                }
-
-
+            if (sendExitBuffer.getState().type == Type.X00) {
+            	sendExitBuffer.setType(Type.X01);
+                sendExitBuffer.getState().act();
+            }
+            if (sendExitBuffer.getState().type == Type.X10) {
+            	sendExitBuffer.setType(Type.X11);
+                sendExitBuffer.getState().act();
+            }
+            if(unidirectionalWay.getState() instanceof W2){
+                unidirectionalWay.setState(new W0(unidirectionalWay));
+                unidirectionalWay.getState().act();
             }
         }
 

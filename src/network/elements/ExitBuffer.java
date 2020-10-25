@@ -11,8 +11,7 @@ public class ExitBuffer extends LimitedBuffer {
 	protected ArrayList<EntranceBuffer> requestList;
 
 
-	public ExitBuffer(Node node, Node connectNode, int size)
-	{
+	public ExitBuffer(Node node, Node connectNode, int size) {
 		this.node = node;
 		this.size = size;
 		this.connectNode = connectNode;
@@ -31,15 +30,12 @@ public class ExitBuffer extends LimitedBuffer {
 	}
 
 	public void removeFromRequestList(EntranceBuffer entranceBuffer){
-		if(requestList.contains(entranceBuffer)){
+		if (requestList.contains(entranceBuffer)) {
 			requestList.remove(entranceBuffer);
-		}else
+		} else
 			System.out.println("ERROR: ExitBuffer: " + this.toString() + " does not contain request id: " + id);
 	}
-	public boolean isRequestListEmpty(){
+	public boolean isRequestListEmpty() {
 		return requestList.isEmpty();
 	}
-
-	@Override
-	public void checkStateChange(){ }
 }

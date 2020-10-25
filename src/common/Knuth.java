@@ -64,9 +64,6 @@ package common;
  */
 public class Knuth { 
 
-    // this class should not be instantiated
-    private Knuth() { }
-
     /**
      * Rearranges an array of objects in uniformly random order
      * (under the assumption that {@code Math.random()} generates independent
@@ -82,18 +79,6 @@ public class Knuth {
             a[r] = a[i];
             a[i] = swap;
         }
-        //ThanhNT: 19-09:01:15
-        /*for (int i = 1; i < n/2; i+=2) {
-            // choose index uniformly in [0, i]
-            //int r = (int) (Math.random() * (i + 1));
-            int r = i + (n/2) - 1;
-            Object swap = a[r];
-            a[r] = a[i];
-            a[i] = swap;
-        }*/
-        //Endof THanhNT 19-09:01:15
-
-
     }
 
     /**
@@ -121,16 +106,9 @@ public class Knuth {
      */
     public static void main(String[] args) {
 
-        // read in the data
         String[] a = {"A", "B"} ; 
-    	//= StdIn.readAllStrings();
 
-        // shuffle the array
         Knuth.shuffle(a);
-
-        // print results.
-        //for (int i = 0; i < a.length; i++)
-        //    StdOut.println(a[i]);
     }
 }
 

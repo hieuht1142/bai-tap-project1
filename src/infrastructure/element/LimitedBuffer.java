@@ -1,14 +1,12 @@
 package infrastructure.element;
 
-import common.Queue;
-import config.Constant;
 import infrastructure.entity.Node;
 import network.elements.Packet;
 
 public abstract class LimitedBuffer extends Buffer {
-	//todo should set to protected
-	protected Node node; //co the bo di
-	protected Node connectNode; // ko the bo, vi tu buffer ko the biet duoc no connect voi node khac nao
+	
+	protected Node node;
+	protected Node connectNode;
 	protected int size;
 
 
@@ -27,36 +25,34 @@ public abstract class LimitedBuffer extends Buffer {
 	 * @return true neu nhu chen duoc goi tin
 	 *         false neu nhu KHONG chen duoc goi tin vao (tuc bo dem da day)
 	 */
-
-	//tobe override
-	public void checkStateChange(){}
-
-	public void insertPacket(Packet p)
-	{
-		if(allPackets.size() > size)
+	public void insertPacket(Packet p) {
+		if (allPackets.size() > size) {
 			System.out.println("ERROR: Buffer: " + this.toString() + " oversized");
+		}
+			
 		allPackets.enqueue(p);
 	}
-	public Packet removePacket()
-	{
-		if(allPackets.isEmpty()) return null;
+	
+	public Packet removePacket() {
+		if (allPackets.isEmpty()) return null;
 		return allPackets.dequeue();
 	}
-	public boolean isFull()
-	{
-		if(allPackets.size() > size)
+	
+	public boolean isFull() {
+		if (allPackets.size() > size)
 			System.out.println("ERROR: Buffer: " + this.toString() + " oversized");
 		return allPackets.size() == size;
 	}
 
-	public int getNumOfPacket()
-	{
-		if(allPackets.size() > size)
+	public int getNumOfPacket() {
+		if (allPackets.size() > size) {
 			System.out.println("ERROR: Buffer: " + this.toString() + " oversized");
+		}
+			
 		return allPackets.size();
 	}
 
-	public boolean canAddPacket(){
+	public boolean canAddPacket() {
 		return allPackets.size() < size ;
 	}
 }

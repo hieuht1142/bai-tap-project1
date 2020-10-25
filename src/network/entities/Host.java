@@ -8,31 +8,23 @@ import network.elements.Packet;
 import network.elements.SourceQueue;
 import network.layers.PhysicalLayer;
 
-
-
 /**
  * Created by Dandoh on 6/27/17.
  */
-
-
 public class Host extends Node {
 
 	public TypeOfHost type;
 
 	public Host(int id) {
 	     super(id);
-//	     this.physicalLayer = new PhysicalLayer(this);
 	}
 
    @Override
     public void clear() {
 
     }
-   
-   
-   
-   public void generatePacket(int destination)
-   {
+
+   public void generatePacket(int destination) {
        if(this.physicalLayer.sourceQueue == null)
            this.physicalLayer.sourceQueue = new SourceQueue(this.id, destination);
        else
@@ -61,13 +53,11 @@ public class Host extends Node {
        return firstTx;
    }
 
-   public void receivePacket(Packet packet){
+   public void receivePacket(Packet packet) {
        double currentTime = this.physicalLayer.simulator.getTime();
        this.physicalLayer.simulator.numReceived++;
        if(this.receivedPacketInNode == 0) {
-//           this.firstTx = packet.getStartTime();
            this.firstTx = currentTime;
-           //System.out.println("Thoi gian goi tin dau tien den voi host " + self.id + " la: " + this.firstTx);
        }
        this.receivedPacketInNode ++;
        this.lastRx = currentTime;
@@ -80,13 +70,11 @@ public class Host extends Node {
    }
    
    @Override
-   public boolean isDestinationNode()
-   {
+   public boolean isDestinationNode() {
 	   return (this.type == TypeOfHost.Destination || this.type == TypeOfHost.Mix);
    }
    
-   public boolean isSourceNode()
-   {
+   public boolean isSourceNode() {
 	   return (this.type == TypeOfHost.Source || this.type == TypeOfHost.Mix);
    }
 }

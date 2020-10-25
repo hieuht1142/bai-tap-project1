@@ -38,13 +38,23 @@ public class FatTreeGraph extends Graph {
         for (int v = 0; v < V; v++) {
             adj[v] = new ArrayList<Integer>();
         }
-
+        
+        buildEdge();
+        
+        buildAddress();
+    }
+    
+    /**
+     * This method is used to create edges between hosts and edge switches,
+     * between edge switches and aggregation switches, between aggregation
+     * switches and core switches of the fat-tree graph.
+     */
+    private void buildEdge() {
         // each pod has k^2/4 servers and k switches
         int numEachPod = k * k / 4 + k;
         for (int p = 0; p < k; p++) {
             int offset = numEachPod * p;
-
-            // between server and edge
+            // create edges between server and edge
             for (int e = 0; e < k / 2; e++) {
                 int edgeSwitch = offset + k * k / 4 + e;
                 for (int s = 0; s < k / 2; s++) {
@@ -52,17 +62,15 @@ public class FatTreeGraph extends Graph {
                     addEdge(edgeSwitch, server);
                 }
             }
-
-            // between agg and edge
+            // create edges between agg and edge
             for (int e = 0; e < k / 2; e++) {
                 int edgeSwitch = offset + k * k / 4 + e;
                 for (int a = k / 2; a < k; a++) {
                     int aggSwitch = offset + k * k / 4 + a;
                     addEdge(edgeSwitch, aggSwitch);
                 }
-            }
-
-            // between agg and core
+            }    
+            // create edges between agg and core
             for (int a = 0; a < k / 2; a++) {
                 int aggSwitch = offset + k * k / 4 + k / 2 + a;
                 for (int c = 0; c < k / 2; c++) {
@@ -70,37 +78,59 @@ public class FatTreeGraph extends Graph {
                     addEdge(aggSwitch, coreSwitch);
                 }
             }
-
         }
-
-        buildAddress();
     }
 
+    
+    /**
+     * This method is used to build address for all switches and hosts of the fat-tree topology
+     */
     private void buildAddress() {
         this.address = new Address[V];
 
         int numEachPod = k * k / 4 + k;
 
-        // address for pod's switches
-        for (int p = 0; p < k; p++) {
+        podSwAddress(numEachPod);
+        coreSwAddress();
+        hostAddress(numEachPod);
+    }
+    
+    
+    /**
+     * This method is used to build address for pod's switches
+     *
+     * @param numEachPod the number of nodes in each pod
+     */
+    private void podSwAddress(int numEachPod) {
+    	for (int p = 0; p < k; p++) {
             int offset = numEachPod * p;
             for (int s = 0; s < k; s++) {
                 int switchId = offset + k * k / 4 + s;
                 address[switchId] = new Address(10, p, s, 1);
             }
         }
-
-        // address for core switches
-        for (int j = 1; j <= k / 2; j++) {
+    }
+    
+    /**
+     * This method is used to build address for core switches
+     */
+    private void coreSwAddress() {
+    	for (int j = 1; j <= k / 2; j++) {
             for (int i = 1; i <= k / 2; i++) {
                 int offset = numPodSwitches + numServers;
                 int switchId = offset + (j - 1) * k / 2 + i - 1;
                 address[switchId] = new Address(10, k, j, i);
             }
         }
-
-        // address for servers
-        for (int p = 0; p < k; p++) {
+    }
+    
+    /**
+     * This method is used to build address for hosts
+     *
+     * @param numEachPod the number of nodes in each pod
+     */
+    private void hostAddress(int numEachPod) {
+    	for (int p = 0; p < k; p++) {
             int offset = numEachPod * p;
             for (int e = 0; e < k / 2; e++) {
                 for (int h = 2; h <= k / 2 + 1; h++) {
@@ -162,8 +192,6 @@ public class FatTreeGraph extends Graph {
                 switches.add(switchId);
             }
         }
-
-
 
         return switches;
     }

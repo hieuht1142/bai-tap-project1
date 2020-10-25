@@ -15,15 +15,13 @@ public class StateP1 extends State {
 	public Packet packet;
 
 	
-	public StateP1(SourceQueue sq, Packet p, AGenerationEvent ev)
-	{
+	public StateP1(SourceQueue sq, Packet p, AGenerationEvent ev) {
 		this.element = sq;
 		this.packet = p;
-		//this.ancestorEvent = ev;
 	}
 
 	@Override
-	public void act(){
+	public void act() {
 
 	}
 }

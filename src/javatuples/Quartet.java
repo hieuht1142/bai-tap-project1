@@ -94,8 +94,6 @@ public final class Quartet<A,B,C,D>
     }
 
     
-
-    
     /**
      * <p>
      * Create tuple from iterable. Iterable has to have exactly four network.elements.
@@ -108,7 +106,6 @@ public final class Quartet<A,B,C,D>
     public static <X> Quartet<X,X,X,X> fromIterable(final Iterable<X> iterable) {
         return fromIterable(iterable, 0, true);
     }
-
     
     
     /**
@@ -124,9 +121,6 @@ public final class Quartet<A,B,C,D>
     public static <X> Quartet<X,X,X,X> fromIterable(final Iterable<X> iterable, int index) {
         return fromIterable(iterable, index, false);
     }
-    
-    
-
 
     private static <X> Quartet<X,X,X,X> fromIterable(final Iterable<X> iterable, int index, final boolean exactSize) {
         
@@ -187,10 +181,7 @@ public final class Quartet<A,B,C,D>
         
         return new Quartet<X,X,X,X>(element0, element1, element2, element3);
         
-    }
-    
-    
-    
+    } 
     
     public Quartet(
             final A value0,
@@ -229,12 +220,7 @@ public final class Quartet<A,B,C,D>
     public int getSize() {
         return SIZE;
     }
-    
-    
-    
-    
-    
-    
+  
     
     public <X0> Quintet<X0,A,B,C,D> addAt0(final X0 value0) {
         return new Quintet<X0,A,B,C,D>(
@@ -261,10 +247,7 @@ public final class Quartet<A,B,C,D>
                 this.val0, this.val1, this.val2, this.val3, value0);
     }
 
-    
-    
-    
-    
+   
     public <X0,X1> Sextet<X0,X1,A,B,C,D> addAt0(final X0 value0, final X1 value1) {
         return new Sextet<X0,X1,A,B,C,D>(
                 value0, value1, this.val0, this.val1, this.val2, this.val3);
@@ -289,12 +272,7 @@ public final class Quartet<A,B,C,D>
         return new Sextet<A,B,C,D,X0,X1>(
                 this.val0, this.val1, this.val2, this.val3, value0, value1);
     }
-    
-
-
-    
-    
-    
+   
     
     public <X0,X1,X2> Septet<X0,X1,X2,A,B,C,D> addAt0(final X0 value0, final X1 value1, final X2 value2) {
         return new Septet<X0,X1,X2,A,B,C,D>(
@@ -320,12 +298,7 @@ public final class Quartet<A,B,C,D>
         return new Septet<A,B,C,D,X0,X1,X2>(
                 this.val0, this.val1, this.val2, this.val3, value0, value1, value2);
     }
-    
-
-
-    
-    
-    
+  
     
     public <X0,X1,X2,X3> Octet<X0,X1,X2,X3,A,B,C,D> addAt0(final X0 value0, final X1 value1, final X2 value2, final X3 value3) {
         return new Octet<X0,X1,X2,X3,A,B,C,D>(
@@ -350,11 +323,7 @@ public final class Quartet<A,B,C,D>
     public <X0,X1,X2,X3> Octet<A,B,C,D,X0,X1,X2,X3> addAt4(final X0 value0, final X1 value1, final X2 value2, final X3 value3) {
         return new Octet<A,B,C,D,X0,X1,X2,X3>(
                 this.val0, this.val1, this.val2, this.val3, value0, value1, value2, value3);
-    }
-
-
-    
-    
+    } 
     
     
     public <X0,X1,X2,X3,X4> Ennead<X0,X1,X2,X3,X4,A,B,C,D> addAt0(final X0 value0, final X1 value1, final X2 value2, final X3 value3, final X4 value4) {
@@ -381,11 +350,7 @@ public final class Quartet<A,B,C,D>
         return new Ennead<A,B,C,D,X0,X1,X2,X3,X4>(
                 this.val0, this.val1, this.val2, this.val3, value0, value1, value2, value3, value4);
     }
-
-
-    
-    
-    
+  
     
     public <X0,X1,X2,X3,X4,X5> Decade<X0,X1,X2,X3,X4,X5,A,B,C,D> addAt0(final X0 value0, final X1 value1, final X2 value2, final X3 value3, final X4 value4, final X5 value5) {
         return new Decade<X0,X1,X2,X3,X4,X5,A,B,C,D>(
@@ -411,12 +376,7 @@ public final class Quartet<A,B,C,D>
         return new Decade<A,B,C,D,X0,X1,X2,X3,X4,X5>(
                 this.val0, this.val1, this.val2, this.val3, value0, value1, value2, value3, value4, value5);
     }
-
-    
-    
-    
-    
-    
+  
     
     public <X0> Quintet<X0,A,B,C,D> addAt0(final Unit<X0> tuple) {
         return addAt0(tuple.getValue0());
@@ -436,12 +396,7 @@ public final class Quartet<A,B,C,D>
     
     public <X0> Quintet<A,B,C,D,X0> addAt4(final Unit<X0> tuple) {
         return addAt4(tuple.getValue0());
-    }
-    
-
-
-    
-    
+    }  
     
     
     public <X0,X1> Sextet<X0,X1,A,B,C,D> addAt0(final Pair<X0,X1> tuple) {
@@ -462,13 +417,7 @@ public final class Quartet<A,B,C,D>
     
     public <X0,X1> Sextet<A,B,C,D,X0,X1> addAt4(final Pair<X0,X1> tuple) {
         return addAt4(tuple.getValue0(),tuple.getValue1());
-    }
-
-    
-    
-
-    
-    
+    }  
     
     
     public <X0,X1,X2> Septet<X0,X1,X2,A,B,C,D> addAt0(final Triplet<X0,X1,X2> tuple) {
@@ -492,13 +441,6 @@ public final class Quartet<A,B,C,D>
     }
     
     
-    
-
-
-    
-    
-    
-    
     public <X0,X1,X2,X3> Octet<X0,X1,X2,X3,A,B,C,D> addAt0(final Quartet<X0,X1,X2,X3> tuple) {
         return addAt0(tuple.getValue0(),tuple.getValue1(),tuple.getValue2(),tuple.getValue3());
     }
@@ -520,12 +462,6 @@ public final class Quartet<A,B,C,D>
     }
 
     
-    
-
-    
-    
-    
-    
     public <X0,X1,X2,X3,X4> Ennead<X0,X1,X2,X3,X4,A,B,C,D> addAt0(final Quintet<X0,X1,X2,X3,X4> tuple) {
         return addAt0(tuple.getValue0(),tuple.getValue1(),tuple.getValue2(),tuple.getValue3(),tuple.getValue4());
     }
@@ -546,13 +482,7 @@ public final class Quartet<A,B,C,D>
         return addAt4(tuple.getValue0(),tuple.getValue1(),tuple.getValue2(),tuple.getValue3(),tuple.getValue4());
     }
 
-    
-    
-
-    
-    
-    
-    
+ 
     public <X0,X1,X2,X3,X4,X5> Decade<X0,X1,X2,X3,X4,X5,A,B,C,D> addAt0(final Sextet<X0,X1,X2,X3,X4,X5> tuple) {
         return addAt0(tuple.getValue0(),tuple.getValue1(),tuple.getValue2(),tuple.getValue3(),tuple.getValue4(),tuple.getValue5());
     }
@@ -574,10 +504,6 @@ public final class Quartet<A,B,C,D>
     }
 
     
-    
-    
-    
-    
     public <X0> Quintet<A,B,C,D,X0> add(final X0 value0) {
         return addAt4(value0);
     }
@@ -587,9 +513,7 @@ public final class Quartet<A,B,C,D>
         return addAt4(tuple);
     }
     
-    
-    
-    
+   
     public <X0,X1> Sextet<A,B,C,D,X0,X1> add(final X0 value0, final X1 value1) {
         return addAt4(value0, value1);
     }
@@ -599,9 +523,7 @@ public final class Quartet<A,B,C,D>
         return addAt4(tuple);
     }
     
-    
-    
-    
+  
     public <X0,X1,X2> Septet<A,B,C,D,X0,X1,X2> add(final X0 value0, final X1 value1, final X2 value2) {
         return addAt4(value0, value1, value2);
     }
@@ -610,8 +532,6 @@ public final class Quartet<A,B,C,D>
     public <X0,X1,X2> Septet<A,B,C,D,X0,X1,X2> add(final Triplet<X0,X1,X2> tuple) {
         return addAt4(tuple);
     }
-    
-    
     
     
     public <X0,X1,X2,X3> Octet<A,B,C,D,X0,X1,X2,X3> add(final X0 value0, final X1 value1, final X2 value2, final X3 value3) {
@@ -624,9 +544,6 @@ public final class Quartet<A,B,C,D>
     }
     
     
-    
-    
-    
     public <X0,X1,X2,X3,X4> Ennead<A,B,C,D,X0,X1,X2,X3,X4> add(final X0 value0, final X1 value1, final X2 value2, final X3 value3, final X4 value4) {
         return addAt4(value0, value1, value2, value3, value4);
     }
@@ -635,10 +552,7 @@ public final class Quartet<A,B,C,D>
     public <X0,X1,X2,X3,X4> Ennead<A,B,C,D,X0,X1,X2,X3,X4> add(final Quintet<X0,X1,X2,X3,X4> tuple) {
         return addAt4(tuple);
     }
-    
-    
-    
-    
+ 
     
     public <X0,X1,X2,X3,X4,X5> Decade<A,B,C,D,X0,X1,X2,X3,X4,X5> add(final X0 value0, final X1 value1, final X2 value2, final X3 value3, final X4 value4, final X5 value5) {
         return addAt4(value0, value1, value2, value3, value4, value5);
@@ -648,13 +562,6 @@ public final class Quartet<A,B,C,D>
     public <X0,X1,X2,X3,X4,X5> Decade<A,B,C,D,X0,X1,X2,X3,X4,X5> add(final Sextet<X0,X1,X2,X3,X4,X5> tuple) {
         return addAt4(tuple);
     }
-    
-    
-    
-    
-    
-    
-    
     
     
     public <X> Quartet<X,B,C,D> setAt0(final X value) {
@@ -678,15 +585,6 @@ public final class Quartet<A,B,C,D>
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public Triplet<B,C,D> removeFrom0() {
         return new Triplet<B,C,D>(
                 this.val1, this.val2, this.val3);
@@ -706,6 +604,5 @@ public final class Quartet<A,B,C,D>
         return new Triplet<A,B,C>(
                 this.val0, this.val1, this.val2);
     }
-    
-    
+       
 }

@@ -127,11 +127,6 @@ public class GraphPanel extends JPanel {
         }
     }
 
-//    @Override
-//    public Dimension getPreferredSize() {
-//        return new Dimension(width, height);
-//    }
-
     private double getMinScore() {
         double minScore = Double.MAX_VALUE;
         for (Double score : scores) {
@@ -165,8 +160,8 @@ public class GraphPanel extends JPanel {
         int maxScore = 10;
         for (int i = 0; i < maxDataPoints; i++) {
             scores.add((double) random.nextDouble() * maxScore);
-//            scores.add((double) i);
         }
+        
         GraphPanel mainPanel = new GraphPanel(scores);
         mainPanel.setPreferredSize(new Dimension(800, 600));
         JFrame frame = new JFrame("DrawGraph");

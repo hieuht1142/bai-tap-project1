@@ -78,21 +78,15 @@ public final class KeyValue<A,B>
     public static <X> KeyValue<X,X> fromCollection(final Collection<X> collection) {
         return fromIterable(collection);
     }
-
-    
     
     public static <X> KeyValue<X,X> fromIterable(final Iterable<X> iterable) {
         return fromIterable(iterable, 0, true);
-    }
-
-    
+    }  
     
     public static <X> KeyValue<X,X> fromIterable(final Iterable<X> iterable, int index) {
         return fromIterable(iterable, index, false);
     }
-
-    
-    
+   
     private static <X> KeyValue<X,X> fromIterable(final Iterable<X> iterable, int index, final boolean exactSize) {
         
         if (iterable == null) {
@@ -139,8 +133,7 @@ public final class KeyValue<A,B>
         return new KeyValue<X,X>(element0, element1);
         
     }
-    
-    
+
     public KeyValue(
             final A key, 
             final B value) {
@@ -149,35 +142,25 @@ public final class KeyValue<A,B>
         this.value = value;
     }
 
-
     public A getKey() {
         return this.key;
     }
-
 
     public B getValue() {
         return this.value;
     }
 
-
     @Override
     public int getSize() {
         return SIZE;
     }
-    
-    
-    
+
     public <X> KeyValue<X,B> setKey(final X key) {
         return new KeyValue<X,B>(key, this.value);
-    }
-    
+    }  
     
     public <Y> KeyValue<A,Y> setValue(final Y value) {
         return new KeyValue<A,Y>(this.key, value);
     }
-    
-    
-    
-    
-    
+  
 }

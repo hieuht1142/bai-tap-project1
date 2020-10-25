@@ -64,8 +64,7 @@ public final class Octet<A,B,C,D,E,F,G,H>
     private final F val5;
     private final G val6;
     private final H val7;
-    
-    
+
     
     public static <A,B,C,D,E,F,G,H> Octet<A,B,C,D,E,F,G,H> with(final A value0, final B value1, final C value2, final D value3, final E value4, final F value5, final G value6, final H value7) {
         return new Octet<A,B,C,D,E,F,G,H>(value0,value1,value2,value3,value4,value5,value6,value7);
@@ -137,10 +136,6 @@ public final class Octet<A,B,C,D,E,F,G,H>
     public static <X> Octet<X,X,X,X,X,X,X,X> fromIterable(final Iterable<X> iterable, int index) {
         return fromIterable(iterable, index, false);
     }
-
-
-    
-
     
     private static <X> Octet<X,X,X,X,X,X,X,X> fromIterable(final Iterable<X> iterable, int index, final boolean exactSize) {
         
@@ -232,8 +227,7 @@ public final class Octet<A,B,C,D,E,F,G,H>
                 element5, element6, element7);
         
     }
-    
-    
+  
     
     public Octet(
             final A value0,
@@ -300,11 +294,7 @@ public final class Octet<A,B,C,D,E,F,G,H>
     public int getSize() {
         return SIZE;
     }
-    
-    
 
-    
-    
     
     public <X0> Ennead<X0,A,B,C,D,E,F,G,H> addAt0(final X0 value0) {
         return new Ennead<X0,A,B,C,D,E,F,G,H>(
@@ -358,11 +348,7 @@ public final class Octet<A,B,C,D,E,F,G,H>
         return new Ennead<A,B,C,D,E,F,G,H,X0>(
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, 
                 this.val7, value0);
-    }
-
-    
-    
-    
+    } 
     
     public <X0,X1> Decade<X0,X1,A,B,C,D,E,F,G,H> addAt0(final X0 value0, final X1 value1) {
         return new Decade<X0,X1,A,B,C,D,E,F,G,H>(
@@ -416,10 +402,7 @@ public final class Octet<A,B,C,D,E,F,G,H>
         return new Decade<A,B,C,D,E,F,G,H,X0,X1>(
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, 
                 this.val7, value0, value1);
-    }
-    
-    
-    
+    }  
     
     public <X0> Ennead<X0,A,B,C,D,E,F,G,H> addAt0(final Unit<X0> tuple) {
         return addAt0(tuple.getValue0());
@@ -457,11 +440,6 @@ public final class Octet<A,B,C,D,E,F,G,H>
         return addAt8(tuple.getValue0());
     }
     
-
-
-    
-    
-    
     
     public <X0,X1> Decade<X0,X1,A,B,C,D,E,F,G,H> addAt0(final Pair<X0,X1> tuple) {
         return addAt0(tuple.getValue0(),tuple.getValue1());
@@ -498,11 +476,6 @@ public final class Octet<A,B,C,D,E,F,G,H>
     public <X0,X1> Decade<A,B,C,D,E,F,G,H,X0,X1> addAt8(final Pair<X0,X1> tuple) {
         return addAt8(tuple.getValue0(),tuple.getValue1());
     }
-
-    
-    
-    
-    
     
     
     public <X0> Ennead<A,B,C,D,E,F,G,H,X0> add(final X0 value0) {
@@ -513,9 +486,7 @@ public final class Octet<A,B,C,D,E,F,G,H>
     public <X0> Ennead<A,B,C,D,E,F,G,H,X0> add(final Unit<X0> tuple) {
         return addAt8(tuple);
     }
-    
-    
-    
+
     
     public <X0,X1> Decade<A,B,C,D,E,F,G,H,X0,X1> add(final X0 value0, final X1 value1) {
         return addAt8(value0, value1);
@@ -525,10 +496,6 @@ public final class Octet<A,B,C,D,E,F,G,H>
     public <X0,X1> Decade<A,B,C,D,E,F,G,H,X0,X1> add(final Pair<X0,X1> tuple) {
         return addAt8(tuple);
     }
-    
-    
-    
-    
     
     
     public <X> Octet<X,B,C,D,E,F,G,H> setAt0(final X value) {
@@ -570,15 +537,7 @@ public final class Octet<A,B,C,D,E,F,G,H>
         return new Octet<A,B,C,D,E,F,G,X>(
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, value);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     public Septet<B,C,D,E,F,G,H> removeFrom0() {
         return new Septet<B,C,D,E,F,G,H>(

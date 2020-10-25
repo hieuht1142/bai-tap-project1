@@ -545,10 +545,7 @@ public final class StdIn {
         for (int i = 0; i < fields.length; i++)
             vals[i] = Double.parseDouble(fields[i]);
         return vals;
-    }
-    
-    //// end: section (2 of 2) of code duplicated from In to StdIn
-    
+    }    
     
     // do this once when StdIn is initialized
     static {

@@ -306,5 +306,4 @@ public class GridGraph extends Graph {
         }
     }
 
-
 }

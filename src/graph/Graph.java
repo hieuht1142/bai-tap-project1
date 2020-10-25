@@ -1,10 +1,8 @@
 package graph;
 
 import common.StdOut;
-import custom.smallworld.GridGraph;
 
 import java.util.*;
-
 
 public abstract class Graph {
     protected int V;
@@ -36,9 +34,13 @@ public abstract class Graph {
         return adj[u].contains(v);
     }
 
-    public int V() { return V; }
+    public int V() {
+    	return V;
+    }
 
-    public List<Integer> adj(int v) { return adj[v]; }
+    public List<Integer> adj(int v) { 
+    	return adj[v]; 
+    }
 
     public int degree(int u) {
         return adj[u].size();

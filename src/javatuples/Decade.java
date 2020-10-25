@@ -385,13 +385,6 @@ public final class Decade<A,B,C,D,E,F,G,H,I,J>
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, this.val7, this.val8, value);
     }
     
-
-    
-
-    
-    
-    
-    
     public Ennead<B,C,D,E,F,G,H,I,J> removeFrom0() {
         return new Ennead<B,C,D,E,F,G,H,I,J>(
                 this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, this.val7, this.val8, this.val9);
@@ -440,7 +433,6 @@ public final class Decade<A,B,C,D,E,F,G,H,I,J>
     public Ennead<A,B,C,D,E,F,G,H,I> removeFrom9() {
         return new Ennead<A,B,C,D,E,F,G,H,I>(
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, this.val7, this.val8);
-    }
-    
+    }    
     
 }

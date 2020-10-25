@@ -26,10 +26,8 @@ public class BLeavingSourceQueueEvent extends Event {
 	protected TypeB type = TypeB.B;
 	//Event dai dien cho su kien loai (B): goi tin roi khoi Source Queue
 	
-	public BLeavingSourceQueueEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p)
-	{
+	public BLeavingSourceQueueEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
 		super(sim, endTime);
-		//countSubEvent++;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.element = elem;
@@ -45,59 +43,44 @@ public class BLeavingSourceQueueEvent extends Event {
 	}
 
 	@Override
-	public void actions()
-	{
+	public void actions() {
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
-		{
-			SourceQueue sourceQueue = (SourceQueue)getElement();
+		SourceQueue sourceQueue = (SourceQueue)getElement();
+		
+
+		int connectedNodeID = sourceQueue.physicalLayer.links
+				.get(sourceQueue.getId()).getOtherNode(sourceQueue.physicalLayer.node).getId();
+
+		ExitBuffer exitBuffer = sourceQueue.physicalLayer.exitBuffers.get(connectedNodeID);
+		if (((exitBuffer.getState().type == Type.X00) || (exitBuffer.getState().type == Type.X01))
+				&& (sourceQueue.getState() instanceof Sq2 && sourceQueue.isPeekPacket(packet))) {
 			
-
-			int connectedNodeID = sourceQueue.physicalLayer.links
-					.get(sourceQueue.getId()).getOtherNode(sourceQueue.physicalLayer.node).getId();
-
-			ExitBuffer exitBuffer = sourceQueue.physicalLayer.exitBuffers.get(connectedNodeID);
-			if (((exitBuffer.getState().type == Type.X00) || (exitBuffer.getState().type == Type.X01))
-					&& (sourceQueue.getState() instanceof Sq2 && sourceQueue.isPeekPacket(packet))
-			){
-				//change state source queue, type B1
-				if(sourceQueue.hasOnlyOnePacket()){
-					sourceQueue.setState(new Sq1(sourceQueue));
-					//sourceQueue.getState().act();
-				}
-
-				sourceQueue.removePacket();
-				exitBuffer.insertPacket(packet);
-
-				//change Packet state
-				//if (packet.getState() instanceof StateP1)
-				{
-					//packet.setState(new StateP2(exitBuffer, packet, this));
-					packet.setType(Type.P2);
-					//packet.getState().act();
-				}
-				//change state EXB,  type b4
-				if (exitBuffer.isFull()) {
-					if (exitBuffer.getState().type == Type.X00) {
-						//exitBuffer.setState(new X10(exitBuffer));
-						exitBuffer.setType(Type.X10);
-						//exitBuffer.getState().act();
-					}
-					if (exitBuffer.getState().type == Type.X01) {
-						//exitBuffer.setState(new X11(exitBuffer));
-						exitBuffer.setType(Type.X11);
-						exitBuffer.getState().act();
-					}
-				}
-
-//				// add event C
-				long time = (long)sourceQueue.physicalLayer.simulator.time();
-				Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
-				event.register();//chen them su kien moi vao
+			//change state source queue, type B1
+			if (sourceQueue.hasOnlyOnePacket()) {
+				sourceQueue.setState(new Sq1(sourceQueue));
 			}
-		}
-		//else
-		{
-			//System.out.println("ERROR: Event " + this.toString() + "khong the chua element: " + getElement().toString());
+
+			sourceQueue.removePacket();
+			exitBuffer.insertPacket(packet);
+
+			//change Packet state
+			packet.setType(Type.P2);
+			
+			//change state EXB,  type b4
+			if (exitBuffer.isFull()) {
+				if (exitBuffer.getState().type == Type.X00) {
+					exitBuffer.setType(Type.X10);
+				}
+				if (exitBuffer.getState().type == Type.X01) {
+					exitBuffer.setType(Type.X11);
+					exitBuffer.getState().act();
+				}
+			}
+			
+			// add event C
+			long time = (long)sourceQueue.physicalLayer.simulator.time();
+			Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
+			event.register(); // insert new event
 		}
 	}
 }

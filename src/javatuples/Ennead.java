@@ -68,12 +68,9 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
     private final H val7;
     private final I val8;
     
-    
-    
     public static <A,B,C,D,E,F,G,H,I> Ennead<A,B,C,D,E,F,G,H,I> with(final A value0, final B value1, final C value2, final D value3, final E value4, final F value5, final G value6, final H value7, final I value8) {
         return new Ennead<A,B,C,D,E,F,G,H,I>(value0,value1,value2,value3,value4,value5,value6,value7,value8);
     }
-
     
     /**
      * <p>
@@ -110,8 +107,6 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
         return fromIterable(collection);
     }
 
-    
-
     /**
      * <p>
      * Create tuple from iterable. Iterable has to have exactly nine network.elements.
@@ -124,8 +119,6 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
     public static <X> Ennead<X,X,X,X,X,X,X,X,X> fromIterable(final Iterable<X> iterable) {
         return fromIterable(iterable, 0, true);
     }
-
-    
     
     /**
      * <p>
@@ -140,9 +133,6 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
     public static <X> Ennead<X,X,X,X,X,X,X,X,X> fromIterable(final Iterable<X> iterable, int index) {
         return fromIterable(iterable, index, false);
     }
-    
-
-    
 
     private static <X> Ennead<X,X,X,X,X,X,X,X,X> fromIterable(final Iterable<X> iterable, int index, final boolean exactSize) {
         
@@ -242,8 +232,6 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
         
     }
     
-    
-    
     public Ennead(
             final A value0,
             final B value1,
@@ -316,10 +304,7 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
     public int getSize() {
         return SIZE;
     }
-
-    
-    
-    
+ 
     public <X0> Decade<X0,A,B,C,D,E,F,G,H,I> addAt0(final X0 value0) {
         return new Decade<X0,A,B,C,D,E,F,G,H,I>(
                 value0, this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, 
@@ -378,9 +363,7 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
         return new Decade<A,B,C,D,E,F,G,H,I,X0>(
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, 
                 this.val7, this.val8, value0);
-    }
-
-    
+    }   
     
     public <X0> Decade<X0,A,B,C,D,E,F,G,H,I> addAt0(final Unit<X0> tuple) {
         return addAt0(tuple.getValue0());
@@ -422,9 +405,6 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
         return addAt9(tuple.getValue0());
     }
     
-
-    
-    
     public <X0> Decade<A,B,C,D,E,F,G,H,I,X0> add(final X0 value0) {
         return addAt9(value0);
     }
@@ -432,11 +412,7 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
     
     public <X0> Decade<A,B,C,D,E,F,G,H,I,X0> add(final Unit<X0> tuple) {
         return addAt9(tuple);
-    }
-    
-    
-    
-    
+    }  
     
     public <X> Ennead<X,B,C,D,E,F,G,H,I> setAt0(final X value) {
         return new Ennead<X,B,C,D,E,F,G,H,I>(
@@ -481,13 +457,7 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
     public <X> Ennead<A,B,C,D,E,F,G,H,X> setAt8(final X value) {
         return new Ennead<A,B,C,D,E,F,G,H,X>(
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, this.val7, value);
-    }
-    
-    
-    
-    
-    
-    
+    }    
     
     public Octet<B,C,D,E,F,G,H,I> removeFrom0() {
         return new Octet<B,C,D,E,F,G,H,I>(
@@ -533,6 +503,5 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
         return new Octet<A,B,C,D,E,F,G,H>(
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, this.val7);
     }
-    
 
 }

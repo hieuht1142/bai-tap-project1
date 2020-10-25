@@ -1,17 +1,15 @@
 package infrastructure.entity;
 
-//import simulator.DiscreteEventSimulator;
-
 public abstract class Device {
     protected int id;
-
-    //protected static DiscreteEventSimulator sim;
 
     public Device(int id) {
         this.id = id;
     }
 
-    public void clear() {}
+    public void clear() {
+    	
+    }
 
     public int getId() {
         return id;
@@ -20,7 +18,5 @@ public abstract class Device {
     public void setId(int id) {
         this.id = id;
     }
-//public static void setSim(DiscreteEventSimulator sim) {
-    //    NetworkObject.sim = sim;
-    //}
+
 }

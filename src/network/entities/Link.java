@@ -1,6 +1,5 @@
 package network.entities;
 
-
 import config.Constant;
 import infrastructure.entity.Device;
 import infrastructure.entity.Node;
@@ -10,16 +9,14 @@ import weightedloadexperiment.pairstrategies.OverSubscription;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
-
 /**
  * Created by Dandoh on 6/27/17.
  */
 public class Link extends Device {
    
-	private Map<Integer, UnidirectionalWay> ways; // key int is the ID of toNode in way
+	private Map<Integer, UnidirectionalWay> ways;
     private long bandwidth;
+    
     public long getBandwidth() {
 		return bandwidth;
 	}
@@ -30,7 +27,7 @@ public class Link extends Device {
 
 	private double length;
 
-    public Link(Node u, Node v) { // link co 2 unidirectional way nen can put 2 new way moi theo 2 chieu khi khoi tao
+    public Link(Node u, Node v) {
         super(0);
         this.ways = new HashMap<>();
         ways.put(u.getId() ,new UnidirectionalWay(u, v, this));
@@ -59,26 +56,20 @@ public class Link extends Device {
     }
 
     public long serialLatency(int packetSize) {
-        //if(packetSize != 100000 && this.bandwidth != 1e9)
-        //    System.out.println("INFO: " + packetSize + " " + this.bandwidth);
-    	if(OverSubscription.isOversubscriptedLink(this, 35, 32))
-    	{
+    	if (OverSubscription.isOversubscriptedLink(this, 35, 32)) {
     		if(this.bandwidth != OverSubscription.OVERSUBSCRIPTION_BANDWIDTH)
     		{
     			System.exit(0);
     		}
-    	}
-    	else {
-    		if(this.bandwidth != OverSubscription.NORMAL_BANDWIDTH)
-    		{
+    	} else {
+    		if (this.bandwidth != OverSubscription.NORMAL_BANDWIDTH) {
     			System.exit(0);
     		}
     	}
         return (long) (1e9 * packetSize / this.bandwidth);
     }
+    
     public long propagationLatency() {
-        //if(length != Constant.DEFAULT_LINK_LENGTH && length != Constant.HOST_TO_SWITCH_LENGTH)
-        //    System.out.println("!!!!!!!!!Length = " + length);
         return (long) (length / Constant.PROPAGATION_VELOCITY);
     }
 
@@ -86,8 +77,7 @@ public class Link extends Device {
         return serialLatency(packetSize) + propagationLatency();
     }
 
-    public double getLength()
-    {
+    public double getLength() {
         return this.length;
     }
 }

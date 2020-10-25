@@ -11,7 +11,6 @@ import network.entities.Switch;
 
 public abstract class PairGenerator {
 	
-	
     private Integer[] allHosts;
     
 
@@ -19,10 +18,10 @@ public abstract class PairGenerator {
         return allHosts;
     }
 
-    public void setAllHosts(Integer[] allHosts)
-    {
+    public void setAllHosts(Integer[] allHosts) {
     	this.allHosts = allHosts;
     }
+    
     public List<Integer> getSources() {
         return sources;
     }
@@ -42,14 +41,12 @@ public abstract class PairGenerator {
     private List<Integer> sources;
     private List<Integer> destinations;
     
-    public PairGenerator()
-    {
+    public PairGenerator() {
     	sources = new ArrayList<Integer>();
         destinations = new ArrayList<Integer>();
     }
 
-    public PairGenerator(Integer[] allHosts)
-    {
+    public PairGenerator(Integer[] allHosts) {
         this.allHosts = allHosts;
         sources = new ArrayList<Integer>();
         destinations = new ArrayList<Integer>();
@@ -59,28 +56,21 @@ public abstract class PairGenerator {
 
     public void checkValid(){}
 
-    public void setUpBandwidth(Topology network)
-    {
-        
+    public void setUpBandwidth(Topology network) {      
         
     }
     
     
-    public static boolean isOversubscriptedLink(Link link, int maxIndexOfCore, int minIndexOfCore)
-    {
+    public static boolean isOversubscriptedLink(Link link, int maxIndexOfCore, int minIndexOfCore) {
     	
     	boolean result = false;
     	
-    	
     	Map<Integer, UnidirectionalWay> ways = link.Ways();
-    	for(UnidirectionalWay way : ways.values())
-    	{
+    	for (UnidirectionalWay way : ways.values()) {
     		int idFromNode = way.getFromNode().getId(); 
     		int idToNode = way.getToNode().getId(); 
-    		if(( idFromNode >= minIndexOfCore && idFromNode <= maxIndexOfCore)
-    				|| (idToNode >= minIndexOfCore && idToNode <= maxIndexOfCore)
-    				)
-    		{
+    		if (( idFromNode >= minIndexOfCore && idFromNode <= maxIndexOfCore)
+    				|| (idToNode >= minIndexOfCore && idToNode <= maxIndexOfCore)) {
     			result = true;
     		}
     	}

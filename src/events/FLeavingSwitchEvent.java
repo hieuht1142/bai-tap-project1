@@ -21,53 +21,44 @@ import simulator.DiscreteEventSimulator;
 public class FLeavingSwitchEvent extends Event {
 	//Event dai dien cho su kien loai (F): goi tin roi khoi EXB cua Switch de di len tren LINK
 
-    public FLeavingSwitchEvent(
-    		DiscreteEventSimulator sim,
-    		long startTime, long endTime, Element elem, Packet p)
-    {
+    public FLeavingSwitchEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
     	super(sim, endTime);
-    	//countSubEvent++;
         this.startTime = startTime;
         this.endTime = endTime;
         this.element = elem;
         this.packet = p;
     }
+    
     @Override
-    public void actions()
-    {
+    public void actions() {
     	DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
         ExitBuffer exitBuffer = (ExitBuffer)element;
         
         UnidirectionalWay unidirectionalWay = exitBuffer.physicalLayer.links.
                 get(exitBuffer.getConnectNode().getId()).getWayToOtherNode(exitBuffer.physicalLayer.node);
 
-        if(exitBuffer.isPeekPacket(packet) && unidirectionalWay.getState() instanceof W0
+        if (exitBuffer.isPeekPacket(packet) && unidirectionalWay.getState() instanceof W0
                 && ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))
-        ){
+        ) {
             unidirectionalWay.addPacket(exitBuffer.removePacket());
 
             //change Packet state
-            if(packet.getState().type == Type.P5)
-            {
+            if (packet.getState().type == Type.P5) {
                 packet.setType(Type.P3);
-            	//packet.getState().act();
             }
+            
             //change EXB state
-            //exitBuffer.setState(new X00(exitBuffer));
             exitBuffer.setType(Type.X00);
             exitBuffer.getState().act();
 
             unidirectionalWay.setState(new W1(unidirectionalWay));
             unidirectionalWay.getState().act();
 
-            
-
             Node nextNode = exitBuffer.getConnectNode();
             exitBuffer.physicalLayer.node.getNetworkLayer().routingAlgorithm.update(packet, nextNode);
             if(nextNode instanceof Host){
             	Host h = (Host)nextNode;
-            	if(h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix)
-            	{
+            	if (h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix) {
                     // add event G
                 	long time = (long)exitBuffer.physicalLayer.simulator.time();
                     Event event = new GReachingDestinationEvent(
@@ -75,11 +66,10 @@ public class FLeavingSwitchEvent extends Event {
                     		, time
                             , time + unidirectionalWay.getLink().getTotalLatency(packet.getSize())
                             , unidirectionalWay, packet);
-                    event.register(); //chen them su kien moi vao
+                    event.register(); // nt
             	}
             }
-            else if(nextNode instanceof Switch) {
-            	
+            else if (nextNode instanceof Switch) {
                 // add event D
             	long time = (long)exitBuffer.physicalLayer.simulator.time();
                 Event event = new DReachingENBEvent(
@@ -87,7 +77,7 @@ public class FLeavingSwitchEvent extends Event {
                 		time
                         , time + unidirectionalWay.getLink().getTotalLatency(packet.getSize())
                         , unidirectionalWay, packet);
-                event.register(); //chen them su kien moi vao
+                event.register(); // insert new event
             }
         }
         

@@ -36,19 +36,12 @@ import javatuples.valueintf.IValueValue;
  * @author Daniel Fern&aacute;ndez
  *
  */
-public final class LabelValue<A,B> 
-        extends Tuple
-        implements IValueLabel<A>,
-                   IValueValue<B> {
+public final class LabelValue<A,B> extends Tuple implements IValueLabel<A>, IValueValue<B> {
 
     private static final long serialVersionUID = 5055574980300695706L;
-
     private static final int SIZE = 2;
-
     private final A label;
     private final B value;
-    
-    
     
     public static <A,B> LabelValue<A,B> with(final A label, final B value) {
         return new LabelValue<A,B>(label,value);
@@ -73,25 +66,18 @@ public final class LabelValue<A,B>
         }
         return new LabelValue<X,X>(array[0],array[1]);
     }
-
-    
+  
     public static <X> LabelValue<X,X> fromCollection(final Collection<X> collection) {
         return fromIterable(collection);
     }
 
-
-    
     public static <X> LabelValue<X,X> fromIterable(final Iterable<X> iterable) {
         return fromIterable(iterable, 0, true);
     }
-
-    
-    
+  
     public static <X> LabelValue<X,X> fromIterable(final Iterable<X> iterable, int index) {
         return fromIterable(iterable, index, false);
     }
-    
-
     
     private static <X> LabelValue<X,X> fromIterable(final Iterable<X> iterable, int index, final boolean exactSize) {
         
@@ -138,10 +124,7 @@ public final class LabelValue<A,B>
         
         return new LabelValue<X,X>(element0, element1);
         
-    }
-    
-    
-    
+    } 
     
     public LabelValue(
             final A label, 
@@ -151,35 +134,25 @@ public final class LabelValue<A,B>
         this.value = value;
     }
 
-
     public A getLabel() {
         return this.label;
     }
-
 
     public B getValue() {
         return this.value;
     }
 
-
     @Override
     public int getSize() {
         return SIZE;
     }
-    
-    
-    
+ 
     public <X> LabelValue<X,B> setLabel(final X label) {
         return new LabelValue<X,B>(label, this.value);
-    }
-    
+    }    
     
     public <Y> LabelValue<A,Y> setValue(final Y value) {
         return new LabelValue<A,Y>(this.label, value);
-    }
-    
-    
-    
-    
+    } 
     
 }

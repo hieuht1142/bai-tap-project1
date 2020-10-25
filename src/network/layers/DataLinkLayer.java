@@ -9,11 +9,8 @@ public class DataLinkLayer extends Layer {
 	public DataLinkLayer(Packet p){
 		this.packet = p;
 	}
-	
-	
-	
-	public void update(Packet p)
-	{
+
+	public void update(Packet p) {
 		
 	}
 }

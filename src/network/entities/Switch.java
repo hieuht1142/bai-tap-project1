@@ -12,8 +12,7 @@ import routing.RoutingAlgorithm;
 public class Switch extends Node {
 	public int numPorts = 0;
 
-	public Switch(int id)
-	{
+	public Switch(int id) {
 		super(id);
 	}
 

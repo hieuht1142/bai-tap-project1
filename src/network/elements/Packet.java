@@ -1,11 +1,8 @@
 package network.elements;
 
-//import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import config.Constant;
 import infrastructure.element.Element;
 import network.layers.DataLinkLayer;
-//import network.states.packet.StateP1;
-
 
 /**
  * Created by Dandoh on 6/27/17.

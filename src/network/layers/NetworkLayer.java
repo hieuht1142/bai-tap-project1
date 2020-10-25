@@ -20,8 +20,7 @@ public class NetworkLayer extends Layer implements IEventGenerator{
 		return state;
 	}
 	
-	public void setState(State state)
-	{
+	public void setState(State state) {
 		this.state = state;
 	}
 	
@@ -52,7 +51,7 @@ public class NetworkLayer extends Layer implements IEventGenerator{
 					}
 				}
 			}
-			if(selectedENB != null) {
+			if (selectedENB != null) {
 				long time = (long)selectedENB.physicalLayer.simulator.time();
 				Event event = new EMovingInSwitchEvent(
 						selectedENB.physicalLayer.simulator,
@@ -66,12 +65,11 @@ public class NetworkLayer extends Layer implements IEventGenerator{
 	public void route(EntranceBuffer entranceBuffer) {
 		if (entranceBuffer.getNextNodeId() == -1) {
 			Packet packet = entranceBuffer.getPeekPacket();
-			if((packet == null)){
+			if ((packet == null)) {
 				System.out.println("ERROR: 2");
 			}
 			
-			int nextNodeID = //fatTreeRoutingAlgorithm.next(packet.getSource(), entranceBuffer.getNode().getId(), packet.getDestination());
-					routingAlgorithm.next(packet, entranceBuffer.getNode());
+			int nextNodeID = routingAlgorithm.next(packet, entranceBuffer.getNode());
 
 			entranceBuffer.setNextNode(nextNodeID);
 
@@ -85,8 +83,7 @@ public class NetworkLayer extends Layer implements IEventGenerator{
 		}
 	}
 	
-	public long getDurrationTime()
-	{
+	public long getDurrationTime() {
 		return 1000*1000*1000;
 	}
 }

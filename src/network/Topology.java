@@ -51,7 +51,7 @@ public class Topology {
         //Endof ThanhNT 14/10 add new statements to init property
 
         //NetworkLayer networkLayer = new NetworkLayer(routingAlgorithm);
-     // khoi tao switch va them vao list
+        // khoi tao switch va them vao list
         for (int sid : graph.switches()) {
             Switch sw = new Switch(sid);
             switches.add(sw);
@@ -62,8 +62,7 @@ public class Topology {
             //Endof ThanhNT 14/10 add new statements to add new ID of switch
 
             sw.physicalLayer = new PhysicalLayer(sw, graph.getK());
-            //sw.networkLayer = //networkLayer;
-            //		new NetworkLayer(routingAlgorithm);
+         
             sw.setNetworkLayer(routingAlgorithm, sw);
         }
         
@@ -78,9 +77,7 @@ public class Topology {
                     {
                         // create new link
                         double distance =  C.distanceBetween(sw.getId(), otherSwitch.getId());
-                        //System.out.println("Chieu dai switch = " + distance + " from: " + sw.getId() + " to: " + otherSwitch.getId());
-                        //double x = 5;
-
+                        
                         EntranceBuffer entranceBuffer;
                         ExitBuffer exitBuffer;
                         Link link = new Link(sw, otherSwitch, distance);
@@ -132,20 +129,13 @@ public class Topology {
 
         sourceNodeIDs = pairGenerator.getSources();
         destinationNodeIDs = pairGenerator.getDestinations();
-        //Knuth.shuffle(hostIDList);
 
-//        hostIDList = new Integer[]{ 17,24,18,11,2,3,19,8,26,0,27,1,10,16,9,25 };
-
-        sourceNodes.addAll(sourceNodeIDs//.subList(0, hostIDList.length / 2)
-        											);
-        //sourceNodes.add(0);
+        sourceNodes.addAll(sourceNodeIDs);
         
         for (int sourceNodeID : sourceNodes) {
             Host sourceNode = new Host(sourceNodeID);
             sourceNode.type = TypeOfHost.Source;
             sourceNode.physicalLayer = new PhysicalLayer(sourceNode);
-            //sourceNode.networkLayer = //networkLayer;
-            //		new NetworkLayer(routingAlgorithm);
             sourceNode.setNetworkLayer(routingAlgorithm, sourceNode);
             hosts.add(sourceNode);
             hostById.put(sourceNodeID, sourceNode);
@@ -156,37 +146,27 @@ public class Topology {
 
         }
 
-        destinationNodes.addAll(//Arrays.asList(hostIDList)//.subList(hostIDList.length / 2, hostIDList.length)
-        		destinationNodeIDs
-        						);
-        //destinationNodes.add(1);
+        destinationNodes.addAll(destinationNodeIDs);
         
         for (int destinationNodeID : destinationNodes) {
         	Host destinationNode = null;
-        	if(hostById.containsKey(destinationNodeID))
-        	{
+        	if(hostById.containsKey(destinationNodeID)) {
         		destinationNode = hostById.get(destinationNodeID);
         		destinationNode.type = TypeOfHost.Mix;
-        	}
-        	else {
+        	} else {
         		destinationNode = new Host(destinationNodeID);
         		destinationNode.type = TypeOfHost.Destination;
         		hosts.add(destinationNode);
         		hostById.put(destinationNodeID, destinationNode);
         		destinationNode.physicalLayer = new PhysicalLayer(destinationNode);
-                //destinationNode.networkLayer = //networkLayer;
-                //		new NetworkLayer(routingAlgorithm);
         		destinationNode.setNetworkLayer(routingAlgorithm, destinationNode);
         	}
         	
            //ThanhNT 14/10 add new statements to add new ID of HOST
             cordOfNodes.put(destinationNodeID, "");
             //Endof ThanhNT 14/10 add new statements to add new ID of HOST
-
-            
+       
         }
-
-    
 
         // todo them phan add link tu switch den host kieu nhu o tren
         // link from switch to host
@@ -265,8 +245,7 @@ public class Topology {
         }
     }
     
-    public void setSimulator(DiscreteEventSimulator sim)
-    {
+    public void setSimulator(DiscreteEventSimulator sim) {
     	for (Host host : hosts) {
             host.physicalLayer.simulator = sim;
         }

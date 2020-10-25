@@ -1,9 +1,6 @@
 package infrastructure.element;
 
-import java.util.ArrayList;
-
 import common.Queue;
-import infrastructure.event.Event;
 import network.elements.Packet;
 import network.layers.PhysicalLayer;
 
