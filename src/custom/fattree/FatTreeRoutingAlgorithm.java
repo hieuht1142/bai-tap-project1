@@ -1,8 +1,5 @@
 package custom.fattree;
 
-//import javafx.util.Pair;
-//import kotlin.Triple;
-//import kotlin.TuplesKt;
 import javatuples.* ;
 import network.elements.Packet;
 import network.entities.Host;
@@ -76,9 +73,9 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
         int k = G.getK();
         int numEachPod = k * k / 4 + k;
         
-        edgeTable(k, numEachPod);
-        aggTable(k, numEachPod);
-        coreTable(k, numEachPod);
+        buildEdgeTable(k, numEachPod);
+        buildAggTable(k, numEachPod);
+        buildCoreTable(k, numEachPod);
         
     }
     
@@ -88,15 +85,16 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
      * @param k the constant k in k-ary fat-tree
      * @param numEachPod the number of nodes of each pod in the fat-tree topology
      */
-    private void edgeTable(int k, int numEachPod) {
-        for (int p = 0; p < k; p++) {
+    private void buildEdgeTable(int k, int numEachPod) {
+        for (int p = 0; p < k; p++) { // There are k pod in fat-tree topology
             int offset = numEachPod * p;
             for (int e = 0; e < k / 2; e++) {
-                int edgeSwitch = offset + k * k / 4 + e;
+                int edgeSwitch = offset + k * k / 4 + e; // edgeSwitch denotes id of edge switches
                 
                 // create suffix table
                 HashMap<Integer, Integer> suffixTable = new HashMap<>();
                 for (int suffix = 2; suffix <= k / 2 + 1; suffix++) {
+                	// add suffix 0.0.0.suffix/8 and port (e + suffix - 2) % (k / 2) for each edge switch
                     int agg = offset + k * k / 4 + (e + suffix - 2) % (k / 2) + (k / 2);
                     suffixTable.put(suffix, agg);
                 }
@@ -111,7 +109,7 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
      * @param k the constant k in k-ary fat-tree
      * @param numEachPod the number of nodes in each pod in the fat-tree topology
      */
-    private void aggTable(int k, int numEachPod) {
+    private void buildAggTable(int k, int numEachPod) {
         for (int p = 0; p < k; p++) {
             int offset = numEachPod * p;
             for (int a = 0; a < k / 2; a++) {
@@ -119,16 +117,18 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 
                 // create suffix table
                 Map<Integer, Integer> suffixTable = new HashMap<>();
-                for (int suffix = 2; suffix <= k / 2 + 1; suffix++) {
+                for (int suffix = 2; suffix <= k / 2 + 1; suffix++) { 
+                	// add suffix 0.0.0.suffix/8 and port (suffix + a - 2) % (k / 2)  for each aggregation switch
                     int core = a * k / 2 + (suffix + a - 2) % (k / 2) + numEachPod * k;
                     suffixTable.put(suffix, core);
-                }
+                }		
                 
                 suffixTables.put(aggSwitch, suffixTable);
 
                 // create prefix table
                 Map<javatuples.Triplet<Integer, Integer, Integer>, Integer> prefixTable = new HashMap<>();
-                for (int e = 0; e < k / 2; e++) {
+                for (int e = 0; e < k / 2; e++) { // e denotes the subnet number
+                	// add prefix 10.p.e.0/24 and port e for each edge switch
                     int edgeSwitch = offset + k * k / 4 + e;
                     prefixTable.put(new javatuples.Triplet<>(10, p, e), edgeSwitch);
                 }
@@ -145,13 +145,14 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
      * @param k the constant k in k-ary fat-tree
      * @param numEachPod the number of nodes in each pod in the fat-tree topology
      */
-    private void coreTable(int k, int numEachPod) {
+    private void buildCoreTable(int k, int numEachPod) {
         for (int c = 0; c < k * k / 4; c++) {
             int core = k * k * k / 4 + k * k + c;
 
             // create prefix table
             HashMap<Pair<Integer, Integer>, Integer> corePrefixTable = new HashMap<>();
-            for (int p = 0; p < k; p++) {
+            for (int p = 0; p < k; p++) { 
+            	// add prefix 10.p.0.0/16 and port p for core switch pointing to destination pod
                 int offset = numEachPod * p;
                 int agg = (c / (k / 2)) + k / 2 + k * k / 4 + offset;
                 corePrefixTable.put(new Pair<>(10, p), agg);
@@ -177,11 +178,11 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
             int type = G.switchType(current);
             
             if (type == FatTreeGraph.CORE) {
-            	return currentEdge(current, destination);
+            	return nextEdge(current, destination);
             } else if (type == FatTreeGraph.AGG) {
-            	return currentAgg(current, destination);
+            	return nextAgg(current, destination);
             } else {
-            	return currentCore(current, destination);
+            	return nextCore(current, destination);
             }
         }
     }
@@ -191,7 +192,7 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
      * @param destination the id of the destination host
      * @return the id of the next node which the packet will be forwarded to
      */
-    private int currentEdge(int current, int destination) {
+    private int nextEdge(int current, int destination) {
     	Address address = G.getAddress(destination);
         Pair<Integer, Integer> prefix = new Pair<>(address._1, address._2);
         Map<Pair<Integer, Integer>, Integer> corePrefixTable = corePrefixTables.get(current);
@@ -204,7 +205,7 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
      * @param destination the id of the destination host
      * @return the id of the next node which the packet will be forwarded to
      */
-    private int currentAgg(int current, int destination) {
+    private int nextAgg(int current, int destination) {
     	Address address = G.getAddress(destination);
 
         Triplet<Integer, Integer, Integer> prefix = new Triplet<>(address._1, address._2, address._3);
@@ -225,7 +226,7 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
      * @param destination the id of the destination host
      * @return the id of the next node which the packet will be forwarded to
      */
-    private int currentCore(int current, int destination) {
+    private int nextCore(int current, int destination) {
     	Address address = G.getAddress(destination);
         int suffix = address._4;
 

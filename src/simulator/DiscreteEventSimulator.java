@@ -6,13 +6,6 @@ import java.util.List;
 import common.StdOut;
 import config.Constant;
 import infrastructure.event.Event;
-import network.elements.EntranceBuffer;
-import network.elements.ExitBuffer;
-import network.elements.UnidirectionalWay;
-import network.entities.Host;
-import network.entities.Link;
-import network.entities.Switch;
-import network.entities.TypeOfHost;
 
 public class DiscreteEventSimulator extends Simulator {
 	public int numReceived = 0;
@@ -139,40 +132,6 @@ public class DiscreteEventSimulator extends Simulator {
     
     public void addEvent(Event e) {
         this.getEventList().add(e);
-    }
-
-    public void initializeCollectionOfEvents() {
-		List<Host> allHosts = this.topology.getHosts();
-		for (Host host : allHosts) {
-			if (host.type != TypeOfHost.Destination) {
-				halfSizeOfEvents++;
-
-				UnidirectionalWay unidirectionalWay = host.physicalLayer.links.get(host.getId()).getWayToOtherNode(host);
-				halfSizeOfEvents++;
-
-				int connectedNodeID = host.physicalLayer.links.get(host.getId()).getOtherNode(host).getId();
-				halfSizeOfEvents++;
-				
-			}
-
-		}
-
-		List<Switch> allSwitches = this.topology.getSwitches();
-		for (Switch aSwitch : allSwitches) {
-			for (Link link : aSwitch.physicalLayer.links.values()) {
-				halfSizeOfEvents++;	
-			}
-			
-			for (ExitBuffer exitBuffer : aSwitch.physicalLayer.exitBuffers.values()) {
-				halfSizeOfEvents++;
-			}
-			
-			for (EntranceBuffer entranceBuffer : aSwitch.physicalLayer.entranceBuffers.values()) {
-				halfSizeOfEvents++;
-			}
-		}
-		
-		System.out.println("Number of 1/2 events = " + halfSizeOfEvents);
     }
 
     public long selectNextCurrentTime(long currentTime) {

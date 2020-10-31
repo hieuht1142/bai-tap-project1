@@ -54,29 +54,54 @@ public class FatTreeGraph extends Graph {
         int numEachPod = k * k / 4 + k;
         for (int p = 0; p < k; p++) {
             int offset = numEachPod * p;
-            // create edges between server and edge
-            for (int e = 0; e < k / 2; e++) {
-                int edgeSwitch = offset + k * k / 4 + e;
-                for (int s = 0; s < k / 2; s++) {
-                    int server = offset + e * k / 2 + s;
-                    addEdge(edgeSwitch, server);
-                }
+            
+            buildServerEdge(offset);
+            buildEdgeAgg(offset);
+            buildAggCore(offset);
+        }
+    }
+    
+    /**
+     * This method is used to create edges between server and edge switch of the fat-tree graph.
+     *
+     * @param offset the offset of each node in the fat-tree graph
+     */
+    private void buildServerEdge(int offset) {
+    	for (int e = 0; e < k / 2; e++) { // each pod has k/2 edge switches
+            int edgeSwitch = offset + k * k / 4 + e; // edgeSwitch denotes id of edge switches
+            for (int s = 0; s < k / 2; s++) { // each edge switch connects to k/2 server
+                int server = offset + e * k / 2 + s; // server denotes id of servers
+                addEdge(edgeSwitch, server);
             }
-            // create edges between agg and edge
-            for (int e = 0; e < k / 2; e++) {
-                int edgeSwitch = offset + k * k / 4 + e;
-                for (int a = k / 2; a < k; a++) {
-                    int aggSwitch = offset + k * k / 4 + a;
-                    addEdge(edgeSwitch, aggSwitch);
-                }
-            }    
-            // create edges between agg and core
-            for (int a = 0; a < k / 2; a++) {
-                int aggSwitch = offset + k * k / 4 + k / 2 + a;
-                for (int c = 0; c < k / 2; c++) {
-                    int coreSwitch = a * k / 2 + c + numPodSwitches + numServers;
-                    addEdge(aggSwitch, coreSwitch);
-                }
+        }
+    }
+    
+    /**
+     * This method is used to create edges between edge switch and aggregation switch of the fat-tree graph.
+     *
+     * @param offset the offset of each node in the fat-tree graph
+     */
+    private void buildEdgeAgg(int offset) {
+    	for (int e = 0; e < k / 2; e++) { // each pod has k/2 edge switches
+            int edgeSwitch = offset + k * k / 4 + e; // edgeSwitch denotes id of edge switches
+            for (int a = k / 2; a < k; a++) { // each pod has k/2 aggregation switches
+                int aggSwitch = offset + k * k / 4 + a; // aggSwitch denotes id of aggregation switches
+                addEdge(edgeSwitch, aggSwitch);
+            }
+        }  
+    }
+    
+    /**
+     * This method is used to create edges between aggregation switch and core switch of the fat-tree graph.
+     *
+     * @param offset the offset of each node in the fat-tree graph
+     */
+    private void buildAggCore(int offset) {
+    	for (int a = 0; a < k / 2; a++) { // each pod has k/2 aggregation switches
+            int aggSwitch = offset + k * k / 4 + k / 2 + a; // aggSwitch denotes id of aggregation switches
+            for (int c = 0; c < k / 2; c++) { // each aggregation switch connects to k/2 core switch
+                int coreSwitch = a * k / 2 + c + numPodSwitches + numServers; // coreSwitch denotes id of core switches
+                addEdge(aggSwitch, coreSwitch);
             }
         }
     }
@@ -90,9 +115,9 @@ public class FatTreeGraph extends Graph {
 
         int numEachPod = k * k / 4 + k;
 
-        podSwAddress(numEachPod);
-        coreSwAddress();
-        hostAddress(numEachPod);
+        buildPodAddress(numEachPod);
+        buildCoreAddress();
+        buildHostAddress(numEachPod);
     }
     
     
@@ -101,11 +126,12 @@ public class FatTreeGraph extends Graph {
      *
      * @param numEachPod the number of nodes in each pod
      */
-    private void podSwAddress(int numEachPod) {
-    	for (int p = 0; p < k; p++) {
-            int offset = numEachPod * p;
-            for (int s = 0; s < k; s++) {
-                int switchId = offset + k * k / 4 + s;
+    private void buildPodAddress(int numEachPod) {
+    	// Form of pod switches addresses: 10.p.s.1
+    	for (int p = 0; p < k; p++) { // p denotes the pod number
+            int offset = numEachPod * p;  
+            for (int s = 0; s < k; s++) { // s denotes the position of the switch in the pod
+                int switchId = offset + k * k / 4 + s; 
                 address[switchId] = new Address(10, p, s, 1);
             }
         }
@@ -114,9 +140,10 @@ public class FatTreeGraph extends Graph {
     /**
      * This method is used to build address for core switches
      */
-    private void coreSwAddress() {
-    	for (int j = 1; j <= k / 2; j++) {
-            for (int i = 1; i <= k / 2; i++) {
+    private void buildCoreAddress() {	
+    	// Form of core switches addresses: 10.k.j.i
+    	for (int j = 1; j <= k / 2; j++) {          // i, j denote the switch’s coordinates in the core switch grid
+            for (int i = 1; i <= k / 2; i++) {      // starting from top-left
                 int offset = numPodSwitches + numServers;
                 int switchId = offset + (j - 1) * k / 2 + i - 1;
                 address[switchId] = new Address(10, k, j, i);
@@ -129,13 +156,14 @@ public class FatTreeGraph extends Graph {
      *
      * @param numEachPod the number of nodes in each pod
      */
-    private void hostAddress(int numEachPod) {
-    	for (int p = 0; p < k; p++) {
+    private void buildHostAddress(int numEachPod) {
+    	// Form of hosts addresses: 10.p.e.h
+    	for (int p = 0; p < k; p++) { // p denotes the pod number
             int offset = numEachPod * p;
-            for (int e = 0; e < k / 2; e++) {
-                for (int h = 2; h <= k / 2 + 1; h++) {
-                    int serverId = offset + e * k / 2 + h - 2;
-                    address[serverId] = new Address(10, p, e, h);
+            for (int e = 0; e < k / 2; e++) { // e denotes the position of the switch in the pod
+                for (int h = 2; h <= k / 2 + 1; h++) { // h is the host’s position in subnet 
+                    int hostId = offset + e * k / 2 + h - 2;
+                    address[hostId] = new Address(10, p, e, h);
                 }
             }
         }

@@ -47,8 +47,6 @@ public class ThroughputExperiment {
         DiscreteEventSimulator simulator = DiscreteEventSimulator.getInstance();
         topology.clear();
         topology.setSimulator(simulator);
-        
-        simulator.initializeCollectionOfEvents();
 
         int count = 0;
         for (Integer source : trafficPattern.keySet()) {
