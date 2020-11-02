@@ -123,7 +123,6 @@ public class Topology {
                     if (!otherSwitch.physicalLayer.links.containsKey(sw.getId())) {
                         // create new link
                         double distance =  C.distanceBetween(sw.getId(), otherSwitch.getId());
- 
                         Link link = new Link(sw, otherSwitch, distance);
                         sw.physicalLayer.links.put(otherSwitch.getId(), link);
                         otherSwitch.physicalLayer.links.put(sw.getId(), link);

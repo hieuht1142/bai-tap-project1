@@ -66,25 +66,18 @@ public class DiscreteEventSimulator extends Simulator {
     
     @Override
     public void start () {
-    	
     	if (eventList.isEmpty())
             throw new IllegalStateException ("start() called with an empty event list");
-    	
 		stopped = false;
 		simulating = true;
 		umontreal.ssj.simevents.Event ev;
 		int countEvent = 0;
-		
 		try {
 			long startTime = System.currentTimeMillis();
 			int lastPercentage = 0;
-			
-			while ((ev = removeFirstEvent()) != null && !stopped
-                    && (!isLimit || currentTime < timeLimit)) {
-				
+			while ((ev = removeFirstEvent()) != null && !stopped && (!isLimit || currentTime < timeLimit)) {
 				countEvent++;
 				ev.actions();
-	
 				int percentage = (int) (currentTime ) / (int) Constant.EXPERIMENT_INTERVAL; 
 				if (percentage > lastPercentage) { 
 					lastPercentage = percentage;
@@ -98,7 +91,6 @@ public class DiscreteEventSimulator extends Simulator {
 			stopped = true;
 			simulating = false;
 		}
-		
 		System.out.println("# of Events: " + countEvent);
 	}
     
