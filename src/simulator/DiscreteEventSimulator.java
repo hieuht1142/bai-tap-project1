@@ -36,8 +36,7 @@ public class DiscreteEventSimulator extends Simulator {
     }
 
     public static DiscreteEventSimulator getInstance() {
-    	if(!des.isAssigned)
-    	{
+    	if(!des.isAssigned) {
 	    	des.isLimit = IS_LIMIT;
 	    	des.timeLimit = TIME_LIMIT;
 	    	des.verbose = VERBOSE;

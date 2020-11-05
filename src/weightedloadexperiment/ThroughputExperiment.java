@@ -29,7 +29,6 @@ import weightedloadexperiment.pairstrategies.SameIDOutgoing;
 import weightedloadexperiment.pairstrategies.StrideIndex;
 import weightedloadexperiment.pairstrategies.interpod.MinimalCoreSwitches;
 
-
 public class ThroughputExperiment {
 	private Topology topology;
 
@@ -43,7 +42,7 @@ public class ThroughputExperiment {
     public double[][] calThroughput(Map<Integer, Integer> trafficPattern, boolean verbose) {
     	long start = System.currentTimeMillis();
         System.out.println("Start:");
-        
+
         DiscreteEventSimulator.Initialize(true, Constant.MAX_TIME, verbose);
         DiscreteEventSimulator simulator = DiscreteEventSimulator.getInstance();
         setSimulator(trafficPattern, verbose, simulator);
@@ -60,8 +59,7 @@ public class ThroughputExperiment {
     /**
      * This method is used to calculate throughput and print it at the console window.
      */
-    private double[][] calcThroughput(Map<Integer, Integer> trafficPattern,
-    									DiscreteEventSimulator simulator, List<Double> scores) {
+    private double[][] calcThroughput(Map<Integer, Integer> trafficPattern, DiscreteEventSimulator simulator, List<Double> scores) {
     	double interval = 1e7;
         int nPoint = (int) (simulator.getTimeLimit() / interval + 1);
         double[][] points = new double[2][nPoint];
@@ -69,7 +67,6 @@ public class ThroughputExperiment {
             points[0][i] = i * interval; // convert to millisecond
             points[1][i] = simulator.receivedPacketPerUnit[i];
         }
-
         double throughput = 0;
         for (int i = 0; i < nPoint; i++) {
             points[1][i] = 100 * points[1][i] * Constant.PACKET_SIZE /
@@ -80,7 +77,6 @@ public class ThroughputExperiment {
         }
         throughput = points[1][nPoint - 1];
         StdOut.printf("Throughput : %.2f\n", throughput);
-
         return points;
     }
     
@@ -124,8 +120,7 @@ public class ThroughputExperiment {
                     rxPacket += destinationNode.getReceivedPacketInNode();
                     privateThp = destinationNode.getReceivedPacketInNode()
                             * Constant.PACKET_SIZE / (destinationNode.getLastRx() - destinationNode.getFirstTx());
-                    thp += privateThp;
-                    
+                    thp += privateThp;    
                 }
             }
         }
@@ -151,11 +146,8 @@ public class ThroughputExperiment {
     }
 
     public static void main(String[] args) {
-
     	FatTreeGraph G = new FatTreeGraph(4);
-        FatTreeRoutingAlgorithm ra = //new FatTreeRoutingAlgorithm(G, false);
-        							new FatTreeFlowClassifier(G, false);
-        
+        FatTreeRoutingAlgorithm ra = new FatTreeFlowClassifier(G, false);
         PairGenerator pairGenerator = //new StrideIndex(1);
         								new StrideIndex(8);
         								//new InterPodIncoming(ra, G);
@@ -167,14 +159,11 @@ public class ThroughputExperiment {
 		//new InterPodIncoming(hosts, k, ra, G);
  
         ThroughputExperiment experiment = new ThroughputExperiment(topology);  
-
         Map<Integer, Integer> traffic = new HashMap<>();
-
         List<Integer> sourceNodeIDs = topology.getSourceNodeIDs();
         List<Integer> destinationNodeIDs = topology.getDestinationNodeIDs();
 
         int sizeOfFlow = sourceNodeIDs.size();
-
         for (int i = 0; i < sizeOfFlow; i++) {
             traffic.put(sourceNodeIDs.get(i), destinationNodeIDs.get(i));
         }
