@@ -259,46 +259,37 @@ public final class Ennead<A,B,C,D,E,F,G,H,I>
         return this.val0;
     }
 
-
     public B getValue1() {
         return this.val1;
     }
-
 
     public C getValue2() {
         return this.val2;
     }
 
-
     public D getValue3() {
         return this.val3;
     }
-
 
     public E getValue4() {
         return this.val4;
     }
 
-
     public F getValue5() {
         return this.val5;
     }
 
-
     public G getValue6() {
         return this.val6;
     }
-
     
     public H getValue7() {
         return this.val7;
     }
 
-
     public I getValue8() {
         return this.val8;
     }
-
 
     @Override
     public int getSize() {

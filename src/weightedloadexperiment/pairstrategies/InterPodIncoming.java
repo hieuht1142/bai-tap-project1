@@ -57,8 +57,7 @@ public class InterPodIncoming extends OverSubscription {
         for(int i = 0; i < numOfHosts; i++) {
             int dst = allHosts[i];
             prePod = currPod;
-            if(!destinations.contains(dst))
-            {
+            if(!destinations.contains(dst)) {
                 int index = (i + sizeOfPod + delta) % numOfHosts;
                 if (index / sizeOfPod == prePod) {
                     index = (index + sizeOfPod) % numOfHosts;
@@ -123,8 +122,7 @@ public class InterPodIncoming extends OverSubscription {
     }
 
     @Override
-    public void checkValid()
-    {
+    public void checkValid() {
         Map<Integer, Integer> flowPerCore = new HashMap<Integer, Integer>();
         List<Integer> sources = getSources();
         List<Integer> destinations = getDestinations();

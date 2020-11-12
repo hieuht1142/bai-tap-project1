@@ -46,7 +46,6 @@ public final class LabelValue<A,B> extends Tuple implements IValueLabel<A>, IVal
     public static <A,B> LabelValue<A,B> with(final A label, final B value) {
         return new LabelValue<A,B>(label,value);
     }
-
     
     /**
      * <p>

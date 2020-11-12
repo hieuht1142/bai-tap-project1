@@ -277,63 +277,50 @@ public final class Decade<A,B,C,D,E,F,G,H,I,J>
         this.val9 = value9;
     }
 
-
     public A getValue0() {
         return this.val0;
     }
-
 
     public B getValue1() {
         return this.val1;
     }
 
-
     public C getValue2() {
         return this.val2;
     }
-
 
     public D getValue3() {
         return this.val3;
     }
 
-
     public E getValue4() {
         return this.val4;
     }
 
-
     public F getValue5() {
         return this.val5;
     }
-
     
     public G getValue6() {
         return this.val6;
     }
 
-
     public H getValue7() {
         return this.val7;
     }
-
 
     public I getValue8() {
         return this.val8;
     }
 
-
     public J getValue9() {
         return this.val9;
     }
-
 
     @Override
     public int getSize() {
         return SIZE;
     }
-    
-    
     
     public <X> Decade<X,B,C,D,E,F,G,H,I,J> setAt0(final X value) {
         return new Decade<X,B,C,D,E,F,G,H,I,J>(

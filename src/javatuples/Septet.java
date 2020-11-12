@@ -61,13 +61,10 @@ public final class Septet<A,B,C,D,E,F,G>
     private final E val4;
     private final F val5;
     private final G val6;
-    
-    
-    
+  
     public static <A,B,C,D,E,F,G> Septet<A,B,C,D,E,F,G> with(final A value0, final B value1, final C value2, final D value3, final E value4, final F value5, final G value6) {
         return new Septet<A,B,C,D,E,F,G>(value0,value1,value2,value3,value4,value5,value6);
     }
-
     
     /**
      * <p>
@@ -89,7 +86,6 @@ public final class Septet<A,B,C,D,E,F,G>
                 array[0],array[1],array[2],array[3],array[4],
                 array[5],array[6]);
     }
-
     
     /**
      * <p>
@@ -104,8 +100,6 @@ public final class Septet<A,B,C,D,E,F,G>
         return fromIterable(collection);
     }
     
-
-    
     /**
      * <p>
      * Create tuple from iterable. Iterable has to have exactly seven network.elements.
@@ -118,9 +112,7 @@ public final class Septet<A,B,C,D,E,F,G>
     public static <X> Septet<X,X,X,X,X,X,X> fromIterable(final Iterable<X> iterable) {
         return fromIterable(iterable, 0, true);
     }
-
-    
-    
+  
     /**
      * <p>
      * Create tuple from iterable, starting from the specified index. Iterable
@@ -133,10 +125,7 @@ public final class Septet<A,B,C,D,E,F,G>
      */
     public static <X> Septet<X,X,X,X,X,X,X> fromIterable(final Iterable<X> iterable, int index) {
         return fromIterable(iterable, index, false);
-    }
-    
-
-    
+    }   
 
     private static <X> Septet<X,X,X,X,X,X,X> fromIterable(final Iterable<X> iterable, int index, final boolean exactSize) {
         
@@ -221,10 +210,7 @@ public final class Septet<A,B,C,D,E,F,G>
                 element5, element6);
         
     }
-    
-    
-    
-    
+  
     public Septet(
             final A value0,
             final B value1,
@@ -243,53 +229,39 @@ public final class Septet<A,B,C,D,E,F,G>
         this.val6 = value6;
     }
 
-
     public A getValue0() {
         return this.val0;
     }
-
 
     public B getValue1() {
         return this.val1;
     }
 
-
     public C getValue2() {
         return this.val2;
     }
-
 
     public D getValue3() {
         return this.val3;
     }
 
-
     public E getValue4() {
         return this.val4;
     }
-
 
     public F getValue5() {
         return this.val5;
     }
 
-
     public G getValue6() {
         return this.val6;
     }
-
 
     @Override
     public int getSize() {
         return SIZE;
     }
-    
-    
-    
-
-    
-    
-    
+   
     public <X0> Octet<X0,A,B,C,D,E,F,G> addAt0(final X0 value0) {
         return new Octet<X0,A,B,C,D,E,F,G>(
                 value0, this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, 
@@ -337,10 +309,6 @@ public final class Septet<A,B,C,D,E,F,G>
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, 
                 value0);
     }
-
-    
-    
-    
     
     public <X0,X1> Ennead<X0,X1,A,B,C,D,E,F,G> addAt0(final X0 value0, final X1 value1) {
         return new Ennead<X0,X1,A,B,C,D,E,F,G>(
@@ -388,13 +356,7 @@ public final class Septet<A,B,C,D,E,F,G>
         return new Ennead<A,B,C,D,E,F,G,X0,X1>(
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, 
                 value0, value1);
-    }
-    
-
-
-    
-    
-    
+    } 
     
     public <X0,X1,X2> Decade<X0,X1,X2,A,B,C,D,E,F,G> addAt0(final X0 value0, final X1 value1, final X2 value2) {
         return new Decade<X0,X1,X2,A,B,C,D,E,F,G>(
@@ -443,10 +405,7 @@ public final class Septet<A,B,C,D,E,F,G>
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6, 
                 value0, value1, value2);
     }
-    
-    
-    
-    
+ 
     public <X0> Octet<X0,A,B,C,D,E,F,G> addAt0(final Unit<X0> tuple) {
         return addAt0(tuple.getValue0());
     }
@@ -478,13 +437,7 @@ public final class Septet<A,B,C,D,E,F,G>
     public <X0> Octet<A,B,C,D,E,F,G,X0> addAt7(final Unit<X0> tuple) {
         return addAt7(tuple.getValue0());
     }
-    
-
-
-    
-    
-    
-    
+ 
     public <X0,X1> Ennead<X0,X1,A,B,C,D,E,F,G> addAt0(final Pair<X0,X1> tuple) {
         return addAt0(tuple.getValue0(),tuple.getValue1());
     }
@@ -517,13 +470,6 @@ public final class Septet<A,B,C,D,E,F,G>
         return addAt7(tuple.getValue0(),tuple.getValue1());
     }
 
-    
-    
-
-    
-    
-    
-    
     public <X0,X1,X2> Decade<X0,X1,X2,A,B,C,D,E,F,G> addAt0(final Triplet<X0,X1,X2> tuple) {
         return addAt0(tuple.getValue0(),tuple.getValue1(),tuple.getValue2());
     }
@@ -555,13 +501,7 @@ public final class Septet<A,B,C,D,E,F,G>
     public <X0,X1,X2> Decade<A,B,C,D,E,F,G,X0,X1,X2> addAt7(final Triplet<X0,X1,X2> tuple) {
         return addAt7(tuple.getValue0(),tuple.getValue1(),tuple.getValue2());
     }
-    
-    
-    
-    
-    
-    
-    
+
     public <X0> Octet<A,B,C,D,E,F,G,X0> add(final X0 value0) {
         return addAt7(value0);
     }
@@ -570,10 +510,7 @@ public final class Septet<A,B,C,D,E,F,G>
     public <X0> Octet<A,B,C,D,E,F,G,X0> add(final Unit<X0> tuple) {
         return addAt7(tuple);
     }
-    
-    
-    
-    
+ 
     public <X0,X1> Ennead<A,B,C,D,E,F,G,X0,X1> add(final X0 value0, final X1 value1) {
         return addAt7(value0, value1);
     }
@@ -582,10 +519,7 @@ public final class Septet<A,B,C,D,E,F,G>
     public <X0,X1> Ennead<A,B,C,D,E,F,G,X0,X1> add(final Pair<X0,X1> tuple) {
         return addAt7(tuple);
     }
-    
-    
-    
-    
+ 
     public <X0,X1,X2> Decade<A,B,C,D,E,F,G,X0,X1,X2> add(final X0 value0, final X1 value1, final X2 value2) {
         return addAt7(value0, value1, value2);
     }
@@ -594,12 +528,7 @@ public final class Septet<A,B,C,D,E,F,G>
     public <X0,X1,X2> Decade<A,B,C,D,E,F,G,X0,X1,X2> add(final Triplet<X0,X1,X2> tuple) {
         return addAt7(tuple);
     }
-    
-
-    
-    
-    
-    
+ 
     public <X> Septet<X,B,C,D,E,F,G> setAt0(final X value) {
         return new Septet<X,B,C,D,E,F,G>(
                 value, this.val1, this.val2, this.val3, this.val4, this.val5, this.val6);
@@ -634,17 +563,7 @@ public final class Septet<A,B,C,D,E,F,G>
         return new Septet<A,B,C,D,E,F,X>(
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, value);
     }
-    
  
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public Sextet<B,C,D,E,F,G> removeFrom0() {
         return new Sextet<B,C,D,E,F,G>(
                 this.val1, this.val2, this.val3, this.val4, this.val5, this.val6);
@@ -679,7 +598,5 @@ public final class Septet<A,B,C,D,E,F,G>
         return new Sextet<A,B,C,D,E,F>(
                 this.val0, this.val1, this.val2, this.val3, this.val4, this.val5);
     }
-    
-    
-    
+
 }

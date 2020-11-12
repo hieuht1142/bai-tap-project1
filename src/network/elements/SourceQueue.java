@@ -10,10 +10,9 @@ import network.states.sourcequeue.*;
 
 
 public class SourceQueue  extends Buffer{
-    //todo nen bo  thuoc tinh desID di ko vi the nay chi gioi han moi sourceNode chi gui packet den duoc mot desNode duy nhat
     protected int sourceId;
     protected int destinationId;
-    protected long numGeneratedPacket; // so packet da tao, khoi tao bang -1
+    protected long numGeneratedPacket; // the number of generated packet
      
     public SourceQueue(int sourceId) {
         this.id = sourceId;
@@ -27,7 +26,7 @@ public class SourceQueue  extends Buffer{
         this.id = sourceId;
         this.sourceId = sourceId;
         this.destinationId = destinationId;
-        this.numGeneratedPacket = -1; // so packet da tao
+        this.numGeneratedPacket = -1; // the number of generated packet, initialize -1
         setState( new Sq1(this));
     }
 
@@ -77,8 +76,7 @@ public class SourceQueue  extends Buffer{
     }
 
     public boolean isDelayed(long currentTime) {
-        long r = currentTime/Constant.HOST_DELAY; // host delay chi thoi gian can thiet de gen packet tiep theo
-
+        long r = currentTime/Constant.HOST_DELAY; // HOST_DELAY denotes the required time to generate next packet 
         return r <= numGeneratedPacket;
     }
 

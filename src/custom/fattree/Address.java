@@ -6,7 +6,7 @@ package custom.fattree;
 public class Address {
     public final int _1, _2, _3, _4;
 
-    public Address(int _1, int _2, int _3, int _4) {
+    public Address(int _1, int _2, int _3, int _4) { // The address has the form: _1._2._3._4
         this._1 = _1;
         this._2 = _2;
         this._3 = _3;
@@ -14,7 +14,7 @@ public class Address {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) { // comparing 2 addresses
         if (obj instanceof Address) {
             Address that = (Address) obj;
             return this._1 == that._1

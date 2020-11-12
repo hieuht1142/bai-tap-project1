@@ -37,7 +37,7 @@ public class State {
 		                    Event event = new BLeavingSourceQueueEvent(
 		                    		sim,
 		                    		time, time, sourceQueue, packet);
-		                    event.register(); //chen them su kien moi vao
+		                    event.register(); // insert new event
 		                }
 		            }
 		        } else if (currentNode instanceof Switch) {
@@ -58,13 +58,12 @@ public class State {
 		                    Event event = new BLeavingSourceQueueEvent(
 		                    		sim,
 		                    		time, time, sourceQueue, packet);
-		                    event.register(); //chen them su kien moi vao
+		                    event.register(); // insert new event
 		                }
 		            }
 		        }
 		        else if (currentNode1 instanceof Switch) {
 		            Switch sw = (Switch)currentNode1;
-		            // todo goi event E( goi ham controlFlow)
 		            exitBuffer1.getNode().getNetworkLayer().controlFlow(exitBuffer1);
 		        }
 
@@ -76,14 +75,14 @@ public class State {
 		                    Event event = new CLeavingEXBEvent(
 		                    		exitBuffer1.physicalLayer.simulator,
 		                    		time, time, exitBuffer1, packet);
-		                    event.register(); //chen them su kien moi vao
+		                    event.register(); // insert new event
 		                }
 		                else if (exitBuffer1.getNode() instanceof Switch) {
 		                	long time = (long) exitBuffer1.physicalLayer.simulator.time();
 		                    Event event = new FLeavingSwitchEvent(
 		                    		exitBuffer1.physicalLayer.simulator,
 		                    		time, time + Constant.SWITCH_CYCLE, exitBuffer1, packet);
-		                    event.register(); //chen them su kien moi vao
+		                    event.register(); // insert new event
 		                }
 		            }
 		        }
@@ -93,19 +92,18 @@ public class State {
 		        Packet packet2 = exitBuffer2.getPeekPacket();
 		        if (packet2 != null){
 		            if (!(exitBuffer2.hasEventOfPacket(packet2))) {
-		                //todo xem neu can viet ham set trang thai co packet ve dung P2 hoac P5
 		                if (exitBuffer2.getNode().isSourceNode()) {
 		                	long time = (long) exitBuffer2.physicalLayer.simulator.time();
 		                    Event event = new CLeavingEXBEvent(
 		                    		exitBuffer2.physicalLayer.simulator,
 		                    		time, time, exitBuffer2, packet2);
-		                    event.register(); //chen them su kien moi vao
+		                    event.register(); // insert new event
 		                } else if (exitBuffer2.getNode() instanceof Switch) {
 		                	long time = (long) exitBuffer2.physicalLayer.simulator.time();
 		                    Event event = new FLeavingSwitchEvent(
 		                    		exitBuffer2.physicalLayer.simulator,
 		                    		time, time + Constant.SWITCH_CYCLE, exitBuffer2, packet2);
-		                    event.register(); //chen them su kien moi vao
+		                    event.register(); // insert new event
 		                }
 		            }
 		        }

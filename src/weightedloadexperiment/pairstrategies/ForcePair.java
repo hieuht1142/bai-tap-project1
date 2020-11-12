@@ -49,25 +49,25 @@ public class ForcePair extends InterPodIncoming {
         	Integer[] pairs = pairHostsByModulo(this.modulo);
         	sources.addAll(Arrays.asList(pairs));
         } else {
-	        sources.add(1);     //destinations.add(11);
-	        sources.add(2);     //destinations.add(16);
-	        sources.add(3);     //destinations.add(25);
-	        sources.add(0);     //destinations.add(18);
+	        sources.add(1);
+	        sources.add(2);
+	        sources.add(3);
+	        sources.add(0);
 	        
-	        sources.add(9);     //destinations.add(19);
-	        sources.add(10);     //destinations.add(24);
-	        sources.add(11);     //destinations.add(26);
-	        sources.add(18);     //destinations.add(27);
+	        sources.add(9);
+	        sources.add(10);
+	        sources.add(11);
+	        sources.add(18);
 	        
-	        sources.add(8);     //destinations.add(0);
-	        sources.add(17);     //destinations.add(1);
-	        sources.add(26);     //destinations.add(2);
-	        sources.add(19);     //destinations.add(3);
+	        sources.add(8);
+	        sources.add(17);
+	        sources.add(26);
+	        sources.add(19);
 	        
-	        sources.add(16);     //destinations.add(8);
-	        sources.add(25);     //destinations.add(9);
-	        sources.add(27);     //destinations.add(10);
-	        sources.add(24);     //destinations.add(17);
+	        sources.add(16);
+	        sources.add(25);
+	        sources.add(27);
+	        sources.add(24);
         }
         
         destinations.add(11);
@@ -109,19 +109,6 @@ public class ForcePair extends InterPodIncoming {
 		}
 		
 		if (x == 4) {
-			/*
-			 * destinations.add(11); destinations.add(16); destinations.add(25);
-			 * destinations.add(18);
-			 * 
-			 * destinations.add(19); destinations.add(24); destinations.add(26);
-			 * destinations.add(27);
-			 * 
-			 * destinations.add(0); destinations.add(1); destinations.add(2);
-			 * destinations.add(3);
-			 * 
-			 * destinations.add(8); destinations.add(9); destinations.add(10);
-			 * destinations.add(17);
-			 */
 			results = new Integer[]{1, 2, 3, 26, 
 									9, 10, 11, 18, 
 									8, 17, 16, 19, 
@@ -159,11 +146,11 @@ public class ForcePair extends InterPodIncoming {
 			}
 		}
 		
-		if (x == 6) { // Dat duoc 50%
+		if (x == 6) { // Reaching 50%
 			results = new Integer[]{1, 26, 8, 10, 0, 3, 19, 16, 11, 9, 27, 17, 2, 25, 18, 24}; 
 		}
 		
-		if (x == 7) { // Dat duoc 50%
+		if (x == 7) { // Reaching 50%
 			results = new Integer[]{27, 9, 2, 1, 3, 17, 16, 10, 8, 18, 24, 11, 0, 19, 25, 26}; 
 		}
 		

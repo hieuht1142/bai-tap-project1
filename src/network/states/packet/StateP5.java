@@ -1,14 +1,12 @@
 package network.states.packet;
 
-import events.DReachingENBEvent;
 import events.EMovingInSwitchEvent;
 import infrastructure.state.State;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
-import network.elements.SourceQueue;
 
 public class StateP5 extends State {
-	//�	State P5: the packet is located at EXB of switch.
+	// State P5: the packet is located at EXB of switch.
 
     public Packet packet;
 

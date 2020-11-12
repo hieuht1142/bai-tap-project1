@@ -1,6 +1,5 @@
 package events;
 
-import config.Constant;
 import infrastructure.element.Element;
 import infrastructure.entity.Node;
 import infrastructure.event.Event;
@@ -11,15 +10,12 @@ import network.elements.UnidirectionalWay;
 import network.entities.Host;
 import network.entities.Switch;
 import network.entities.TypeOfHost;
-/*import network.states.packet.StateP2;
-import network.states.packet.SStateP3;
-import network.states.packet.StateP5;*/
 import network.states.unidirectionalway.W0;
 import network.states.unidirectionalway.W1;
 import simulator.DiscreteEventSimulator;
 
 public class FLeavingSwitchEvent extends Event {
-	//Event dai dien cho su kien loai (F): goi tin roi khoi EXB cua Switch de di len tren LINK
+	// FLeavingSwitchEvent represents the event type F: the packet leaving from EXB of switch to go into LINK
 
     public FLeavingSwitchEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
     	super(sim, endTime);
@@ -66,7 +62,7 @@ public class FLeavingSwitchEvent extends Event {
                     		, time
                             , time + unidirectionalWay.getLink().getTotalLatency(packet.getSize())
                             , unidirectionalWay, packet);
-                    event.register(); // nt
+                    event.register();
             	}
             }
             else if (nextNode instanceof Switch) {

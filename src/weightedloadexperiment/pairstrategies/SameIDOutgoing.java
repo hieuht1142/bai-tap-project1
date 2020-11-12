@@ -42,9 +42,7 @@ public class SameIDOutgoing extends OverSubscription {
 	    int count = 0;
 	    
 	    int i = 0; 
-	    while(i < numOfHosts && count < numOfHosts*1000)
-	    {
-            //int src = allHosts[i];
+	    while (i < numOfHosts && count < numOfHosts * 1000) {
             sameHostID = -1;
             List<Integer> allTempDsts = new ArrayList<Integer>();
             List<Integer> allTempSrcs = new ArrayList<Integer>();
@@ -55,7 +53,7 @@ public class SameIDOutgoing extends OverSubscription {
             	for (int k = 0; k < numOfHosts; k++) {
             		int dst = allHosts[(k + delta) % numOfHosts];
             		if (dst != src && !destinations.contains(dst) && !allTempDsts.contains(dst)) {
-	            		if(sameHostID == -1) {
+	            		if (sameHostID == -1) {
 	            			sameHostID = getHostID(dst);
 	            			allTempDsts.add(dst);
 	            			found = true;
@@ -147,18 +145,13 @@ public class SameIDOutgoing extends OverSubscription {
 		if(firstThreeBits == 5) { lengthOfHostID = 8; return ;}
 		
 	}
-	
-	
 
     @Override
-    public void checkValid()
-    {
+    public void checkValid() {
         List<Integer> sources = getSources();
         List<Integer> destinations = getDestinations();
         int realCore = 0;
-        //int count = 0;
-        if(sources.size() != k*k*k/4)
-        {
+        if(sources.size() != k * k * k / 4) {
             System.out.println("Not enough pair! Just " + sources.size());
             for(int i = 0; i < sources.size(); i++)
             {
@@ -172,7 +165,6 @@ public class SameIDOutgoing extends OverSubscription {
             }
             System.exit(0);
         }
-
         
         for(int i = 0; i < sources.size(); i++)
         {
@@ -182,12 +174,8 @@ public class SameIDOutgoing extends OverSubscription {
                     + "/" + realCore
                     + " to "
                     + destinations.get(i) + "(HostID = " + getHostID(destinations.get(i)) + ")"
-            );
-
-            
-        }
-
-        
+            );           
+        }       
     }
 
 }

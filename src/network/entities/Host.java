@@ -6,7 +6,6 @@ import events.AGenerationEvent;
 import infrastructure.entity.Node;
 import network.elements.Packet;
 import network.elements.SourceQueue;
-import network.layers.PhysicalLayer;
 
 /**
  * Created by Dandoh on 6/27/17.
@@ -36,10 +35,8 @@ public class Host extends Node {
    }
    
    protected int receivedPacketInNode = 0;
-   protected double lastRx = 0; // thoi gian goi tin cuoi cung den host
-   protected double firstTx = -1; //la thoi gian goi tin dau tien den host
-
-   
+   protected double lastRx = 0; // the time which the last packet reaches host
+   protected double firstTx = -1; // the time which the first packet reaches host
 
    public int getReceivedPacketInNode() {
        return receivedPacketInNode;
@@ -65,7 +62,7 @@ public class Host extends Node {
        packet.setEndTime(currentTime);
 
        this.physicalLayer.simulator.totalPacketTime += packet.timeTravel();
-       this.physicalLayer.simulator.totalHop += packet.nHop; //todo xem nHop la gi
+       this.physicalLayer.simulator.totalHop += packet.nHop;
 
    }
    

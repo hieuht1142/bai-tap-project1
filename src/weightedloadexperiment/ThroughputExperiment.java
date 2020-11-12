@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import common.StdOut;
 import config.Constant;
 import custom.fattree.FatTreeFlowClassifier;
@@ -17,7 +16,6 @@ import custom.fattree.FatTreeGraph;
 import custom.fattree.FatTreeRoutingAlgorithm;
 import infrastructure.event.Event;
 import network.Topology;
-
 import network.entities.Host;
 import network.entities.Switch;
 import network.entities.TypeOfHost;
@@ -48,9 +46,9 @@ public class ThroughputExperiment {
         setSimulator(trafficPattern, verbose, simulator);
 
         List<Double> scores = new ArrayList<Double>();
-        double[][] points = calcThroughput(trafficPattern, simulator, scores);
+        double[][] points = processingCalculation(trafficPattern, simulator, scores);
         
-        calExecTime(start);
+        printExecutionTime(start);
         GraphPanel.createAndShowGui(scores);
 
         return points;
@@ -59,7 +57,7 @@ public class ThroughputExperiment {
     /**
      * This method is used to calculate throughput and print it at the console window.
      */
-    private double[][] calcThroughput(Map<Integer, Integer> trafficPattern, DiscreteEventSimulator simulator, List<Double> scores) {
+    private double[][] processingCalculation(Map<Integer, Integer> trafficPattern, DiscreteEventSimulator simulator, List<Double> scores) {
     	double interval = 1e7;
         int nPoint = (int) (simulator.getTimeLimit() / interval + 1);
         double[][] points = new double[2][nPoint];
@@ -85,7 +83,7 @@ public class ThroughputExperiment {
      *
      * @param start the time when application starts
      */
-    private void calExecTime(long start) {
+    private void printExecutionTime(long start) {
     	long end = System.currentTimeMillis();
         NumberFormat formatter = new DecimalFormat("#0.00000");
         System.out.print("Execution time is " + formatter.format((end - start) / 1000d) + " seconds");
@@ -103,27 +101,6 @@ public class ThroughputExperiment {
             ((Host) topology.getHostById(source)).generatePacket(destination);
         }
         simulator.start();
-    }
-    
-    /**
-     * This method is used to calculate throughput
-     */
-    public void calTp() {
-    	int rxPacket = 0;
-        double thp = 0, privateThp = 0;
-        for (int i = 0; i < topology.getHosts().size(); i++) {
-            Host host = topology.getHosts().get(i);
-            if(host.type == TypeOfHost.Destination || host.type == TypeOfHost.Mix) {
-                Host destinationNode = host;
-                if (destinationNode.getReceivedPacketInNode() != 0) {
-                    
-                    rxPacket += destinationNode.getReceivedPacketInNode();
-                    privateThp = destinationNode.getReceivedPacketInNode()
-                            * Constant.PACKET_SIZE / (destinationNode.getLastRx() - destinationNode.getFirstTx());
-                    thp += privateThp;    
-                }
-            }
-        }
     }
     
     /**
@@ -169,7 +146,6 @@ public class ThroughputExperiment {
         }
 
         experiment.calThroughput(traffic, false);
-        experiment.calTp();
         experiment.printCapacity();
     }
 

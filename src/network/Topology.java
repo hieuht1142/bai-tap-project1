@@ -98,13 +98,8 @@ public class Topology {
             Switch sw = new Switch(sid);
             switches.add(sw);
             switchById.put(sid, sw);
-
-            //ThanhNT 14/10 add new statements to add new ID of switch
             cordOfNodes.put(sid, "");
-            //Endof ThanhNT 14/10 add new statements to add new ID of switch
-
-            sw.physicalLayer = new PhysicalLayer(sw, graph.getK());
-         
+            sw.physicalLayer = new PhysicalLayer(sw, graph.getK());         
             sw.setNetworkLayer(routingAlgorithm, sw);
         }
     }
@@ -119,7 +114,6 @@ public class Topology {
             for (int nextNodeID : graph.adj(sw.getId())) {
                 if (graph.isSwitchVertex(nextNodeID)) {
                     Switch otherSwitch = switchById.get(nextNodeID);
-                    // => ThanhNT set comment to THE following line
                     if (!otherSwitch.physicalLayer.links.containsKey(sw.getId())) {
                         // create new link
                         double distance =  C.distanceBetween(sw.getId(), otherSwitch.getId());
@@ -130,10 +124,8 @@ public class Topology {
                         buildExbEnbSw(sw, otherSwitch);
                         buildExbEnbOSw(sw, otherSwitch);
 
-                        //ThanhNT 14/10 add new statements to insert coordination of switch
                         cordOfNodes.put(sw.getId(), C.getCoordOfSwitch(sw.getId()));
                         cordOfNodes.put(otherSwitch.getId(), C.getCoordOfSwitch(otherSwitch.getId()));
-                        //Endof ThanhNT 14/10 add new statements to insert coordination of switch
                     }
                 }
             }
@@ -181,10 +173,7 @@ public class Topology {
             sourceNode.setNetworkLayer(routingAlgorithm, sourceNode);
             hosts.add(sourceNode);
             hostById.put(sourceNodeID, sourceNode);
-
-            //ThanhNT 14/10 add new statements to add new ID of HOST
             cordOfNodes.put(sourceNodeID, "");
-            //Endof ThanhNT 14/10 add new statements to add new ID of HOST
         }
     }
     
@@ -207,10 +196,7 @@ public class Topology {
          		destinationNode.physicalLayer = new PhysicalLayer(destinationNode);
          		destinationNode.setNetworkLayer(routingAlgorithm, destinationNode);
          	}
-         	
-             //ThanhNT 14/10 add new statements to add new ID of HOST
              cordOfNodes.put(destinationNodeID, "");
-             //Endof ThanhNT 14/10 add new statements to add new ID of HOST
          }
     }
     
@@ -239,10 +225,8 @@ public class Topology {
                 exitBuffer.physicalLayer = sw.physicalLayer;
                 sw.physicalLayer.exitBuffers.put(host.getId(), exitBuffer);
             }
-
-            //ThanhNT 14/10 add new statements to insert coord of HOST
+            
             cordOfNodes.put(host.getId(), C.getCoordOfHost(sw.getId(), Constant.HOST_TO_SWITCH_LENGTH));
-            //Endof ThanhNT 14/10 add new statements to insert coord of HOST
         }
     }
     

@@ -91,7 +91,6 @@ public final class Octet<A,B,C,D,E,F,G,H>
                 array[0],array[1],array[2],array[3],array[4],
                 array[5],array[6],array[7]);
     }
-
     
     /**
      * <p>
@@ -105,8 +104,6 @@ public final class Octet<A,B,C,D,E,F,G,H>
     public static <X> Octet<X,X,X,X,X,X,X,X> fromCollection(final Collection<X> collection) {
         return fromIterable(collection);
     }
-
-
     
     /**
      * <p>
@@ -119,9 +116,7 @@ public final class Octet<A,B,C,D,E,F,G,H>
      */
     public static <X> Octet<X,X,X,X,X,X,X,X> fromIterable(final Iterable<X> iterable) {
         return fromIterable(iterable, 0, true);
-    }
-
-    
+    }    
     
     /**
      * <p>
@@ -227,8 +222,7 @@ public final class Octet<A,B,C,D,E,F,G,H>
                 element5, element6, element7);
         
     }
-  
-    
+      
     public Octet(
             final A value0,
             final B value1,
@@ -254,48 +248,39 @@ public final class Octet<A,B,C,D,E,F,G,H>
         return this.val0;
     }
 
-
     public B getValue1() {
         return this.val1;
     }
-
 
     public C getValue2() {
         return this.val2;
     }
 
-
     public D getValue3() {
         return this.val3;
     }
-
 
     public E getValue4() {
         return this.val4;
     }
 
-
     public F getValue5() {
         return this.val5;
     }
-
 
     public G getValue6() {
         return this.val6;
     }
 
-
     public H getValue7() {
         return this.val7;
     }
-
 
     @Override
     public int getSize() {
         return SIZE;
     }
-
-    
+   
     public <X0> Ennead<X0,A,B,C,D,E,F,G,H> addAt0(final X0 value0) {
         return new Ennead<X0,A,B,C,D,E,F,G,H>(
                 value0, this.val0, this.val1, this.val2, this.val3, this.val4, this.val5, 

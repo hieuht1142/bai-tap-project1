@@ -29,7 +29,6 @@ public class NetworkLayer extends Layer implements IEventGenerator{
 		try {
 			routingAlgorithm = ra.build(node);
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.routingAlgorithm = routingAlgorithm;
@@ -40,10 +39,10 @@ public class NetworkLayer extends Layer implements IEventGenerator{
 			int selectedId = Integer.MAX_VALUE;
 			EntranceBuffer selectedENB  = null;
 			Packet p;
-			// lay ra cac enb tu request list cua exb hien tai
+			// get out the enbs from RequestList of the present exb
 			for (EntranceBuffer enb : exitBuffer.getRequestList()) {
 				p = enb.getPeekPacket();
-				// chon ra Inport co Packet co id nho nhat
+				// select the Inport having the smallest id
 				if (p != null && !(enb.hasEventOfPacket(p))) {
 					if (p.getId() < selectedId) {
 						selectedId = p.getId();
@@ -57,7 +56,7 @@ public class NetworkLayer extends Layer implements IEventGenerator{
 						selectedENB.physicalLayer.simulator,
 						time, time + Constant.SWITCH_CYCLE,
 						selectedENB, selectedENB.getPeekPacket());
-				event.register(); //chen them su kien moi vao
+				event.register(); // insert new event
 			}
 		}
 	}

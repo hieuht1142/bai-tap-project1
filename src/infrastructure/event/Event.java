@@ -51,11 +51,6 @@ public abstract class Event extends umontreal.ssj.simevents.Event{
 		this.element = element;
 	}
 	
-	/**
-	 * Xay dung phuong thuc insertEvent thuc hien viec
-	 * chen mot Event co ten la ev.
-	 * @param ev
-	 */
 	public void register() {
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
 		if(sim == null) return;

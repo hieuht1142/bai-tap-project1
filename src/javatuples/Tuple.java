@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * <p>
  * Abstract base class for all tuple classes.
@@ -44,8 +43,6 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
     
     private final Object[] valueArray;
     private final List<Object> valueList;
-    
-    
 
     /**
      * 
@@ -58,16 +55,13 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
         this.valueArray = values;
         this.valueList = Arrays.asList(values);
     }
-
-
-    
+ 
     protected Tuple(final Object... values) {
         super();
         this.valueArray = values;
         this.valueList = Arrays.asList(values);
     }
     
-
     /**
      * <p>
      * Return the size of the tuple.
@@ -76,7 +70,6 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
      * @return the size of the tuple.
      */
     public abstract int getSize();
-
     
     /**
      * <p>
@@ -96,19 +89,15 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
         }
         return this.valueArray[pos];
     }
-    
-
-    
+  
     public final Iterator<Object> iterator() {
         return this.valueList.iterator();
     }
-    
-    
+        
     @Override
     public final String toString() {
         return this.valueList.toString();
-    }
-    
+    }   
     
     public final boolean contains(final Object value) {
         for (final Object val : this.valueList) {
@@ -124,8 +113,7 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
         }
         return false;
     }
-    
-    
+       
     public final boolean containsAll(final Collection<?> collection) {
         for (final Object value : collection) {
             if (!contains(value)) {
@@ -147,9 +135,7 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
         }
         return true;
     }
-
-    
-    
+  
     public final int indexOf(final Object value) {
         int i = 0;
         for (final Object val : this.valueList) {
@@ -166,8 +152,7 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
         }
         return -1;
     }
-    
-    
+        
     public final int lastIndexOf(final Object value) {
         for (int i = getSize() - 1; i >= 0; i--) {
             final Object val = this.valueList.get(i);
@@ -182,11 +167,7 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
             }
         }
         return -1;
-    }
-    
-
-    
-    
+    }  
     
     public final List<Object> toList() {
         return Collections.unmodifiableList(new ArrayList<Object>(this.valueList));
@@ -197,8 +178,6 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
     public final Object[] toArray() {
         return this.valueArray.clone();
     }
-    
-    
 
     @Override
     public final int hashCode() {
@@ -208,8 +187,6 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
                 + ((this.valueList == null) ? 0 : this.valueList.hashCode());
         return result;
     }
-
-
 
     @Override
     public final boolean equals(final Object obj) {
@@ -226,9 +203,6 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
         return this.valueList.equals(other.valueList);
     }
 
-
-
-    
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public int compareTo(final Tuple o) {
         
@@ -251,7 +225,5 @@ public abstract class Tuple implements Iterable<Object>, Serializable, Comparabl
         return (Integer.valueOf(tLen)).compareTo(Integer.valueOf(oLen));
         
     }
-    
-    
-    
+ 
 }

@@ -1,14 +1,12 @@
 package network.states.packet;
 
-import events.AGenerationEvent;
 import events.BLeavingSourceQueueEvent;
 import infrastructure.state.State;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
-import network.elements.SourceQueue;
 
 public class StateP2 extends State {
-	//�	State P2: the packet is located at EXB of the source node.
+	// State P2: the packet is located at EXB of the source node.
     public Packet packet;
 
     public StateP2(ExitBuffer exitBuffer, Packet p, BLeavingSourceQueueEvent ev) {

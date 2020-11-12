@@ -21,11 +21,9 @@ public class Constant {
     public static final int HOST_DELAY = 100000;//ns => 10^5 * 10^(-9) = 10^(-4)(s)
 
     // Packet size ~ 1Mb
-    public static final int PACKET_SIZE = //(int) 1e5; // 100Kb
-    										9600; //9.6Kb
+    public static final int PACKET_SIZE = 9600; //9.6Kb
     // Maximum time system
-    public static final long MAX_TIME = //60*
-    									((long) 1e9);
+    public static final long MAX_TIME = ((long) 1e9);
     public static final int TIME_REARRANGE = (int) 1e9;
 
     public static final int PACKET_INTERVAL = PACKET_SIZE;

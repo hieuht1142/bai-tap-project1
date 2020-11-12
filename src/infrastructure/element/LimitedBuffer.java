@@ -19,11 +19,10 @@ public abstract class LimitedBuffer extends Buffer {
 	}
 
 	/**
-	 * Phuong thuc insertPacket se lam nhiem vu chen goi tin p 
-	 * vao trong bo dem cua no
-	 * @param p la goi tin can chen vao
-	 * @return true neu nhu chen duoc goi tin
-	 *         false neu nhu KHONG chen duoc goi tin vao (tuc bo dem da day)
+	 * This method is used to insert packet p into its buffer
+	 * @param p the inserted packet
+	 * @return true if the packet is inserted,
+	 *         false if the packet isn't inserted (which means the buffer is full)
 	 */
 	public void insertPacket(Packet p) {
 		if (allPackets.size() > size) {

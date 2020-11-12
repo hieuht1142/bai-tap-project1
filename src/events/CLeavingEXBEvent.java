@@ -1,26 +1,21 @@
 package events;
 
-import config.Constant;
 import infrastructure.element.Element;
 import infrastructure.entity.Node;
 import infrastructure.event.Event;
-import infrastructure.state.State;
 import infrastructure.state.Type;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
-import network.elements.SourceQueue;
 import network.elements.UnidirectionalWay;
 import network.entities.Host;
 import network.entities.Switch;
 import network.entities.TypeOfHost;
-//import network.states.packet.StateP2;
-//import network.states.packet.SStateP3;
 import network.states.unidirectionalway.W0;
 import network.states.unidirectionalway.W1;
 import simulator.DiscreteEventSimulator;
 
 public class CLeavingEXBEvent extends Event {
-	//Event dai dien cho su kien loai (C): goi tin roi khoi EXB
+	// CLeavingEXBEvent represents the event type C: the packet leaving from EXB
 
     public CLeavingEXBEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
     	super(sim, endTime);
@@ -47,7 +42,6 @@ public class CLeavingEXBEvent extends Event {
             packet.setType(Type.P3);
             
             //change EXB state
-            //exitBuffer.setState(new X00(exitBuffer));
             exitBuffer.setType(Type.X00);
             exitBuffer.getState().act();
             //change uniWay state
@@ -64,7 +58,7 @@ public class CLeavingEXBEvent extends Event {
                 		time,
                         time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
                         unidirectionalWay, packet);
-                event.register(); //chen them su kien moi vao
+                event.register(); // insert new event
             }
             else if (nextNode instanceof Host){
             	Host h = (Host)nextNode;

@@ -1,6 +1,5 @@
 package events;
 
-import config.Constant;
 import infrastructure.element.Element;
 import infrastructure.entity.Node;
 import infrastructure.event.Event;
@@ -8,19 +7,13 @@ import infrastructure.state.Type;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
 import network.elements.UnidirectionalWay;
-
 import network.entities.Host;
-import network.entities.Switch;
-import network.states.enb.N0;
-
-
 import network.states.unidirectionalway.W0;
 import network.states.unidirectionalway.W1;
-import network.states.unidirectionalway.W2;
 import simulator.DiscreteEventSimulator;
 
 public class GReachingDestinationEvent extends Event {
-	//Event dai dien cho su kien loai (G): goi tin den duoc nut dich
+	// GReachingDestinationEvent represents the event type G: the packet reaches the destination node
 
     public GReachingDestinationEvent(DiscreteEventSimulator sim, long startTime, long endTime, Element elem, Packet p) {
     	super(sim, endTime);
@@ -32,9 +25,7 @@ public class GReachingDestinationEvent extends Event {
     
     @Override
     public void actions() {
- 
-    	UnidirectionalWay unidirectionalWay = (UnidirectionalWay)element;
-        
+    	UnidirectionalWay unidirectionalWay = (UnidirectionalWay)element;   
         Node nextNode = unidirectionalWay.getToNode();
 
         if(packet.getState().type == Type.P3

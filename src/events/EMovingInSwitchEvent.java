@@ -2,7 +2,6 @@ package events;
 
 import config.Constant;
 import infrastructure.element.Element;
-import infrastructure.entity.Node;
 import infrastructure.event.Event;
 import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
@@ -11,12 +10,6 @@ import network.elements.Packet;
 import network.entities.Switch;
 import network.states.enb.N0;
 import network.states.enb.N1;
-
-/*import network.states.packet.StateP1;
-import network.states.packet.StateP2;
-import network.states.packet.StateP4;
-import network.states.packet.StateP5;*/
-import network.states.unidirectionalway.W0;
 import simulator.DiscreteEventSimulator;
 
 enum TypeE{
@@ -24,8 +17,7 @@ enum TypeE{
 }
 
 public class EMovingInSwitchEvent extends Event {
-	
-	//Event dai dien cho su kien loai (E): goi tin roi khoi ENB cua Switch de sang EXB
+	// EMovingInSwitchEvent represents the event type E: the packet leaving from ENB of switch to EXB
 	
 	public TypeE type = TypeE.E;
 
@@ -72,7 +64,6 @@ public class EMovingInSwitchEvent extends Event {
 					exitBuffer.getState().act();
 				}
 			}
-
 			if (exitBuffer.isPeekPacket(packet)) {
 				//add event F
 				long time = (long)exitBuffer.physicalLayer.simulator.time();
@@ -81,13 +72,11 @@ public class EMovingInSwitchEvent extends Event {
 						time, time + Constant.SWITCH_CYCLE, exitBuffer, packet);
 				event.register();
 			}
-
 			exitBuffer.getNode().getNetworkLayer().controlFlow(exitBuffer);
 
 			if (!entranceBuffer.isEmpty()) {
 				entranceBuffer.getNode().getNetworkLayer().route((entranceBuffer));
 			}
 		}
-
 	}
 }

@@ -1,6 +1,5 @@
 package events;
 
-import config.Constant;
 import infrastructure.element.Element;
 import infrastructure.event.Event;
 import infrastructure.state.Type;
@@ -8,13 +7,9 @@ import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
 import network.elements.UnidirectionalWay;
-
 import network.entities.Switch;
 import network.states.enb.N0;
 import network.states.enb.N1;
-
-/*import network.states.packet.SStateP3;
-import network.states.packet.StateP4;*/
 import network.states.unidirectionalway.W0;
 import network.states.unidirectionalway.W1;
 import network.states.unidirectionalway.W2;
@@ -26,8 +21,7 @@ enum TypeD
 }
 
 public class DReachingENBEvent extends Event {
-	
-	//Event dai dien cho su kien loai (D): goi tin den duoc ENB cua nut tiep theo
+	// DReachingENBEvent represents the event type D: the packet arrives at the next node's ENB
 	
 	public TypeD type = TypeD.D;
 	
@@ -42,10 +36,8 @@ public class DReachingENBEvent extends Event {
 	@Override
 	public void actions() {
 		UnidirectionalWay unidirectionalWay = (UnidirectionalWay)element;
-		
 		EntranceBuffer entranceBuffer = unidirectionalWay.getToNode().physicalLayer.entranceBuffers
 				.get(unidirectionalWay.getFromNode().getId());
-
 		if (packet.getState().type == Type.P3
 				&& unidirectionalWay.getState() instanceof W1
 				&& unidirectionalWay.getToNode() instanceof Switch && entranceBuffer.getState() instanceof N0
@@ -82,7 +74,6 @@ public class DReachingENBEvent extends Event {
 				unidirectionalWay.setState(new W0(unidirectionalWay));
 				unidirectionalWay.getState().act();
 			}
-
 			entranceBuffer.getNode().getNetworkLayer().route(entranceBuffer);
 		}
 

@@ -74,8 +74,11 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 		}
 	}
 	
-	//Nhan dau vao la chi so cua Host trong danh sach cac host (tu 0..15)
-	//tra ve ket qua la ID cua host trong danh sach nodes: 0..3, 8..11, 16..19, 24..27 
+	/**
+	 * 
+	 * @param i the index of Host in the list of hosts (from 0...15)
+	 * @return the ID of host in the list of nodes: 0..3, 8..11, 16..19, 24..27
+	 */
 	private int getHostIndex(int i) {
 		int result = 0;
 		int pod = i / (k * k / 4);
@@ -98,8 +101,8 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 			
 			for (int i = 0; i < k * k * k / 4; i++) {
 				int src = getHostIndex((i + delta) % (k * k * k / 4));
-				if(!sources.contains(src) && src != dst && (src / (k * k / 4 + k) != dst / (k * k / 4 + k))) {
-					if(getRealCoreSwitch(src, dst) == oversubscriptedCores[firstIndex]) {
+				if (!sources.contains(src) && src != dst && (src / (k * k / 4 + k) != dst / (k * k / 4 + k))) {
+					if (getRealCoreSwitch(src, dst) == oversubscriptedCores[firstIndex]) {
 						if(isFromAcceptablePod(usedPods, src, dst)) {
 							sources.add(src);
 							found = true;

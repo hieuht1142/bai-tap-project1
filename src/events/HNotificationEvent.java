@@ -1,26 +1,17 @@
 package events;
 
-import config.Constant;
 import infrastructure.element.Element;
 import infrastructure.event.Event;
 import infrastructure.state.Type;
 import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
-import network.elements.Packet;
 import network.elements.UnidirectionalWay;
-import network.entities.Switch;
-import network.states.enb.N0;
-import network.states.enb.N1;
-
-/*import network.states.packet.SStateP3;
-import network.states.packet.StateP4;*/
 import network.states.unidirectionalway.W0;
-import network.states.unidirectionalway.W1;
 import network.states.unidirectionalway.W2;
 import simulator.DiscreteEventSimulator;
 
 public class HNotificationEvent extends Event {
-	//Event dai dien cho su kien loai (H): mot Switch bao cho hang xom cua no rang ENB cua no da trong
+	// HNotificationEvent represents the event type H: a switch notifies its neighbor switch that its ENB is empty
 
     public HNotificationEvent(
     		DiscreteEventSimulator sim,

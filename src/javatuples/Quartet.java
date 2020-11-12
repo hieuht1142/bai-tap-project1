@@ -51,15 +51,12 @@ public final class Quartet<A,B,C,D>
     private final A val0;
     private final B val1;
     private final C val2;
-    private final D val3;
-    
-    
+    private final D val3;   
     
     public static <A,B,C,D> Quartet<A,B,C,D> with(final A value0, final B value1, final C value2, final D value3) {
         return new Quartet<A,B,C,D>(value0,value1,value2,value3);
     }
-
-    
+ 
     /**
      * <p>
      * Create tuple from array. Array has to have exactly four network.elements.
@@ -78,7 +75,6 @@ public final class Quartet<A,B,C,D>
         }
         return new Quartet<X,X,X,X>(array[0],array[1],array[2],array[3]);
     }
-
     
     /**
      * <p>
@@ -92,7 +88,6 @@ public final class Quartet<A,B,C,D>
     public static <X> Quartet<X,X,X,X> fromCollection(final Collection<X> collection) {
         return fromIterable(collection);
     }
-
     
     /**
      * <p>
@@ -105,8 +100,7 @@ public final class Quartet<A,B,C,D>
      */
     public static <X> Quartet<X,X,X,X> fromIterable(final Iterable<X> iterable) {
         return fromIterable(iterable, 0, true);
-    }
-    
+    }   
     
     /**
      * <p>
@@ -200,27 +194,22 @@ public final class Quartet<A,B,C,D>
         return this.val0;
     }
 
-
     public B getValue1() {
         return this.val1;
     }
-
 
     public C getValue2() {
         return this.val2;
     }
 
-
     public D getValue3() {
         return this.val3;
     }
 
-
     @Override
     public int getSize() {
         return SIZE;
-    }
-  
+    } 
     
     public <X0> Quintet<X0,A,B,C,D> addAt0(final X0 value0) {
         return new Quintet<X0,A,B,C,D>(
