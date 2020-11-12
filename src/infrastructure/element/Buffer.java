@@ -8,14 +8,15 @@ public abstract class Buffer extends Element {
 	protected Queue<Packet> allPackets;
 	public PhysicalLayer physicalLayer;
 
-	public Buffer()
-	{
+	public Buffer() {
 		allPackets = new Queue<>();
 	}
+	
 	public boolean isPeekPacket(Packet packet){
 		if(allPackets.isEmpty()) return false;
 		return allPackets.peek() == packet;
 	}
+	
 	public boolean isEmpty(){
 		return allPackets.isEmpty();
 	}

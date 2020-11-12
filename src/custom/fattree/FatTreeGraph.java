@@ -1,6 +1,5 @@
 package custom.fattree;
 
-import custom.fattree.Address;
 import graph.Graph;
 
 import java.util.ArrayList;

@@ -52,19 +52,38 @@ public class GraphPanel extends JPanel {
         double yScale = ((double) getHeight() - 2 * padding - labelPadding) / (getMaxScore() - getMinScore());
 
         List<Point> graphPoints = new ArrayList<>();
-        for (int i = 0; i < scores.size(); i++) {
-            int x1 = (int) (i * xScale + padding + labelPadding);
-            int y1 = (int) ((getMaxScore() - scores.get(i)) * yScale + padding);
-            graphPoints.add(new Point(x1, y1));
-        }
+        addGraphPoint(graphPoints, xScale, yScale); // add point for graphPoints
 
         // draw white background
         g2.setColor(Color.WHITE);
         g2.fillRect(padding + labelPadding, padding, getWidth() - (2 * padding) - labelPadding, getHeight() - 2 * padding - labelPadding);
         g2.setColor(Color.BLACK);
+     
+        setYAxis(g2); // create hatch marks and grid lines for y axis.
+        setXAxis(g2); // create hatch marks and grid lines for x axis.
 
-        // create hatch marks and grid lines for y axis.
-        for (int i = 0; i < numberYDivisions + 1; i++) {
+        // create x and y axis 
+        createXYAxis(g2, graphPoints);
+    }
+    
+    /**
+     * This method is used to add point for graphPoints list
+     */
+    private void addGraphPoint(List<Point> graphPoints, double xScale, double yScale) {
+    	for (int i = 0; i < scores.size(); i++) {
+            int x1 = (int) (i * xScale + padding + labelPadding);
+            int y1 = (int) ((getMaxScore() - scores.get(i)) * yScale + padding);
+            graphPoints.add(new Point(x1, y1));
+        }
+    }
+    
+    /**
+     * This method is used to create hatch marks and grid lines for y axis.
+     * 
+     * @param g2 the 2D graphic
+     */
+    private void setYAxis(Graphics2D g2) {
+    	for (int i = 0; i < numberYDivisions + 1; i++) {
             int x0 = padding + labelPadding;
             int x1 = pointWidth + padding + labelPadding;
             int y0 = getHeight() - ((i * (getHeight() - padding * 2 - labelPadding)) / numberYDivisions + padding + labelPadding);
@@ -80,9 +99,15 @@ public class GraphPanel extends JPanel {
             }
             g2.drawLine(x0, y0, x1, y1);
         }
-
-        // and for x axis
-        for (int i = 0; i < scores.size(); i++) {
+    }
+    
+    /**
+     * This method is used to create hatch marks and grid lines for x axis.
+     * 
+     * @param g2 the 2D graphic
+     */
+    private void setXAxis(Graphics2D g2) {
+    	for (int i = 0; i < scores.size(); i++) {
             if (scores.size() > 1) {
                 int x0 = i * (getWidth() - padding * 2 - labelPadding) / (scores.size() - 1) + padding + labelPadding;
                 int x1 = x0;
@@ -100,9 +125,13 @@ public class GraphPanel extends JPanel {
                 g2.drawLine(x0, y0, x1, y1);
             }
         }
-
-        // create x and y axes 
-        g2.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, padding + labelPadding, padding);
+    }
+    
+    /**
+     * This method is used to create x and y axis.
+     */
+    private void createXYAxis(Graphics2D g2, List<Point> graphPoints) {
+    	g2.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, padding + labelPadding, padding);
         g2.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, getWidth() - padding, getHeight() - padding - labelPadding);
 
         Stroke oldStroke = g2.getStroke();
@@ -173,15 +202,14 @@ public class GraphPanel extends JPanel {
     }
     
     public static void main(String[] args) {
-      SwingUtilities.invokeLater(new Runnable() {
-         public void run() {
-            createAndShowGui();
-         }
-      });
-   }
+    	SwingUtilities.invokeLater(new Runnable() {
+    		public void run() {
+    			createAndShowGui();
+    		}
+    	});
+	}
     
     public static void createAndShowGui(List<Double> scores) {
-        
         GraphPanel mainPanel = new GraphPanel(scores);
         mainPanel.setPreferredSize(new Dimension(800, 600));
         JFrame frame = new JFrame("DrawGraph");

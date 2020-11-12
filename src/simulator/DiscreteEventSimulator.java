@@ -36,7 +36,7 @@ public class DiscreteEventSimulator extends Simulator {
     }
 
     public static DiscreteEventSimulator getInstance() {
-    	if(!des.isAssigned) {
+    	if (!des.isAssigned) {
 	    	des.isLimit = IS_LIMIT;
 	    	des.timeLimit = TIME_LIMIT;
 	    	des.verbose = VERBOSE;
@@ -64,7 +64,7 @@ public class DiscreteEventSimulator extends Simulator {
     }    
     
     @Override
-    public void start () {
+    public void start() {
     	if (eventList.isEmpty())
             throw new IllegalStateException ("start() called with an empty event list");
 		stopped = false;
@@ -78,10 +78,7 @@ public class DiscreteEventSimulator extends Simulator {
 				countEvent++;
 				ev.actions();
 				int percentage = (int) (currentTime ) / (int) Constant.EXPERIMENT_INTERVAL; 
-				if (percentage > lastPercentage) { 
-					lastPercentage = percentage;
-					StdOut.printProgress("Progress", startTime, (long) timeLimit, currentTime); 
-				} 
+				lastPercentage = setProgress(startTime, lastPercentage);
 			}
 			StdOut.print("\r");
 		} catch (Exception ex) {
@@ -92,6 +89,22 @@ public class DiscreteEventSimulator extends Simulator {
 		}
 		System.out.println("# of Events: " + countEvent);
 	}
+    
+    /**
+     * This method is used to print progress
+     * 
+     * @param startTime the start time of the simulator
+     * @param lastPercentage the last percentage of progress
+     * @return updated lastPercentage
+     */
+    private int setProgress(long startTime, int lastPercentage) {
+    	int percentage = (int) (currentTime ) / (int) Constant.EXPERIMENT_INTERVAL; 
+		if (percentage > lastPercentage) { 
+			lastPercentage = percentage;
+			StdOut.printProgress("Progress", startTime, (long) timeLimit, currentTime); 
+		}
+		return lastPercentage;
+    }
     
     
     @Override

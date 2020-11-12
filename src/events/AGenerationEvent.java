@@ -30,7 +30,7 @@ public class AGenerationEvent extends Event {
 		newPacket.setType(Type.P1);
 		
 		// update source queue state
-		if(sourceQueue.getState() instanceof Sq1) { //it means that element is an instance of SourceQueue
+		if(sourceQueue.getState() instanceof Sq1) { // it means that element is an instance of SourceQueue
 						sourceQueue.setState(new Sq2(sourceQueue));
 		}
 		long time = (long)sim.time();

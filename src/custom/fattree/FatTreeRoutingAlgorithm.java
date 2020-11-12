@@ -2,8 +2,6 @@ package custom.fattree;
 
 import javatuples.* ;
 import network.elements.Packet;
-import network.entities.Host;
-import network.entities.Switch;
 import routing.RoutingAlgorithm;
 import routing.RoutingPath;
 
@@ -164,7 +162,7 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
     
     /**
      * @param source the id of the source host
-     * @param current the id of the current edge switch
+     * @param current the id of the current switch
      * @param destination the id of the destination host
      * @return the id of the next node which the packet will be forwarded to
      */
@@ -178,21 +176,21 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
             int type = G.switchType(current);
             
             if (type == FatTreeGraph.CORE) {
-            	return nextEdge(current, destination);
+            	return nextCore(current, destination);
             } else if (type == FatTreeGraph.AGG) {
             	return nextAgg(current, destination);
             } else {
-            	return nextCore(current, destination);
+            	return nextEdge(current, destination);
             }
         }
     }
     
     /**
-     * @param current the id of the current edge switch
+     * @param current the id of the current core switch
      * @param destination the id of the destination host
      * @return the id of the next node which the packet will be forwarded to
      */
-    private int nextEdge(int current, int destination) {
+    private int nextCore(int current, int destination) {
     	Address address = G.getAddress(destination);
         Pair<Integer, Integer> prefix = new Pair<>(address._1, address._2);
         Map<Pair<Integer, Integer>, Integer> corePrefixTable = corePrefixTables.get(current);
@@ -222,11 +220,11 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
     }
     
     /**
-     * @param current the id of the current core switch
+     * @param current the id of the current edge switch
      * @param destination the id of the destination host
      * @return the id of the next node which the packet will be forwarded to
      */
-    private int nextCore(int current, int destination) {
+    private int nextEdge(int current, int destination) {
     	Address address = G.getAddress(destination);
         int suffix = address._4;
 
@@ -245,33 +243,10 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
     
     public RoutingAlgorithm build(Node node) throws CloneNotSupportedException {
     	RoutingAlgorithm ra = (RoutingAlgorithm) this.clone();
-    	
-    	if(node instanceof Host) {
-    		((FatTreeRoutingAlgorithm)ra).setCorePrefixTables(null);
-    		((FatTreeRoutingAlgorithm)ra).setPrefixTables(null);
-    		((FatTreeRoutingAlgorithm)ra).setSuffixTables(null);
-    	}
-    	
-    	if(node instanceof Switch) {
-    		int id = ((Switch)node).getId();
-    		int type = G.switchType(id);
-    		if(type == FatTreeGraph.AGG) {
-    			((FatTreeRoutingAlgorithm)ra).corePrefixTables = null;
-    		}
-    		if(type == FatTreeGraph.EDGE) {
-    			((FatTreeRoutingAlgorithm)ra).prefixTables = null;
-    			((FatTreeRoutingAlgorithm)ra).corePrefixTables = null;
-    		}
-    		if(type == FatTreeGraph.CORE) {
-    			((FatTreeRoutingAlgorithm)ra).prefixTables = null;
-    			((FatTreeRoutingAlgorithm)ra).suffixTables = null;
-    		}
-    	}
 		return ra;
     }
 
     public void update(Packet p, Node node) {
-    	
     }
 
 }

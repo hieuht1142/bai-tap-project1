@@ -8,7 +8,6 @@ import infrastructure.entity.Node;
 import javatuples.Pair;
 import javatuples.Triplet;
 import network.elements.Packet;
-import network.layers.DataLinkLayer;
 import routing.RoutingAlgorithm;
 
 public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
@@ -34,7 +33,13 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	public void setTime(int time) {
 		this.time = time;
 	}
-
+	
+	/**
+     * @param source the id of the source host
+     * @param current the id of the current switch
+     * @param destination the id of the destination host
+     * @return the id of the next node which the packet will be forwarded to
+     */
 	@Override
     public int next(int source, int current, int destination) {
         if (G.isHostVertex(current)) {
@@ -44,36 +49,56 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
             return destination;
         } else {
             int type = G.switchType(current);
-            if (type == FatTreeGraph.CORE) {       	
-                return super.next(source, current, destination);
-                
-            } else if (type == FatTreeGraph.AGG) {
-                Address address = G.getAddress(destination);
-
-                Triplet<Integer, Integer, Integer> prefix
-                        = new Triplet<>(address._1, address._2, address._3);
-                int suffix = address._4;
-
-                Map<Triplet<Integer, Integer, Integer>, Integer> prefixTable =
-                        getPrefixTables().get(current);
-                Map<Integer, Integer> suffixTable = suffixTables.get(current);
-
-                if (prefixTable.containsKey(prefix)) {
-                    return prefixTable.get(prefix);
-                } else {
-                    return suffixTable.get(suffix);
-                }
-            } else { // Edge switch
-                Address address = G.getAddress(destination);
-                int suffix = address._4;
-
-                Map<Integer, Integer> suffixTable = suffixTables.get(current);
-                return suffixTable.get(suffix);
+            if (type == FatTreeGraph.CORE) { // the current switch is core switch	
+                return super.next(source, current, destination);      
+            } else if (type == FatTreeGraph.AGG) { // the current switch is agg switch
+                return nextAgg(current, destination);
+            } else { // the current switch is edge switch
+                return nextEdge(current, destination);
             }
 
         }
     }
 	
+	/**
+     * @param current the id of the the current aggregation switch
+     * @param destination the id of the destination host
+     * @return the id of the next node which the packet will be forwarded to
+     */
+	private int nextAgg(int current, int destination) {
+		Address address = G.getAddress(destination);
+
+        Triplet<Integer, Integer, Integer> prefix = new Triplet<>(address._1, address._2, address._3);
+        int suffix = address._4;
+
+        Map<Triplet<Integer, Integer, Integer>, Integer> prefixTable = getPrefixTables().get(current);
+        Map<Integer, Integer> suffixTable = suffixTables.get(current);
+
+        if (prefixTable.containsKey(prefix)) {
+            return prefixTable.get(prefix);
+        } else {
+            return suffixTable.get(suffix);
+        }
+	}
+	
+	/**
+     * @param current the id of the current edge switch
+     * @param destination the id of the destination host
+     * @return the id of the next node which the packet will be forwarded to
+     */
+	private int nextEdge(int current, int destination) {
+		Address address = G.getAddress(destination);
+        int suffix = address._4;
+
+        Map<Integer, Integer> suffixTable = suffixTables.get(current);
+        return suffixTable.get(suffix);
+	}
+	
+	/**
+	 * @param packet the current packet on link
+	 * @param node the node which the current packet reaches
+	 * @return the id of the next node which the packet will be forwarded to 
+	 */
 	@Override
 	public int next(Packet packet, Node node) {
 		int current = node.getId();
@@ -86,38 +111,13 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
             return destination;
         } else {
             int type = G.switchType(current);
-            if (type == FatTreeGraph.CORE) {
-            	
-                return super.next(source, current, destination);
-                
-            } else {
-            	if(flowTable.isEmpty()) {
-            		
-            	}
-            	if (type == FatTreeGraph.AGG) {
-            
-	                Address address = G.getAddress(destination);
-	
-	                Triplet<Integer, Integer, Integer> prefix
-	                        = new Triplet<>(address._1, address._2, address._3);
-	                int suffix = address._4;
-	
-	                Map<Triplet<Integer, Integer, Integer>, Integer> prefixTable = getPrefixTables().get(current);
-	                Map<Integer, Integer> suffixTable = suffixTables.get(current);
-	
-	                if (prefixTable.containsKey(prefix)) {
-	                    return prefixTable.get(prefix);
-	                } else {
-	                    return suffixTable.get(suffix);
-	                }
-	            } else { // Edge switch
-	                Address address = G.getAddress(destination);
-	                int suffix = address._4;
-	
-	                Map<Integer, Integer> suffixTable = suffixTables.get(current);
-	                return suffixTable.get(suffix);
-	            }
-            }
+            if (type == FatTreeGraph.CORE) { // the current switch is core switch
+                return super.next(source, current, destination); 
+            } else if (type == FatTreeGraph.AGG) { // the current switch is agg switch
+            	return nextAgg(current, destination);
+	        } else { // the current switch is edge switch
+	            return nextEdge(current, destination);
+	        }
         }
     }
 
@@ -125,8 +125,7 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	public RoutingAlgorithm build(Node node) throws CloneNotSupportedException {
 		currentNode = node.getId();
 		RoutingAlgorithm ra = super.build(node);
-		if(ra instanceof FatTreeFlowClassifier)
-		{
+		if (ra instanceof FatTreeFlowClassifier) {
 			FatTreeFlowClassifier ftfc = (FatTreeFlowClassifier)ra;
 			ftfc.outgoingTraffic = new HashMap<Integer, Long>();
 			ftfc.flowSizesPerDuration = new HashMap<Pair<Integer, Integer>, Long>();
@@ -140,23 +139,21 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	public void update(Packet p, Node node) {
     	int src = p.getSource();
     	int dst = p.getDestination();
-    	int currentTime = (int)node.physicalLayer.simulator.time();
-    	if(currentTime - time >= Constant.TIME_REARRANGE)
-    	{
+    	int currentTime = (int) node.physicalLayer.simulator.time();
+    	if (currentTime - time >= Constant.TIME_REARRANGE) {
     		time = currentTime;
     		// Update the result of the routing table
     		flowSizesPerDuration = new HashMap<Pair<Integer, Integer>, Long>();
-    	}
-    	else {
+    	} else {
     		Pair<Integer, Integer> flow = new Pair<>(src, dst);
     		long value = p.getSize();
-    		if(flowSizesPerDuration.containsKey(flow)) {
+    		if (flowSizesPerDuration.containsKey(flow)) {
     			value += flowSizesPerDuration.get(flow);
     		}
     		flowSizesPerDuration.put(flow, value);
     		value = p.getSize();
     		int idNextNode = node.getId();
-    		if(outgoingTraffic.containsKey(idNextNode)) {
+    		if (outgoingTraffic.containsKey(idNextNode)) {
     			value += outgoingTraffic.get(idNextNode);
     		}
     		outgoingTraffic.put(idNextNode, value);
