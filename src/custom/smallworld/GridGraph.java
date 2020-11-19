@@ -46,8 +46,7 @@ public class GridGraph extends Graph {
         }
     }
 
-    public GridGraph(int nRow, int nCol, int nFlat, String baseType)
-    {
+    public GridGraph(int nRow, int nCol, int nFlat, String baseType) {
         this.nRow = nRow;
         this.nCol = nCol;
         this.baseType = baseType;
@@ -72,6 +71,7 @@ public class GridGraph extends Graph {
         }
 
     }
+    
     public GridGraph(int nRow, int nCol, String baseType) {
         this.nRow = nRow;
         this.nCol = nCol;

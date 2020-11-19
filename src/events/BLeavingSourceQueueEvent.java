@@ -45,26 +45,45 @@ public class BLeavingSourceQueueEvent extends Event {
 		if (((exitBuffer.getState().type == Type.X00) || (exitBuffer.getState().type == Type.X01))
 				&& (sourceQueue.getState() instanceof Sq2 && sourceQueue.isPeekPacket(packet))) {			
 			//change state source queue, type B1
-			if (sourceQueue.hasOnlyOnePacket()) {
-				sourceQueue.setState(new Sq1(sourceQueue));
-			}
-			sourceQueue.removePacket();
-			exitBuffer.insertPacket(packet);			
-			packet.setType(Type.P2); //change Packet state			
+			changeStateSrcQueue(sourceQueue, exitBuffer);			
 			//change state EXB,  type b4
 			if (exitBuffer.isFull()) {
-				if (exitBuffer.getState().type == Type.X00) {
-					exitBuffer.setType(Type.X10);
-				}
-				if (exitBuffer.getState().type == Type.X01) {
-					exitBuffer.setType(Type.X11);
-					exitBuffer.getState().act();
-				}
+				handleFullExitBuffer(exitBuffer);
 			}
 			// add event C
 			long time = (long)sourceQueue.physicalLayer.simulator.time();
 			Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
 			event.register(); // insert new event
+		}
+	}
+	
+	/**
+	 * This method is used to change state of source queue
+	 * @param sourceQueue
+	 * @param exitBuffer
+	 */
+	private void changeStateSrcQueue(SourceQueue sourceQueue, ExitBuffer exitBuffer) {
+		if (sourceQueue.hasOnlyOnePacket()) {
+			sourceQueue.setState(new Sq1(sourceQueue));
+		}
+		sourceQueue.removePacket();
+		exitBuffer.insertPacket(packet);			
+		packet.setType(Type.P2); //change Packet state
+	}
+	
+	/**
+	 * This method is used to handle full exit buffer
+	 * @param exitBuffer
+	 */
+	private void handleFullExitBuffer(ExitBuffer exitBuffer) {
+		
+		if (exitBuffer.getState().type == Type.X00) {
+			exitBuffer.setType(Type.X10);
+		}
+		
+		if (exitBuffer.getState().type == Type.X01) {
+			exitBuffer.setType(Type.X11);
+			exitBuffer.getState().act();
 		}
 	}
 }
