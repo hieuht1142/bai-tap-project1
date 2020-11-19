@@ -1,15 +1,12 @@
 package weightedloadexperiment.pairstrategies;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import common.RandomGenerator;
 import custom.fattree.Address;
 import custom.fattree.FatTreeGraph;
 import custom.fattree.FatTreeRoutingAlgorithm;
-import network.Topology;
 
 public class SameIDOutgoing extends OverSubscription {
 	
@@ -20,80 +17,99 @@ public class SameIDOutgoing extends OverSubscription {
     }
     
 	public SameIDOutgoing() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public SameIDOutgoing(Integer[] allHosts) {
 		super(allHosts);
-		// TODO Auto-generated constructor stub
 	}
-
+	
+	/**
+	 * This method is used to pair hosts
+	 */
 	@Override
     public void pairHosts() {
 		setTypeOfAddresss();
 		List<Integer> sources = getSources();
 	    List<Integer> destinations = getDestinations();
-
 	    Integer[] allHosts = this.getAllHosts();
 	    int numOfHosts = allHosts.length;
-	    int previousSrc = 0;
-	    int sameHostID = -1;
 	    int delta = RandomGenerator.nextInt(0, k*k*k/4);
 	    int count = 0;
-	    
 	    int i = 0; 
 	    while (i < numOfHosts && count < numOfHosts * 1000) {
-            sameHostID = -1;
             List<Integer> allTempDsts = new ArrayList<Integer>();
             List<Integer> allTempSrcs = new ArrayList<Integer>();
             
-            for (int j = i; j < i + (k/2); j++) {
-            	int src =  allHosts[j];
-            	boolean found = false;
-            	for (int k = 0; k < numOfHosts; k++) {
-            		int dst = allHosts[(k + delta) % numOfHosts];
-            		if (dst != src && !destinations.contains(dst) && !allTempDsts.contains(dst)) {
-	            		if (sameHostID == -1) {
-	            			sameHostID = getHostID(dst);
-	            			allTempDsts.add(dst);
-	            			found = true;
-	            			break;
-	            		} else {
-	            			if (sameHostID == getHostID(dst)) {
-	            				allTempDsts.add(dst);
-	            				found = true;
-	            				break;
-	            			}
-	            		}
-            		}
-            	}
-            	
-            	if(found) {
-            		allTempSrcs.add(src);
-            	} else {
-            		break;
-            	}
-            	
-            }
+            pairing(i, allHosts, delta, destinations, allTempDsts, allTempSrcs);
             
             if (allTempDsts.size() == k/2) {
-            	i += k/2;
-            	System.out.print("\n");
-            	sources.addAll(allTempSrcs); destinations.addAll(allTempDsts);
-            	for (int m = 0; m < allTempDsts.size(); m++) {
-            		System.out.print(allTempDsts.get(m) + "(" + getHostID(allTempDsts.get(m)) + ") ");
-            		int id = allTempDsts.get(m);
-            		Address host = G.getAddress(id);
-            		System.out.print("Addr: " + host._1 + "." + host._2 + "." + host._3 + "." + host._4);
-            		System.out.println();
-            	}
-            	System.out.print("\n");
+            	handleAllTempDsts(i, sources, destinations, allTempSrcs, allTempDsts);
             }
             else {
             	delta = RandomGenerator.nextInt(0, k*k*k/4);
             }
             count++;
 	    }
+	}
+	
+	/**
+	 * This method is used to handle if size of allTempDsts == k/2
+	 */
+	private void handleAllTempDsts(int i, List<Integer> sources, List<Integer> destinations,
+										List<Integer> allTempSrcs, List<Integer> allTempDsts) {
+		
+		i += k/2;
+    	System.out.print("\n");
+    	sources.addAll(allTempSrcs); destinations.addAll(allTempDsts);
+    	for (int m = 0; m < allTempDsts.size(); m++) {
+    		System.out.print(allTempDsts.get(m) + "(" + getHostID(allTempDsts.get(m)) + ") ");
+    		int id = allTempDsts.get(m);
+    		Address host = G.getAddress(id);
+    		System.out.print("Addr: " + host._1 + "." + host._2 + "." + host._3 + "." + host._4);
+    		System.out.println();
+    	}
+    	System.out.print("\n");
+	}
+	
+	/**
+	 * This method is used to pair hosts
+	 * 
+	 * @param i
+	 * @param allHosts list of all hosts
+	 * @param delta
+	 * @param destinations list of destination hosts
+	 * @param allTempDsts list of all temporary destination hosts
+	 * @param allTempSrcs list of all temporary source hosts
+	 */
+	private void pairing(int i, Integer[] allHosts, int delta, List<Integer> destinations, List<Integer> allTempDsts, List<Integer> allTempSrcs) {		
+		int sameHostID = -1;
+		int numOfHosts = allHosts.length;
+		for (int j = i; j < i + (k/2); j++) {
+        	int src =  allHosts[j];
+        	boolean found = false;
+        	for (int k = 0; k < numOfHosts; k++) {
+        		int dst = allHosts[(k + delta) % numOfHosts];
+        		if (dst != src && !destinations.contains(dst) && !allTempDsts.contains(dst)) {
+            		if (sameHostID == -1) {
+            			sameHostID = getHostID(dst);
+            			allTempDsts.add(dst);
+            			found = true;
+            			break;
+            		} else {
+            			if (sameHostID == getHostID(dst)) {
+            				allTempDsts.add(dst);
+            				found = true;
+            				break;
+            			}
+            		}
+        		}
+        	}
+        	if(found) {
+        		allTempSrcs.add(src);
+        	} else {
+        		break;
+        	}
+        }
 	}
 	
 	@Override
@@ -134,6 +150,9 @@ public class SameIDOutgoing extends OverSubscription {
 	
 	private int lengthOfHostID = 8;
 	
+	/**
+	 * This method is used to set type of address
+	 */
 	private void setTypeOfAddresss() {
 		Address one = G.getAddress(0);
 		int firstPart = one._1;
@@ -145,17 +164,30 @@ public class SameIDOutgoing extends OverSubscription {
 		if(firstThreeBits == 5) { lengthOfHostID = 8; return ;}
 		
 	}
-
+	 /**
+	  * This method is used to check the valid of pairs of hosts
+	  */
     @Override
     public void checkValid() {
         List<Integer> sources = getSources();
         List<Integer> destinations = getDestinations();
-        int realCore = 0;
-        if(sources.size() != k * k * k / 4) {
+        
+        handleNotEnoughPair(sources, destinations);
+        
+        handleEnoughPair(sources, destinations);  
+    }
+    
+    /**
+     * This method is used to handle if there are not enough pairs
+     * 
+     * @param sources List of source hosts
+     * @param destinations List of destination hosts
+     */
+    private void handleNotEnoughPair(List<Integer> sources, List<Integer> destinations) {
+    	if (sources.size() != k * k * k / 4) {
             System.out.println("Not enough pair! Just " + sources.size());
-            for(int i = 0; i < sources.size(); i++)
-            {
-                realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
+            for(int i = 0; i < sources.size(); i++) {
+                int realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
                 System.out.println("From " + sources.get(i) + " through " +
                         getCoreSwitch(sources.get(i), destinations.get(i))
                         + "/" + realCore
@@ -165,17 +197,24 @@ public class SameIDOutgoing extends OverSubscription {
             }
             System.exit(0);
         }
-        
-        for(int i = 0; i < sources.size(); i++)
-        {
-            realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
+    }
+    
+    /**
+     * This method is used to handle if there are enough pairs
+     * 
+     * @param sources List of source hosts
+     * @param destinations List of destination hosts
+     */
+    private void handleEnoughPair(List<Integer> sources, List<Integer> destinations) {
+    	for (int i = 0; i < sources.size(); i++) {
+            int realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
             System.out.println("From " + sources.get(i) + " through " +
                     getCoreSwitch(sources.get(i), destinations.get(i))
                     + "/" + realCore
                     + " to "
                     + destinations.get(i) + "(HostID = " + getHostID(destinations.get(i)) + ")"
             );           
-        }       
+        }     
     }
 
 }

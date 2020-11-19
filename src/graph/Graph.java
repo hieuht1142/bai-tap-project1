@@ -7,7 +7,7 @@ import java.util.*;
 public abstract class Graph {
     protected int V; // number of vertexes (having index from 0 -> (V-1))
     protected int E; // number of edge
-    protected List<Integer>[] adj; // list of vertexes which is the neighbor vertex
+    protected List<Integer>[] adj; // list of neighbor vertexes 
 
     /**
      * This method is used to create edge between vertex v and w
@@ -40,19 +40,39 @@ public abstract class Graph {
         	throw new IllegalArgumentException("vertex " + v + " is not between 0 and " + (V - 1));
         }
     }
-
+    
+    /**
+     * 
+     * @param u vertex u
+     * @param v edge v
+     * @return true if vertex u belongs to edge v
+     */
     public boolean hasEdge(int u, int v) {
         return adj[u].contains(v);
     }
-
+    
+    /**
+     * 
+     * @return number of vertexes in the graph
+     */
     public int V() {
     	return V;
     }
-
+    
+    /**
+     * 
+     * @param v vertex v
+     * @return list of neighbor vertexes of vertex v
+     */
     public List<Integer> adj(int v) { 
-    	return adj[v]; 
+    	return adj[v];
     }
-
+    
+    /**
+     * 
+     * @param u vertex u
+     * @return size of list of neighbor vertexes of vertex u
+     */
     public int degree(int u) {
         return adj[u].size();
     }

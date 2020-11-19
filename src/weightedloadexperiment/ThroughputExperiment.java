@@ -126,11 +126,11 @@ public class ThroughputExperiment {
     	FatTreeGraph G = new FatTreeGraph(4);
         FatTreeRoutingAlgorithm ra = new FatTreeFlowClassifier(G, false);
         PairGenerator pairGenerator = //new StrideIndex(1);
-        								new StrideIndex(8);
+        								//new StrideIndex(8);
         								//new InterPodIncoming(ra, G);
         								//new ForcePair(ra, G, 13);
         								//new MinimalCoreSwitches(ra, G);
-        								//new SameIDOutgoing(G, ra);
+        								new SameIDOutgoing(G, ra);
         Topology topology = new Topology(G, ra, pairGenerator);    
 		//new StaggeredProb(hosts, 4, 1, 0);
 		//new InterPodIncoming(hosts, k, ra, G);
