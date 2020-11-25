@@ -10,8 +10,7 @@ import network.states.sourcequeue.Sq1;
 import network.states.sourcequeue.Sq2;
 import simulator.DiscreteEventSimulator;
 
-enum TypeB
-{
+enum TypeB {
 	B, B1, B2, B3, B4
 }
 
@@ -50,10 +49,8 @@ public class BLeavingSourceQueueEvent extends Event {
 			if (exitBuffer.isFull()) {
 				handleFullExitBuffer(exitBuffer);
 			}
-			// add event C
-			long time = (long)sourceQueue.physicalLayer.simulator.time();
-			Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
-			event.register(); // insert new event
+			
+			addEventC(sourceQueue, exitBuffer, sim);
 		}
 	}
 	
@@ -85,5 +82,15 @@ public class BLeavingSourceQueueEvent extends Event {
 			exitBuffer.setType(Type.X11);
 			exitBuffer.getState().act();
 		}
+	}
+	
+	/**
+	 * This method is used to insert new event C
+	 */
+	private void addEventC(SourceQueue sourceQueue, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
+		
+		long time = (long)sourceQueue.physicalLayer.simulator.time();
+		Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
+		event.register(); // insert new event
 	}
 }

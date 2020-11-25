@@ -28,8 +28,7 @@ public class FLeavingSwitchEvent extends Event {
     @Override
     public void actions() {
     	DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
-        ExitBuffer exitBuffer = (ExitBuffer)element;
-        
+    	ExitBuffer exitBuffer = (ExitBuffer)element;
         UnidirectionalWay unidirectionalWay = exitBuffer.physicalLayer.links.
                 get(exitBuffer.getConnectNode().getId()).getWayToOtherNode(exitBuffer.physicalLayer.node);
 
@@ -37,45 +36,41 @@ public class FLeavingSwitchEvent extends Event {
                 && ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))
         ) {
             unidirectionalWay.addPacket(exitBuffer.removePacket());
-
-            //change Packet state
-            if (packet.getState().type == Type.P5) {
-                packet.setType(Type.P3);
-            }
-            
-            //change EXB state
-            exitBuffer.setType(Type.X00);
-            exitBuffer.getState().act();
-
-            unidirectionalWay.setState(new W1(unidirectionalWay));
-            unidirectionalWay.getState().act();
+            changeState(exitBuffer, unidirectionalWay);
 
             Node nextNode = exitBuffer.getConnectNode();
             exitBuffer.physicalLayer.node.getNetworkLayer().routingAlgorithm.update(packet, nextNode);
-            if(nextNode instanceof Host){
+            EventHandler eventHandler = new EventHandler(packet, exitBuffer, unidirectionalWay, sim);
+            
+            if (nextNode instanceof Host) {
             	Host h = (Host)nextNode;
             	if (h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix) {
-                    // add event G
-                	long time = (long)exitBuffer.physicalLayer.simulator.time();
-                    Event event = new GReachingDestinationEvent(
-                    		sim
-                    		, time
-                            , time + unidirectionalWay.getLink().getTotalLatency(packet.getSize())
-                            , unidirectionalWay, packet);
-                    event.register();
+            		eventHandler.addEventG();
             	}
+            } else if (nextNode instanceof Switch) {
+            	eventHandler.addEventD();
             }
-            else if (nextNode instanceof Switch) {
-                // add event D
-            	long time = (long)exitBuffer.physicalLayer.simulator.time();
-                Event event = new DReachingENBEvent(
-                		sim,
-                		time
-                        , time + unidirectionalWay.getLink().getTotalLatency(packet.getSize())
-                        , unidirectionalWay, packet);
-                event.register(); // insert new event
-            }
+        }  
+    }
+    
+    /**
+     * This method is used to change state of packet, EXB and uniWay
+     * 
+     * @param exitBuffer exit buffer
+     * @param unidirectionalWay unidirectional Way
+     */
+    private void changeState(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+    	//change Packet state
+        if (packet.getState().type == Type.P5) {
+            packet.setType(Type.P3);
         }
         
+        //change EXB state
+        exitBuffer.setType(Type.X00);
+        exitBuffer.getState().act();
+
+        unidirectionalWay.setState(new W1(unidirectionalWay));
+        unidirectionalWay.getState().act();
     }
+    
 }

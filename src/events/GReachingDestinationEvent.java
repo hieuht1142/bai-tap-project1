@@ -43,17 +43,27 @@ public class GReachingDestinationEvent extends Event {
             unidirectionalWay.setState(new W0(unidirectionalWay));
             unidirectionalWay.getState().act();
 
-            //change state of EXB
-            ExitBuffer sendExitBuffer = unidirectionalWay.getFromNode().physicalLayer
-                    .exitBuffers.get(unidirectionalWay.getToNode().getId());
-            if (sendExitBuffer.getState().type == Type.X00) {
-            	sendExitBuffer.setType(Type.X01);
-                sendExitBuffer.getState().act();
-            }
-            if (sendExitBuffer.getState().type == Type.X10) {
-            	sendExitBuffer.setType(Type.X11);
-                sendExitBuffer.getState().act();
-            }
+            changeEXBState(unidirectionalWay);
         } 
     }
+    
+    /**
+     * This method is used to change state of EXB
+     * 
+     * @param unidirectionalWay Unidirectional Way
+     */
+    private void changeEXBState(UnidirectionalWay unidirectionalWay) {
+    	ExitBuffer sendExitBuffer = unidirectionalWay.getFromNode().physicalLayer
+                .exitBuffers.get(unidirectionalWay.getToNode().getId());
+        if (sendExitBuffer.getState().type == Type.X00) {
+        	sendExitBuffer.setType(Type.X01);
+            sendExitBuffer.getState().act();
+        }
+        if (sendExitBuffer.getState().type == Type.X10) {
+        	sendExitBuffer.setType(Type.X11);
+            sendExitBuffer.getState().act();
+        }
+    }
+    
+    
 }

@@ -15,8 +15,7 @@ import network.states.unidirectionalway.W1;
 import network.states.unidirectionalway.W2;
 import simulator.DiscreteEventSimulator;
 
-enum TypeD
-{
+enum TypeD {
 	D, D1, D2
 }
 
@@ -45,37 +44,56 @@ public class DReachingENBEvent extends Event {
 		) {
 			unidirectionalWay.removePacket();
 			entranceBuffer.insertPacket(packet);
-
-			//change state packet
-			packet.setType(Type.P4);
+			
+			packet.setType(Type.P4); //change state packet
 
 			if (entranceBuffer.isFull()) {
-				type = TypeD.D2; // ENB full
-				//change state//ENB
-				entranceBuffer.setState(new N1(entranceBuffer));
-				entranceBuffer.getState().act();
-				//change state of way
-				unidirectionalWay.setState(new W2(unidirectionalWay));
-				unidirectionalWay.getState().act();
+				handleFullENB(entranceBuffer, unidirectionalWay);
 			} else {
-				type = TypeD.D1; // ENB not full
-				//change state of EXB
-				ExitBuffer sendExitBuffer = unidirectionalWay.getFromNode().physicalLayer
-						.exitBuffers.get(unidirectionalWay.getToNode().getId());
-				if (sendExitBuffer.getState().type == Type.X00) {
-					sendExitBuffer.setType(Type.X01);
-					sendExitBuffer.getState().act();
-				}
-				if (sendExitBuffer.getState().type == Type.X10) {
-					sendExitBuffer.setType(Type.X11);
-					sendExitBuffer.getState().act();
-				}
-				//change state of way
-				unidirectionalWay.setState(new W0(unidirectionalWay));
-				unidirectionalWay.getState().act();
+				handleNotFullENB(entranceBuffer, unidirectionalWay);
 			}
 			entranceBuffer.getNode().getNetworkLayer().route(entranceBuffer);
 		}
 
+	}
+	
+	/**
+	 * This method is used to change state if ENB is full
+	 * 
+	 * @param entranceBuffer
+	 * @param unidirectionalWay
+	 */
+	private void handleFullENB(EntranceBuffer entranceBuffer, UnidirectionalWay unidirectionalWay) {
+		type = TypeD.D2; // ENB full
+		//change state//ENB
+		entranceBuffer.setState(new N1(entranceBuffer));
+		entranceBuffer.getState().act();
+		//change state of way
+		unidirectionalWay.setState(new W2(unidirectionalWay));
+		unidirectionalWay.getState().act();
+	}
+	
+	/**
+	 * This method is used to change state if ENB is not full
+	 * 
+	 * @param entranceBuffer
+	 * @param unidirectionalWay
+	 */
+	private void handleNotFullENB(EntranceBuffer entranceBuffer, UnidirectionalWay unidirectionalWay) {
+		type = TypeD.D1; // ENB not full
+		//change state of EXB
+		ExitBuffer sendExitBuffer = unidirectionalWay.getFromNode().physicalLayer
+				.exitBuffers.get(unidirectionalWay.getToNode().getId());
+		if (sendExitBuffer.getState().type == Type.X00) {
+			sendExitBuffer.setType(Type.X01);
+			sendExitBuffer.getState().act();
+		}
+		if (sendExitBuffer.getState().type == Type.X10) {
+			sendExitBuffer.setType(Type.X11);
+			sendExitBuffer.getState().act();
+		}
+		//change state of way
+		unidirectionalWay.setState(new W0(unidirectionalWay));
+		unidirectionalWay.getState().act();
 	}
 }

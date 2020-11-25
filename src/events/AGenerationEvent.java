@@ -21,8 +21,7 @@ public class AGenerationEvent extends Event {
 	@Override
 	public void actions() {
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
-		SourceQueue sourceQueue = (SourceQueue)getElement();
-		
+		SourceQueue sourceQueue = (SourceQueue)getElement();		
 		Packet newPacket = sourceQueue.generatePacket(this.getStartTime());
 		if(newPacket == null) { return; }
 		newPacket.setId(sim.numSent++);
@@ -31,12 +30,12 @@ public class AGenerationEvent extends Event {
 		
 		// update source queue state
 		if(sourceQueue.getState() instanceof Sq1) { // it means that element is an instance of SourceQueue
-						sourceQueue.setState(new Sq2(sourceQueue));
+			sourceQueue.setState(new Sq2(sourceQueue));
 		}
 		long time = (long)sim.time();
 		Event event = new BLeavingSourceQueueEvent(sim, time, time, sourceQueue, newPacket);		
-		
 		sim.addEvent(event);
+		
 		time = (long)sourceQueue.getNextPacketTime();		
 		Event ev = new AGenerationEvent(sim, time, time, sourceQueue);	
 		sim.addEvent(ev);		

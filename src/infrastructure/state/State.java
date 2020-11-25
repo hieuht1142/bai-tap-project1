@@ -18,9 +18,10 @@ import simulator.DiscreteEventSimulator;
 public class State {
 	public static int countPacket = 0;
 	public static int countStateENB = 0;
-	public static int countStateEXB = 0;
+	public static int countStateEXB = 0;	
 	public IEventGenerator element;
 	public Type type = Type.NONE;
+	
 	public void act() {
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
 		switch (type) {
@@ -45,6 +46,7 @@ public class State {
 		            exitBuffer.getNode().getNetworkLayer().controlFlow(exitBuffer);
 		        }
 				break;
+				
 			case X01:
 				ExitBuffer exitBuffer1 = (ExitBuffer) this.element;
 		        Node currentNode1 = exitBuffer1.getNode();
@@ -87,6 +89,7 @@ public class State {
 		            }
 		        }
 		        break;
+		        
 			case X11:
 				ExitBuffer exitBuffer2 = (ExitBuffer)this.element;
 		        Packet packet2 = exitBuffer2.getPeekPacket();
