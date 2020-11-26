@@ -31,17 +31,13 @@ public class FLeavingSwitchEvent extends Event {
     	ExitBuffer exitBuffer = (ExitBuffer)element;
         UnidirectionalWay unidirectionalWay = exitBuffer.physicalLayer.links.
                 get(exitBuffer.getConnectNode().getId()).getWayToOtherNode(exitBuffer.physicalLayer.node);
-
         if (exitBuffer.isPeekPacket(packet) && unidirectionalWay.getState() instanceof W0
-                && ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))
-        ) {
+                && ((exitBuffer.getState().type == Type.X11) || (exitBuffer.getState().type == Type.X01))) {
             unidirectionalWay.addPacket(exitBuffer.removePacket());
             changeState(exitBuffer, unidirectionalWay);
-
             Node nextNode = exitBuffer.getConnectNode();
             exitBuffer.physicalLayer.node.getNetworkLayer().routingAlgorithm.update(packet, nextNode);
-            EventHandler eventHandler = new EventHandler(packet, exitBuffer, unidirectionalWay, sim);
-            
+            EventHandler eventHandler = new EventHandler(packet, exitBuffer, unidirectionalWay, sim);            
             if (nextNode instanceof Host) {
             	Host h = (Host)nextNode;
             	if (h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix) {

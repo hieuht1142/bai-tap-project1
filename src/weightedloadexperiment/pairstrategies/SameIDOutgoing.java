@@ -60,7 +60,8 @@ public class SameIDOutgoing extends OverSubscription {
 		
 		i += k/2;
     	System.out.print("\n");
-    	sources.addAll(allTempSrcs); destinations.addAll(allTempDsts);
+    	sources.addAll(allTempSrcs);
+    	destinations.addAll(allTempDsts);
     	for (int m = 0; m < allTempDsts.size(); m++) {
     		System.out.print(allTempDsts.get(m) + "(" + getHostID(allTempDsts.get(m)) + ") ");
     		int id = allTempDsts.get(m);
@@ -95,12 +96,10 @@ public class SameIDOutgoing extends OverSubscription {
             			allTempDsts.add(dst);
             			found = true;
             			break;
-            		} else {
-            			if (sameHostID == getHostID(dst)) {
+            		} else if (sameHostID == getHostID(dst)) {
             				allTempDsts.add(dst);
             				found = true;
             				break;
-            			}
             		}
         		}
         	}

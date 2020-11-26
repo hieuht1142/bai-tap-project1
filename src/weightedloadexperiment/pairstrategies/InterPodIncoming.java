@@ -66,8 +66,7 @@ public class InterPodIncoming extends OverSubscription {
      * @param allHosts array of all hosts
      * @param delta
      */
-    private void startPairHosts(List<Integer> sources, List<Integer> destinations, Integer[] allHosts,
-    								int delta) {
+    private void startPairHosts(List<Integer> sources, List<Integer> destinations, Integer[] allHosts, int delta) {
     	
     	int numOfHosts = allHosts.length;
         int sizeOfPod = k*k/4;
@@ -114,12 +113,10 @@ public class InterPodIncoming extends OverSubscription {
                         break;
                     }
                 }
-            } else {
-                if (expectedSrc / sizeOfPod != dst / sizeOfPod) {
+            } else if (expectedSrc / sizeOfPod != dst / sizeOfPod) {
                     found = true;
                     currPod = addSourceAndDest(sizeOfPod, sources, destinations, currPod, index, expectedSrc, dst);                           
                     break;
-                }
             }
             if (!found) {
                 count++;
