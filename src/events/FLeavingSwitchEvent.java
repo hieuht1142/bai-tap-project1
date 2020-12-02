@@ -37,14 +37,14 @@ public class FLeavingSwitchEvent extends Event {
             changeState(exitBuffer, unidirectionalWay);
             Node nextNode = exitBuffer.getConnectNode();
             exitBuffer.physicalLayer.node.getNetworkLayer().routingAlgorithm.update(packet, nextNode);
-            EventHandler eventHandler = new EventHandler(packet, exitBuffer, unidirectionalWay, sim);            
+            
             if (nextNode instanceof Host) {
             	Host h = (Host)nextNode;
             	if (h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix) {
-            		eventHandler.addEventG();
+            		generateEvent(packet, exitBuffer, sim, unidirectionalWay, 'G');
             	}
             } else if (nextNode instanceof Switch) {
-            	eventHandler.addEventD();
+            	generateEvent(packet, exitBuffer, sim, unidirectionalWay, 'D');
             }
         }  
     }

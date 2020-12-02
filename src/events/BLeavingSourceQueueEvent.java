@@ -50,7 +50,7 @@ public class BLeavingSourceQueueEvent extends Event {
 				handleFullExitBuffer(exitBuffer);
 			}
 			
-			addEventC(sourceQueue, exitBuffer, sim);
+			generateEvent(sourceQueue, exitBuffer, sim);
 		}
 	}
 	
@@ -84,11 +84,8 @@ public class BLeavingSourceQueueEvent extends Event {
 		}
 	}
 	
-	/**
-	 * This method is used to insert new event C
-	 */
-	private void addEventC(SourceQueue sourceQueue, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
-		
+	@Override
+	public void generateEvent(SourceQueue sourceQueue, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
 		long time = (long)sourceQueue.physicalLayer.simulator.time();
 		Event event = new CLeavingEXBEvent(sim, time, time, exitBuffer, packet);
 		event.register(); // insert new event

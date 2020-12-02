@@ -38,13 +38,12 @@ public class CLeavingEXBEvent extends Event {
             changeState(exitBuffer, unidirectionalWay);           
             Node nextNode = unidirectionalWay.getToNode();
             
-            EventHandler eventHandler = new EventHandler(packet, exitBuffer, unidirectionalWay, sim);
             if (nextNode instanceof Switch) { // next node is switch so add event D
-            	eventHandler.addEventD();           
+            	generateEvent(packet, exitBuffer, sim, unidirectionalWay, 'D');           
             } else if (nextNode instanceof Host) {
             	Host h = (Host)nextNode;
             	if (h.type == TypeOfHost.Destination || h.type == TypeOfHost.Mix) {
-            		eventHandler.addEventG();
+            		generateEvent(packet, exitBuffer, sim, unidirectionalWay, 'G');
             	}
             }
         }

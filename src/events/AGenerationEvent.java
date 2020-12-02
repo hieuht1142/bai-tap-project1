@@ -34,11 +34,10 @@ public class AGenerationEvent extends Event {
 		}
 		long time = (long)sim.time();
 		Event event = new BLeavingSourceQueueEvent(sim, time, time, sourceQueue, newPacket);		
-		sim.addEvent(event);
+		event.register();
 		
 		time = (long)sourceQueue.getNextPacketTime();		
 		Event ev = new AGenerationEvent(sim, time, time, sourceQueue);	
-		sim.addEvent(ev);		
-	}
-	
+		ev.register();		
+	}	
 }

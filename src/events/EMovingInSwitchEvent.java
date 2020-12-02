@@ -65,7 +65,7 @@ public class EMovingInSwitchEvent extends Event {
 			handleFullBuffer(exitBuffer);
 		}
 		if (exitBuffer.isPeekPacket(packet)) {
-			addEventF(exitBuffer, sim);
+			generateEvent(exitBuffer, sim);
 		}
 		exitBuffer.getNode().getNetworkLayer().controlFlow(exitBuffer);
 		if (!entranceBuffer.isEmpty()) {
@@ -90,19 +90,13 @@ public class EMovingInSwitchEvent extends Event {
 		}
 	}
 	
-	/**
-	 * This method is used to insert new event type F
-	 * 
-	 * @param exitBuffer Exit Buffer
-	 * @param sim Discrete Event Simulator
-	 */
-	private void addEventF(ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
+	@Override
+	public void generateEvent(ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
 		long time = (long)exitBuffer.physicalLayer.simulator.time();
 		Event event = new FLeavingSwitchEvent(
 				sim,
-				time, time + Constant.SWITCH_CYCLE, exitBuffer, packet);
+				time,
+				time + Constant.SWITCH_CYCLE, exitBuffer, packet);
 		event.register();
 	}
-	
-	
 }

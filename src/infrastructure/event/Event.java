@@ -1,8 +1,13 @@
 package infrastructure.event;
 
+import events.DReachingENBEvent;
+import events.GReachingDestinationEvent;
 import events.IEventGenerator;
 import infrastructure.element.Element;
+import network.elements.ExitBuffer;
 import network.elements.Packet;
+import network.elements.SourceQueue;
+import network.elements.UnidirectionalWay;
 import simulator.DiscreteEventSimulator;
 
 public abstract class Event extends umontreal.ssj.simevents.Event{
@@ -55,6 +60,47 @@ public abstract class Event extends umontreal.ssj.simevents.Event{
 		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
 		if(sim == null) return;
 		sim.addEvent(this);
+	}
+	
+	/**
+	 * This method is used to create event type D or type G
+	 * @param type create event type D if type = 'D', create event type G if type = 'G'
+	 */
+	public void generateEvent(Packet packet, ExitBuffer exitBuffer, 
+			DiscreteEventSimulator sim, UnidirectionalWay unidirectionalWay, char type) {
+		
+		long time = (long)exitBuffer.physicalLayer.simulator.time();
+    	Event event = null;
+    	
+    	if (type == 'D') {
+    		event = new DReachingENBEvent(
+            		sim,
+            		time,
+                    time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
+                    unidirectionalWay, packet);
+    	} else if (type == 'G') {
+    		event = new GReachingDestinationEvent(
+            		sim,
+            		time,
+                    time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
+                    unidirectionalWay, packet);
+    	}
+        
+        event.register(); // insert new event
+	}
+	
+	/**
+	 * This method is used to create event type F
+	 */
+	public void generateEvent(ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
+		
+	}
+	
+	/**
+	 * This method is used to create event type C
+	 */
+	public void generateEvent(SourceQueue sourceQueue, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
+		
 	}
 
 }
