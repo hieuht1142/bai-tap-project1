@@ -1,6 +1,5 @@
 package weightedloadexperiment.pairstrategies;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +39,7 @@ public class InterPodIncoming extends OverSubscription {
                     adjMx[i][j] = 0;
                 }
             }
-        }
-    	
+        }    	
     }
 
     @Override
@@ -185,7 +183,6 @@ public class InterPodIncoming extends OverSubscription {
         handleNotEnoughPair(sources, destinations);
         
         handleEnoughPair(sources, destinations);
-   
     }
     
     /**
@@ -208,7 +205,6 @@ public class InterPodIncoming extends OverSubscription {
             }
             System.exit(0);
         }
-
     }
     
     /**
@@ -286,6 +282,4 @@ public class InterPodIncoming extends OverSubscription {
             return suffixTable.get(suffix);
         }
     }
-
-
 }

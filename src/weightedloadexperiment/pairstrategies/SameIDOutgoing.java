@@ -10,11 +10,11 @@ import custom.fattree.FatTreeRoutingAlgorithm;
 
 public class SameIDOutgoing extends OverSubscription {
 	
-    public SameIDOutgoing(FatTreeGraph G, FatTreeRoutingAlgorithm routing) {
-    	super();
-    	this.G = G;
-    	this.routing = routing;
-    }
+	public SameIDOutgoing(FatTreeGraph G, FatTreeRoutingAlgorithm routing) {
+		super();
+		this.G = G;
+		this.routing = routing;
+	}
     
 	public SameIDOutgoing() {
 	}
@@ -27,10 +27,10 @@ public class SameIDOutgoing extends OverSubscription {
 	 * This method is used to pair hosts
 	 */
 	@Override
-    public void pairHosts() {
+	public void pairHosts() {
 		setTypeOfAddresss();
 		List<Integer> sources = getSources();
-	    List<Integer> destinations = getDestinations();
+		List<Integer> destinations = getDestinations();
 	    Integer[] allHosts = this.getAllHosts();
 	    int numOfHosts = allHosts.length;
 	    int delta = RandomGenerator.nextInt(0, k*k*k/4);
@@ -91,7 +91,7 @@ public class SameIDOutgoing extends OverSubscription {
         	for (int k = 0; k < numOfHosts; k++) {
         		int dst = allHosts[(k + delta) % numOfHosts];
         		if (dst != src && !destinations.contains(dst) && !allTempDsts.contains(dst)) {
-            		if (sameHostID == -1) {
+        			if (sameHostID == -1) {
             			sameHostID = getHostID(dst);
             			allTempDsts.add(dst);
             			found = true;
@@ -160,31 +160,31 @@ public class SameIDOutgoing extends OverSubscription {
 		int firstThreeBits = firstPart >> 29;
 		if(firstBit == 0)  { lengthOfHostID = 24; return;}
 		if(firstTwoBits == 1) { lengthOfHostID = 16; return ;}
-		if(firstThreeBits == 5) { lengthOfHostID = 8; return ;}
-		
+		if(firstThreeBits == 5) { lengthOfHostID = 8; return ;}		
 	}
-	 /**
-	  * This method is used to check the valid of pairs of hosts
-	  */
-    @Override
-    public void checkValid() {
-        List<Integer> sources = getSources();
-        List<Integer> destinations = getDestinations();
+	
+	/**
+	 * This method is used to check the valid of pairs of hosts
+	 */
+	@Override
+	public void checkValid() {
+		List<Integer> sources = getSources();
+		List<Integer> destinations = getDestinations();
         
-        handleNotEnoughPair(sources, destinations);
+		handleNotEnoughPair(sources, destinations);
         
-        handleEnoughPair(sources, destinations);  
-    }
+		handleEnoughPair(sources, destinations);  
+	}
     
-    /**
-     * This method is used to handle if there are not enough pairs
-     * 
+	/**
+	 * This method is used to handle if there are not enough pairs
+	 * 
      * @param sources List of source hosts
      * @param destinations List of destination hosts
      */
-    private void handleNotEnoughPair(List<Integer> sources, List<Integer> destinations) {
-    	if (sources.size() != k * k * k / 4) {
-            System.out.println("Not enough pair! Just " + sources.size());
+	private void handleNotEnoughPair(List<Integer> sources, List<Integer> destinations) {
+		if (sources.size() != k * k * k / 4) {
+			System.out.println("Not enough pair! Just " + sources.size());
             for(int i = 0; i < sources.size(); i++) {
                 int realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
                 System.out.println("From " + sources.get(i) + " through " +
@@ -196,26 +196,25 @@ public class SameIDOutgoing extends OverSubscription {
             }
             System.exit(0);
         }
-    }
+	}
     
-    /**
+	/**
      * This method is used to handle if there are enough pairs
      * 
      * @param sources List of source hosts
      * @param destinations List of destination hosts
      */
-    private void handleEnoughPair(List<Integer> sources, List<Integer> destinations) {
-    	for (int i = 0; i < sources.size(); i++) {
+	private void handleEnoughPair(List<Integer> sources, List<Integer> destinations) {
+		for (int i = 0; i < sources.size(); i++) {
             int realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
             System.out.println("From " + sources.get(i) + " through " +
-                    getCoreSwitch(sources.get(i), destinations.get(i))
-                    + "/" + realCore
-                    + " to "
-                    + destinations.get(i) + "(HostID = " + getHostID(destinations.get(i)) + ")"
-            );           
-        }     
-    }
-
+            		getCoreSwitch(sources.get(i), destinations.get(i))
+            		+ "/" + realCore
+            		+ " to "
+            		+ destinations.get(i) + "(HostID = " + getHostID(destinations.get(i)) + ")"
+            		);           
+		}     
+	}
 }
 
 
