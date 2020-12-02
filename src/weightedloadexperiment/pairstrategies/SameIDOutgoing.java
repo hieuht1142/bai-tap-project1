@@ -108,7 +108,7 @@ public class SameIDOutgoing extends OverSubscription {
         	} else {
         		break;
         	}
-        }
+		}
 	}
 	
 	@Override
@@ -179,9 +179,9 @@ public class SameIDOutgoing extends OverSubscription {
 	/**
 	 * This method is used to handle if there are not enough pairs
 	 * 
-     * @param sources List of source hosts
-     * @param destinations List of destination hosts
-     */
+	 * @param sources List of source hosts
+	 * @param destinations List of destination hosts
+	 */
 	private void handleNotEnoughPair(List<Integer> sources, List<Integer> destinations) {
 		if (sources.size() != k * k * k / 4) {
 			System.out.println("Not enough pair! Just " + sources.size());
@@ -195,15 +195,15 @@ public class SameIDOutgoing extends OverSubscription {
                 );
             }
             System.exit(0);
-        }
+		}
 	}
     
 	/**
-     * This method is used to handle if there are enough pairs
-     * 
-     * @param sources List of source hosts
-     * @param destinations List of destination hosts
-     */
+	 * This method is used to handle if there are enough pairs
+	 * 
+	 * @param sources List of source hosts
+	 * @param destinations List of destination hosts
+	 */
 	private void handleEnoughPair(List<Integer> sources, List<Integer> destinations) {
 		for (int i = 0; i < sources.size(); i++) {
             int realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
