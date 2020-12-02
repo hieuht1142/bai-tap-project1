@@ -85,28 +85,28 @@ public class SameIDOutgoing extends OverSubscription {
 		int sameHostID = -1;
 		int numOfHosts = allHosts.length;
 		for (int j = i; j < i + (k/2); j++) {
-        	int src =  allHosts[j];
-        	boolean found = false;
-        	for (int k = 0; k < numOfHosts; k++) {
-        		int dst = allHosts[(k + delta) % numOfHosts];
-        		if (dst != src && !destinations.contains(dst) && !allTempDsts.contains(dst)) {
-        			if (sameHostID == -1) {
-            			sameHostID = getHostID(dst);
-            			allTempDsts.add(dst);
-            			found = true;
-            			break;
-            		} else if (sameHostID == getHostID(dst)) {
-            				allTempDsts.add(dst);
-            				found = true;
-            				break;
-            		}
-        		}
-        	}
-        	if(found) {
-        		allTempSrcs.add(src);
-        	} else {
-        		break;
-        	}
+			int src =  allHosts[j];
+			boolean found = false;
+			for (int k = 0; k < numOfHosts; k++) {
+				int dst = allHosts[(k + delta) % numOfHosts];
+				if (dst != src && !destinations.contains(dst) && !allTempDsts.contains(dst)) {
+					if (sameHostID == -1) {
+						sameHostID = getHostID(dst);
+						allTempDsts.add(dst);
+						found = true;
+						break;
+					} else if (sameHostID == getHostID(dst)) {
+						allTempDsts.add(dst);
+						found = true;
+						break;
+					}
+				}
+			}
+			if(found) {
+				allTempSrcs.add(src);
+			} else {
+				break;
+			}
 		}
 	}
 	
