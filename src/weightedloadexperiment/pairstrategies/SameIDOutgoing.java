@@ -101,14 +101,13 @@ public class SameIDOutgoing extends OverSubscription {
             				break;
             		}
         		}
-        		
         	}
         	if(found) {
         		allTempSrcs.add(src);
         	} else {
         		break;
         	}
-        }
+		}
 	}
 	
 	@Override
