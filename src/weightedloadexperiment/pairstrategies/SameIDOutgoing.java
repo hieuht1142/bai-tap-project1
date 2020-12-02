@@ -31,25 +31,24 @@ public class SameIDOutgoing extends OverSubscription {
 		setTypeOfAddresss();
 		List<Integer> sources = getSources();
 		List<Integer> destinations = getDestinations();
-	    Integer[] allHosts = this.getAllHosts();
-	    int numOfHosts = allHosts.length;
-	    int delta = RandomGenerator.nextInt(0, k*k*k/4);
-	    int count = 0;
-	    int i = 0; 
-	    while (i < numOfHosts && count < numOfHosts * 1000) {
-            List<Integer> allTempDsts = new ArrayList<Integer>();
-            List<Integer> allTempSrcs = new ArrayList<Integer>();
+		Integer[] allHosts = this.getAllHosts();
+		int numOfHosts = allHosts.length;
+		int delta = RandomGenerator.nextInt(0, k*k*k/4);
+		int count = 0;
+		int i = 0;
+		while (i < numOfHosts && count < numOfHosts * 1000) {
+			List<Integer> allTempDsts = new ArrayList<Integer>();
+			List<Integer> allTempSrcs = new ArrayList<Integer>();
             
-            pairing(i, allHosts, delta, destinations, allTempDsts, allTempSrcs);
+			pairing(i, allHosts, delta, destinations, allTempDsts, allTempSrcs);
             
-            if (allTempDsts.size() == k/2) {
-            	handleAllTempDsts(i, sources, destinations, allTempSrcs, allTempDsts);
-            }
-            else {
-            	delta = RandomGenerator.nextInt(0, k*k*k/4);
-            }
-            count++;
-	    }
+			if (allTempDsts.size() == k/2) {
+				handleAllTempDsts(i, sources, destinations, allTempSrcs, allTempDsts);
+			} else {
+				delta = RandomGenerator.nextInt(0, k*k*k/4);
+			}
+			count++;
+		}
 	}
 	
 	/**
@@ -59,17 +58,17 @@ public class SameIDOutgoing extends OverSubscription {
 										List<Integer> allTempSrcs, List<Integer> allTempDsts) {
 		
 		i += k/2;
-    	System.out.print("\n");
-    	sources.addAll(allTempSrcs);
-    	destinations.addAll(allTempDsts);
-    	for (int m = 0; m < allTempDsts.size(); m++) {
-    		System.out.print(allTempDsts.get(m) + "(" + getHostID(allTempDsts.get(m)) + ") ");
-    		int id = allTempDsts.get(m);
-    		Address host = G.getAddress(id);
-    		System.out.print("Addr: " + host._1 + "." + host._2 + "." + host._3 + "." + host._4);
-    		System.out.println();
-    	}
-    	System.out.print("\n");
+		System.out.print("\n");
+		sources.addAll(allTempSrcs);
+		destinations.addAll(allTempDsts);
+		for (int m = 0; m < allTempDsts.size(); m++) {
+			System.out.print(allTempDsts.get(m) + "(" + getHostID(allTempDsts.get(m)) + ") ");
+			int id = allTempDsts.get(m);
+			Address host = G.getAddress(id);
+			System.out.print("Addr: " + host._1 + "." + host._2 + "." + host._3 + "." + host._4);
+			System.out.println();
+		}
+		System.out.print("\n");
 	}
 	
 	/**
@@ -108,7 +107,7 @@ public class SameIDOutgoing extends OverSubscription {
         	} else {
         		break;
         	}
-		}
+        }
 	}
 	
 	@Override
@@ -185,16 +184,15 @@ public class SameIDOutgoing extends OverSubscription {
 	private void handleNotEnoughPair(List<Integer> sources, List<Integer> destinations) {
 		if (sources.size() != k * k * k / 4) {
 			System.out.println("Not enough pair! Just " + sources.size());
-            for(int i = 0; i < sources.size(); i++) {
-                int realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
-                System.out.println("From " + sources.get(i) + " through " +
-                        getCoreSwitch(sources.get(i), destinations.get(i))
-                        + "/" + realCore
-                        + " to "
-                        + destinations.get(i) + "(HostID = " + getHostID(destinations.get(i)) + ")"
-                );
-            }
-            System.exit(0);
+			for(int i = 0; i < sources.size(); i++) {
+				int realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
+				System.out.println("From " + sources.get(i) + " through " +
+						getCoreSwitch(sources.get(i), destinations.get(i))
+						+ "/" + realCore
+						+ " to "
+						+ destinations.get(i) + "(HostID = " + getHostID(destinations.get(i)) + ")");
+			}
+			System.exit(0);
 		}
 	}
     
@@ -206,13 +204,12 @@ public class SameIDOutgoing extends OverSubscription {
 	 */
 	private void handleEnoughPair(List<Integer> sources, List<Integer> destinations) {
 		for (int i = 0; i < sources.size(); i++) {
-            int realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
-            System.out.println("From " + sources.get(i) + " through " +
-            		getCoreSwitch(sources.get(i), destinations.get(i))
-            		+ "/" + realCore
-            		+ " to "
-            		+ destinations.get(i) + "(HostID = " + getHostID(destinations.get(i)) + ")"
-            		);           
+			int realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
+			System.out.println("From " + sources.get(i) + " through " +
+					getCoreSwitch(sources.get(i), destinations.get(i))
+					+ "/" + realCore
+					+ " to "
+					+ destinations.get(i) + "(HostID = " + getHostID(destinations.get(i)) + ")");           
 		}     
 	}
 }
