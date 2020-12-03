@@ -49,13 +49,8 @@ public class FLeavingSwitchEvent extends Event {
         }  
     }
     
-    /**
-     * This method is used to change state of packet, EXB and uniWay
-     * 
-     * @param exitBuffer exit buffer
-     * @param unidirectionalWay unidirectional Way
-     */
-    private void changeState(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+    @Override
+    public void changeState(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
     	//change Packet state
         if (packet.getState().type == Type.P5) {
             packet.setType(Type.P3);

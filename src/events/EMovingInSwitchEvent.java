@@ -43,14 +43,8 @@ public class EMovingInSwitchEvent extends Event {
 		}
 	}
 	
-	/**
-	 * This method is used to change state
-	 * 
-	 * @param entranceBuffer Entrance Buffer
-	 * @param exitBuffer Exit Buffer
-	 * @param sim DiscreteEventSimulator
-	 */
-	private void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
+	@Override
+	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
 		entranceBuffer.dropNextNode();
 		entranceBuffer.removePacket();
 		exitBuffer.insertPacket(packet);

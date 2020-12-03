@@ -44,7 +44,7 @@ public class BLeavingSourceQueueEvent extends Event {
 		if (((exitBuffer.getState().type == Type.X00) || (exitBuffer.getState().type == Type.X01))
 				&& (sourceQueue.getState() instanceof Sq2 && sourceQueue.isPeekPacket(packet))) {			
 			//change state source queue, type B1
-			changeStateSrcQueue(sourceQueue, exitBuffer);			
+			changeState(sourceQueue, exitBuffer);			
 			//change state EXB,  type b4
 			if (exitBuffer.isFull()) {
 				handleFullExitBuffer(exitBuffer);
@@ -54,12 +54,8 @@ public class BLeavingSourceQueueEvent extends Event {
 		}
 	}
 	
-	/**
-	 * This method is used to change state of source queue
-	 * @param sourceQueue
-	 * @param exitBuffer
-	 */
-	private void changeStateSrcQueue(SourceQueue sourceQueue, ExitBuffer exitBuffer) {
+	@Override
+	public void changeState(SourceQueue sourceQueue, ExitBuffer exitBuffer) {
 		if (sourceQueue.hasOnlyOnePacket()) {
 			sourceQueue.setState(new Sq1(sourceQueue));
 		}

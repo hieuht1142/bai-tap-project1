@@ -4,6 +4,7 @@ import events.DReachingENBEvent;
 import events.GReachingDestinationEvent;
 import events.IEventGenerator;
 import infrastructure.element.Element;
+import network.elements.EntranceBuffer;
 import network.elements.ExitBuffer;
 import network.elements.Packet;
 import network.elements.SourceQueue;
@@ -100,6 +101,45 @@ public abstract class Event extends umontreal.ssj.simevents.Event{
 	 * This method is used to create event type C
 	 */
 	public void generateEvent(SourceQueue sourceQueue, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
+		
+	}
+	
+	/**
+     * This method is used to change state of packet, EXB and uniWay
+     * 
+     * @param exitBuffer exit buffer
+     * @param unidirectionalWay unidirectional Way
+     */
+	public void changeState(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
+		
+	}
+	
+	/**
+	 * This method is used to change state
+	 * 
+	 * @param entranceBuffer Entrance Buffer
+	 * @param exitBuffer Exit Buffer
+	 * @param sim DiscreteEventSimulator
+	 */
+	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
+		
+	}
+	
+	/**
+     * This method is used to change state of EXB
+     * 
+     * @param unidirectionalWay Unidirectional Way
+     */
+	public void changeState(UnidirectionalWay unidirectionalWay) {
+		
+	}
+	
+	/**
+	 * This method is used to change state of source queue
+	 * @param sourceQueue
+	 * @param exitBuffer
+	 */
+	public void changeState(SourceQueue sourceQueue, ExitBuffer exitBuffer) {
 		
 	}
 
