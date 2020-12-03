@@ -18,8 +18,7 @@ public abstract class Event extends umontreal.ssj.simevents.Event{
 	public static int countSubEvent = 0;
 
 	protected IEventGenerator element;
-	
-	
+		
 	public Event(DiscreteEventSimulator sim, long time) {
 		super(sim);
 		this.eventTime = (double)time;
@@ -71,47 +70,43 @@ public abstract class Event extends umontreal.ssj.simevents.Event{
 			DiscreteEventSimulator sim, UnidirectionalWay unidirectionalWay, char type) {
 		
 		long time = (long)exitBuffer.physicalLayer.simulator.time();
-    	Event event = null;
-    	
-    	if (type == 'D') {
-    		event = new DReachingENBEvent(
-            		sim,
-            		time,
-                    time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
-                    unidirectionalWay, packet);
-    	} else if (type == 'G') {
-    		event = new GReachingDestinationEvent(
-            		sim,
-            		time,
-                    time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
-                    unidirectionalWay, packet);
-    	}
+		Event event = null;
+		
+		if (type == 'D') {
+			event = new DReachingENBEvent(
+					sim,
+					time,
+					time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
+					unidirectionalWay, packet);
+			} else if (type == 'G') {
+				event = new GReachingDestinationEvent(
+						sim,
+						time,
+						time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
+						unidirectionalWay, packet);
+			}
         
-        event.register(); // insert new event
+		event.register(); // insert new event
 	}
 	
 	/**
 	 * This method is used to create event type F
 	 */
-	public void generateEvent(ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
-		
+	public void generateEvent(ExitBuffer exitBuffer, DiscreteEventSimulator sim) {		
 	}
 	
 	/**
 	 * This method is used to create event type C
 	 */
-	public void generateEvent(SourceQueue sourceQueue, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
-		
+	public void generateEvent(SourceQueue sourceQueue, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {		
 	}
 	
 	/**
-     * This method is used to change state of packet, EXB and uniWay
-     * 
-     * @param exitBuffer exit buffer
-     * @param unidirectionalWay unidirectional Way
-     */
-	public void changeState(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {
-		
+	 * This method is used to change state of packet, EXB and uniWay
+	 * @param exitBuffer
+	 * @param unidirectionalWay
+	 */
+	public void changeState(ExitBuffer exitBuffer, UnidirectionalWay unidirectionalWay) {	
 	}
 	
 	/**
@@ -121,17 +116,15 @@ public abstract class Event extends umontreal.ssj.simevents.Event{
 	 * @param exitBuffer Exit Buffer
 	 * @param sim DiscreteEventSimulator
 	 */
-	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {
-		
+	public void changeState(EntranceBuffer entranceBuffer, ExitBuffer exitBuffer, DiscreteEventSimulator sim) {		
 	}
 	
 	/**
-     * This method is used to change state of EXB
-     * 
-     * @param unidirectionalWay Unidirectional Way
-     */
-	public void changeState(UnidirectionalWay unidirectionalWay) {
-		
+	 * This method is used to change state of EXB
+	 * 
+	 * @param unidirectionalWay
+	 */
+	public void changeState(UnidirectionalWay unidirectionalWay) {		
 	}
 	
 	/**
@@ -139,8 +132,6 @@ public abstract class Event extends umontreal.ssj.simevents.Event{
 	 * @param sourceQueue
 	 * @param exitBuffer
 	 */
-	public void changeState(SourceQueue sourceQueue, ExitBuffer exitBuffer) {
-		
+	public void changeState(SourceQueue sourceQueue, ExitBuffer exitBuffer) {		
 	}
-
 }
