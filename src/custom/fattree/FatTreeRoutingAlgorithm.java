@@ -17,13 +17,13 @@ import infrastructure.entity.Node;
  */
 public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
     
-    public FatTreeGraph G;
+	public FatTreeGraph G;
     
-    public Map<Pair<Integer, Integer>, RoutingPath> precomputedPaths = new HashMap<>();
+	public Map<Pair<Integer, Integer>, RoutingPath> precomputedPaths = new HashMap<>();
     
-    public Map<Integer, Map<Integer, Integer>> suffixTables = new HashMap<>();
+	public Map<Integer, Map<Integer, Integer>> suffixTables = new HashMap<>();
     
-    public Map<Integer, Map<Integer, Integer>> getSuffixTables() {
+	public Map<Integer, Map<Integer, Integer>> getSuffixTables() {
 		return suffixTables;
 	}
 
@@ -33,7 +33,7 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 
 	private Map<Integer, Map<Triplet<Integer, Integer, Integer>, Integer>> prefixTables = new HashMap<>();
 	
-    public void setCorePrefixTables(Map<Integer, Map<Pair<Integer, Integer>, Integer>> corePrefixTables) {
+	public void setCorePrefixTables(Map<Integer, Map<Pair<Integer, Integer>, Integer>> corePrefixTables) {
 		this.corePrefixTables = corePrefixTables;
 	}
 
@@ -48,119 +48,117 @@ public class FatTreeRoutingAlgorithm implements RoutingAlgorithm, Cloneable {
 	private Map<Integer, Map<Pair<Integer, Integer>, Integer>> corePrefixTables = new HashMap<>();
 
 	public FatTreeRoutingAlgorithm(FatTreeGraph G, boolean precomputed) {
-        this.G = G;
-        buildTables();
-        if (precomputed) {
-            List<Integer> hosts = G.hosts();
-            for (int i = 0; i < hosts.size() - 1; i++) {
-                for (int j = i + 1; j < hosts.size(); j++) {
-                    int source = hosts.get(i);
-                    int destination = hosts.get(j);
-                    path(source, destination);
-                }
-            }
-        }
-    }
+		this.G = G;
+		buildTables();
+		if (precomputed) {
+			List<Integer> hosts = G.hosts();
+			for (int i = 0; i < hosts.size() - 1; i++) {
+				for (int j = i + 1; j < hosts.size(); j++) {
+					int source = hosts.get(i);
+					int destination = hosts.get(j);
+					path(source, destination);
+				}
+			}
+		}
+	}
 	
 	
-    /**
-     * This method is used to build prefix - suffix routing tables
-     * for edge switches, aggregation switches and core switches
-     */
-    private void buildTables() {
-        int k = G.getK();
-        int numEachPod = k * k / 4 + k;
+	/**
+	 * This method is used to build prefix - suffix routing tables
+	 * for edge switches, aggregation switches and core switches
+	 */
+	private void buildTables() {
+		int k = G.getK();
+		int numEachPod = k * k / 4 + k;
         
-        buildEdgeTable(k, numEachPod);
-        buildAggTable(k, numEachPod);
-        buildCoreTable(k, numEachPod);
-        
-    }
+		buildEdgeTable(k, numEachPod);
+		buildAggTable(k, numEachPod);
+		buildCoreTable(k, numEachPod);       
+	}
     
-    /**
-     * This method is used to build suffix routing tables for edge switches
-     *
-     * @param k the constant k in k-ary fat-tree
-     * @param numEachPod the number of nodes of each pod in the fat-tree topology
-     */
-    private void buildEdgeTable(int k, int numEachPod) {
-        for (int p = 0; p < k; p++) { // There are k pod in fat-tree topology
-            int offset = numEachPod * p;
-            for (int e = 0; e < k / 2; e++) {
-                int edgeSwitch = offset + k * k / 4 + e; // edgeSwitch denotes id of edge switches
+	/**
+	 * This method is used to build suffix routing tables for edge switches
+	 *
+	 * @param k the constant k in k-ary fat-tree
+	 * @param numEachPod the number of nodes of each pod in the fat-tree topology
+	 */
+	private void buildEdgeTable(int k, int numEachPod) {
+		for (int p = 0; p < k; p++) { // There are k pod in fat-tree topology
+			int offset = numEachPod * p;
+			for (int e = 0; e < k / 2; e++) {
+				int edgeSwitch = offset + k * k / 4 + e; // edgeSwitch denotes id of edge switches
                 
-                // create suffix table
-                HashMap<Integer, Integer> suffixTable = new HashMap<>();
-                for (int suffix = 2; suffix <= k / 2 + 1; suffix++) {
-                	// add suffix 0.0.0.suffix/8 and port (e + suffix - 2) % (k / 2) for each edge switch
-                    int agg = offset + k * k / 4 + (e + suffix - 2) % (k / 2) + (k / 2);
-                    suffixTable.put(suffix, agg);
-                }
-                suffixTables.put(edgeSwitch, suffixTable);
-            }
-        }
-    }
+				// create suffix table
+				HashMap<Integer, Integer> suffixTable = new HashMap<>();
+				for (int suffix = 2; suffix <= k / 2 + 1; suffix++) {
+					// add suffix 0.0.0.suffix/8 and port (e + suffix - 2) % (k / 2) for each edge switch
+					int agg = offset + k * k / 4 + (e + suffix - 2) % (k / 2) + (k / 2);
+					suffixTable.put(suffix, agg);
+				}
+				suffixTables.put(edgeSwitch, suffixTable);
+			}
+		}
+	}
     
-    /**
-     * This method is used to build prefix - suffix routing tables for edge switches
-     *
-     * @param k the constant k in k-ary fat-tree
-     * @param numEachPod the number of nodes in each pod in the fat-tree topology
-     */
-    private void buildAggTable(int k, int numEachPod) {
-        for (int p = 0; p < k; p++) {
-            int offset = numEachPod * p;
-            for (int a = 0; a < k / 2; a++) {
-                int aggSwitch = offset + k * k / 4 + k / 2 + a;
+	/**
+	 * This method is used to build prefix - suffix routing tables for edge switches
+	 *
+	 * @param k the constant k in k-ary fat-tree
+	 * @param numEachPod the number of nodes in each pod in the fat-tree topology
+	 */
+	private void buildAggTable(int k, int numEachPod) {
+		for (int p = 0; p < k; p++) {
+			int offset = numEachPod * p;
+			for (int a = 0; a < k / 2; a++) {
+				int aggSwitch = offset + k * k / 4 + k / 2 + a;
 
-                // create suffix table
-                Map<Integer, Integer> suffixTable = new HashMap<>();
-                for (int suffix = 2; suffix <= k / 2 + 1; suffix++) { 
-                	// add suffix 0.0.0.suffix/8 and port (suffix + a - 2) % (k / 2)  for each aggregation switch
-                    int core = a * k / 2 + (suffix + a - 2) % (k / 2) + numEachPod * k;
-                    suffixTable.put(suffix, core);
-                }		
+				// create suffix table
+				Map<Integer, Integer> suffixTable = new HashMap<>();
+				for (int suffix = 2; suffix <= k / 2 + 1; suffix++) { 
+					// add suffix 0.0.0.suffix/8 and port (suffix + a - 2) % (k / 2)  for each aggregation switch
+					int core = a * k / 2 + (suffix + a - 2) % (k / 2) + numEachPod * k;
+					suffixTable.put(suffix, core);
+				}		
                 
-                suffixTables.put(aggSwitch, suffixTable);
+				suffixTables.put(aggSwitch, suffixTable);
 
-                // create prefix table
-                Map<javatuples.Triplet<Integer, Integer, Integer>, Integer> prefixTable = new HashMap<>();
-                for (int e = 0; e < k / 2; e++) { // e denotes the subnet number
-                	// add prefix 10.p.e.0/24 and port e for each edge switch
-                    int edgeSwitch = offset + k * k / 4 + e;
-                    prefixTable.put(new javatuples.Triplet<>(10, p, e), edgeSwitch);
-                }
+				// create prefix table
+				Map<javatuples.Triplet<Integer, Integer, Integer>, Integer> prefixTable = new HashMap<>();
+				for (int e = 0; e < k / 2; e++) { // e denotes the subnet number
+					// add prefix 10.p.e.0/24 and port e for each edge switch
+					int edgeSwitch = offset + k * k / 4 + e;
+					prefixTable.put(new javatuples.Triplet<>(10, p, e), edgeSwitch);
+				}
                 
-                prefixTables.put(aggSwitch, prefixTable);
-
-            }
-        }
-    }
+				prefixTables.put(aggSwitch, prefixTable);
+			}
+		}
+	}
     
-    /**
-     * This method is used to build prefix routing tables for edge switches
-     *
-     * @param k the constant k in k-ary fat-tree
-     * @param numEachPod the number of nodes in each pod in the fat-tree topology
-     */
-    private void buildCoreTable(int k, int numEachPod) {
-        for (int c = 0; c < k * k / 4; c++) {
-            int core = k * k * k / 4 + k * k + c;
+	/**
+	 * This method is used to build prefix routing tables for edge switches
+	 *
+	 * @param k the constant k in k-ary fat-tree
+	 * @param numEachPod the number of nodes in each pod in the fat-tree topology
+	 */
+	private void buildCoreTable(int k, int numEachPod) {
+		for (int c = 0; c < k * k / 4; c++) {
+			int core = k * k * k / 4 + k * k + c;
 
-            // create prefix table
-            HashMap<Pair<Integer, Integer>, Integer> corePrefixTable = new HashMap<>();
-            for (int p = 0; p < k; p++) { 
-            	// add prefix 10.p.0.0/16 and port p for core switch pointing to destination pod
-                int offset = numEachPod * p;
-                int agg = (c / (k / 2)) + k / 2 + k * k / 4 + offset;
-                corePrefixTable.put(new Pair<>(10, p), agg);
-            }
-            corePrefixTables.put(core, corePrefixTable);
-        }
-    }
+			// create prefix table
+			HashMap<Pair<Integer, Integer>, Integer> corePrefixTable = new HashMap<>();
+			for (int p = 0; p < k; p++) { 
+				// add prefix 10.p.0.0/16 and port p for core switch pointing to destination pod
+				int offset = numEachPod * p;
+				int agg = (c / (k / 2)) + k / 2 + k * k / 4 + offset;
+				corePrefixTable.put(new Pair<>(10, p), agg);
+			}
+			corePrefixTables.put(core, corePrefixTable);
+		}
+	}
 
     
-    /**
+	/**
      * @param source the id of the source host
      * @param current the id of the current switch
      * @param destination the id of the destination host

@@ -35,63 +35,62 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	}
 	
 	/**
-     * @param source the id of the source host
-     * @param current the id of the current switch
-     * @param destination the id of the destination host
-     * @return the id of the next node which the packet will be forwarded to
-     */
+	 * @param source the id of the source host
+	 * @param current the id of the current switch
+	 * @param destination the id of the destination host
+	 * @return the id of the next node which the packet will be forwarded to
+	 */
 	@Override
-    public int next(int source, int current, int destination) {
-        if (G.isHostVertex(current)) {
-            return G.adj(current).get(0);
-        } else if (G.adj(current).contains(destination)) {
-        	System.exit(0);
-            return destination;
-        } else {
-            int type = G.switchType(current);
-            if (type == FatTreeGraph.CORE) { // the current switch is core switch	
-                return super.next(source, current, destination);      
-            } else if (type == FatTreeGraph.AGG) { // the current switch is agg switch
+	public int next(int source, int current, int destination) {
+		if (G.isHostVertex(current)) {
+			return G.adj(current).get(0);
+		} else if (G.adj(current).contains(destination)) {
+			System.exit(0);
+			return destination;
+		} else {
+			int type = G.switchType(current);
+			if (type == FatTreeGraph.CORE) { // the current switch is core switch	
+				return super.next(source, current, destination);      
+			} else if (type == FatTreeGraph.AGG) { // the current switch is agg switch
                 return nextAgg(current, destination);
-            } else { // the current switch is edge switch
-                return nextEdge(current, destination);
-            }
-
-        }
-    }
-	
-	/**
-     * @param current the id of the the current aggregation switch
-     * @param destination the id of the destination host
-     * @return the id of the next node which the packet will be forwarded to
-     */
-	private int nextAgg(int current, int destination) {
-		Address address = G.getAddress(destination);
-
-        Triplet<Integer, Integer, Integer> prefix = new Triplet<>(address._1, address._2, address._3);
-        int suffix = address._4;
-
-        Map<Triplet<Integer, Integer, Integer>, Integer> prefixTable = getPrefixTables().get(current);
-        Map<Integer, Integer> suffixTable = suffixTables.get(current);
-
-        if (prefixTable.containsKey(prefix)) {
-            return prefixTable.get(prefix);
-        } else {
-            return suffixTable.get(suffix);
-        }
+			} else { // the current switch is edge switch
+				return nextEdge(current, destination);
+			}
+		}
 	}
 	
 	/**
-     * @param current the id of the current edge switch
-     * @param destination the id of the destination host
-     * @return the id of the next node which the packet will be forwarded to
-     */
+	 * @param current the id of the the current aggregation switch
+	 * @param destination the id of the destination host
+	 * @return the id of the next node which the packet will be forwarded to
+	 */
+	private int nextAgg(int current, int destination) {
+		Address address = G.getAddress(destination);
+
+		Triplet<Integer, Integer, Integer> prefix = new Triplet<>(address._1, address._2, address._3);
+		int suffix = address._4;
+
+		Map<Triplet<Integer, Integer, Integer>, Integer> prefixTable = getPrefixTables().get(current);
+		Map<Integer, Integer> suffixTable = suffixTables.get(current);
+
+		if (prefixTable.containsKey(prefix)) {
+			return prefixTable.get(prefix);
+		} else {
+			return suffixTable.get(suffix);
+		}
+	}
+	
+	/**
+	 * @param current the id of the current edge switch
+	 * @param destination the id of the destination host
+	 * @return the id of the next node which the packet will be forwarded to
+	 */
 	private int nextEdge(int current, int destination) {
 		Address address = G.getAddress(destination);
-        int suffix = address._4;
+		int suffix = address._4;
 
-        Map<Integer, Integer> suffixTable = suffixTables.get(current);
-        return suffixTable.get(suffix);
+		Map<Integer, Integer> suffixTable = suffixTables.get(current);
+		return suffixTable.get(suffix);
 	}
 	
 	/**
@@ -106,20 +105,20 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		int source = packet.getSource();
 		
 		if (G.isHostVertex(current)) {
-            return G.adj(current).get(0);
-        } else if (G.adj(current).contains(destination)) {
-            return destination;
-        } else {
-            int type = G.switchType(current);
-            if (type == FatTreeGraph.CORE) { // the current switch is core switch
-                return super.next(source, current, destination); 
-            } else if (type == FatTreeGraph.AGG) { // the current switch is agg switch
-            	return nextAgg(current, destination);
-	        } else { // the current switch is edge switch
-	            return nextEdge(current, destination);
-	        }
-        }
-    }
+			return G.adj(current).get(0);
+		} else if (G.adj(current).contains(destination)) {
+			return destination;
+		} else {
+			int type = G.switchType(current);
+			if (type == FatTreeGraph.CORE) { // the current switch is core switch
+				return super.next(source, current, destination); 
+			} else if (type == FatTreeGraph.AGG) { // the current switch is agg switch
+				return nextAgg(current, destination);
+			} else { // the current switch is edge switch
+				return nextEdge(current, destination);
+			}
+		}
+	}
 
 	@Override
 	public RoutingAlgorithm build(Node node) throws CloneNotSupportedException {
@@ -133,31 +132,30 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 			return ftfc;
 		}
 		return ra;
-    }
+	}
 	
 	@Override
 	public void update(Packet p, Node node) {
-    	int src = p.getSource();
-    	int dst = p.getDestination();
-    	int currentTime = (int) node.physicalLayer.simulator.time();
-    	if (currentTime - time >= Constant.TIME_REARRANGE) {
-    		time = currentTime;
-    		// Update the result of the routing table
-    		flowSizesPerDuration = new HashMap<Pair<Integer, Integer>, Long>();
-    	} else {
-    		Pair<Integer, Integer> flow = new Pair<>(src, dst);
-    		long value = p.getSize();
-    		if (flowSizesPerDuration.containsKey(flow)) {
-    			value += flowSizesPerDuration.get(flow);
-    		}
-    		flowSizesPerDuration.put(flow, value);
-    		value = p.getSize();
-    		int idNextNode = node.getId();
-    		if (outgoingTraffic.containsKey(idNextNode)) {
-    			value += outgoingTraffic.get(idNextNode);
-    		}
-    		outgoingTraffic.put(idNextNode, value);
-    	}
-    }
-	
+		int src = p.getSource();
+		int dst = p.getDestination();
+		int currentTime = (int) node.physicalLayer.simulator.time();
+		if (currentTime - time >= Constant.TIME_REARRANGE) {
+			time = currentTime;
+			// Update the result of the routing table
+			flowSizesPerDuration = new HashMap<Pair<Integer, Integer>, Long>();
+		} else {
+			Pair<Integer, Integer> flow = new Pair<>(src, dst);
+			long value = p.getSize();
+			if (flowSizesPerDuration.containsKey(flow)) {
+				value += flowSizesPerDuration.get(flow);
+			}
+			flowSizesPerDuration.put(flow, value);
+			value = p.getSize();
+			int idNextNode = node.getId();
+			if (outgoingTraffic.containsKey(idNextNode)) {
+				value += outgoingTraffic.get(idNextNode);
+			}
+			outgoingTraffic.put(idNextNode, value);
+		}
+	}	
 }

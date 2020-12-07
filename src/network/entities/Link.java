@@ -13,11 +13,11 @@ import java.util.Map;
  * Created by Dandoh on 6/27/17.
  */
 public class Link extends Device {
-   
+	
 	private Map<Integer, UnidirectionalWay> ways;
-    private long bandwidth;
+	private long bandwidth;
     
-    public long getBandwidth() {
+	public long getBandwidth() {
 		return bandwidth;
 	}
 
@@ -27,27 +27,27 @@ public class Link extends Device {
 
 	private double length;
 
-    public Link(Node u, Node v) {
-        super(0);
-        this.ways = new HashMap<>();
-        ways.put(u.getId() ,new UnidirectionalWay(u, v, this));
-        ways.put(v.getId() ,new UnidirectionalWay(v, u, this));
+	public Link(Node u, Node v) {
+		super(0);
+		this.ways = new HashMap<>();
+		ways.put(u.getId() ,new UnidirectionalWay(u, v, this));
+		ways.put(v.getId() ,new UnidirectionalWay(v, u, this));
 
-        this.bandwidth = Constant.LINK_BANDWIDTH;
-        this.length = Constant.DEFAULT_LINK_LENGTH;
-    }
+		this.bandwidth = Constant.LINK_BANDWIDTH;
+		this.length = Constant.DEFAULT_LINK_LENGTH;
+	}
 
-    public Link(Node u, Node v, double length) {
-        this(u, v);
-        this.length = length;
-    }
+	public Link(Node u, Node v, double length) {
+		this(u, v);
+		this.length = length;
+	}
 
     /**
      * This method is used to get other node into the link
      */
     public Node getOtherNode(Node node) {
-        return ways.get(node.getId()).getToNode();
-    }
+    	return ways.get(node.getId()).getToNode();
+	}
 
     /**
      * This method is used to get way to other node

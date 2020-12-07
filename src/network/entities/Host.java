@@ -62,7 +62,7 @@ public class Host extends Node {
 	public void receivePacket(Packet packet) {
 		double currentTime = this.physicalLayer.simulator.getTime();
 		this.physicalLayer.simulator.numReceived++;
-		if(this.receivedPacketInNode == 0) {
+		if (this.receivedPacketInNode == 0) {
 			this.firstTx = currentTime;
 		}
 		this.receivedPacketInNode ++;
@@ -72,7 +72,7 @@ public class Host extends Node {
 
 		this.physicalLayer.simulator.totalPacketTime += packet.timeTravel();
 		this.physicalLayer.simulator.totalHop += packet.nHop;
-   }
+	}
    
 	@Override
 	public boolean isDestinationNode() {

@@ -22,74 +22,73 @@ public class ForcePair extends InterPodIncoming {
 	@Override
 	public void checkValid() {
 		List<Integer> sources = getSources();
-        List<Integer> destinations = getDestinations();
-        int realCore = 0;
+		List<Integer> destinations = getDestinations();
+		int realCore = 0;
         
-        for(int i = 0; i < sources.size(); i++) {
-            realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
-            System.out.println("From " + sources.get(i) + " through " +
-                    getCoreSwitch(sources.get(i), destinations.get(i))
-                    + "/" + realCore
-                    + " to "
-                    + destinations.get(i) 
-            );  
-        }
-    }
+		for(int i = 0; i < sources.size(); i++) {
+			realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
+			System.out.println("From " + sources.get(i) + " through " +
+					getCoreSwitch(sources.get(i), destinations.get(i))
+					+ "/" + realCore
+					+ " to "
+					+ destinations.get(i) );  
+		}
+	}
 	
 	/**
 	 * This method is used to pair hosts
 	 */
 	public void pairHosts() {
 		List<Integer> sources = getSources();
-        List<Integer> destinations = getDestinations();
+		List<Integer> destinations = getDestinations();
         
-        if(this.modulo != 0) {
-        	Integer[] pairs = pairHostsByModulo(this.modulo);
-        	sources.addAll(Arrays.asList(pairs));
-        } else {
-	        sources.add(1);
-	        sources.add(2);
-	        sources.add(3);
-	        sources.add(0);
+		if(this.modulo != 0) {
+			Integer[] pairs = pairHostsByModulo(this.modulo);
+			sources.addAll(Arrays.asList(pairs));
+		} else {
+			sources.add(1);
+			sources.add(2);
+			sources.add(3);
+			sources.add(0);
 	        
-	        sources.add(9);
-	        sources.add(10);
-	        sources.add(11);
-	        sources.add(18);
+			sources.add(9);
+			sources.add(10);
+			sources.add(11);
+			sources.add(18);
 	        
-	        sources.add(8);
-	        sources.add(17);
-	        sources.add(26);
-	        sources.add(19);
+			sources.add(8);
+			sources.add(17);
+			sources.add(26);
+			sources.add(19);
 	        
-	        sources.add(16);
-	        sources.add(25);
-	        sources.add(27);
-	        sources.add(24);
-        }
+			sources.add(16);
+			sources.add(25);
+			sources.add(27);
+			sources.add(24);
+		}
         
-        destinations.add(11);
-        destinations.add(16);
-        destinations.add(25);
-        destinations.add(18);
+		destinations.add(11);
+		destinations.add(16);
+		destinations.add(25);
+		destinations.add(18);
         
-        destinations.add(19);
-        destinations.add(24);
-        destinations.add(26);
-        destinations.add(27);
+		destinations.add(19);
+		destinations.add(24);
+		destinations.add(26);
+		destinations.add(27);
         
-        destinations.add(0);
-        destinations.add(1);
-        destinations.add(2);
-        destinations.add(3);
+		destinations.add(0);
+		destinations.add(1);
+		destinations.add(2);
+		destinations.add(3);
         
-        destinations.add(8);
-        destinations.add(9);
-        destinations.add(10);
-        destinations.add(17);
+		destinations.add(8);
+		destinations.add(9);
+		destinations.add(10);
+		destinations.add(17);
         
 		this.setSources(sources);
-        this.setDestinations(destinations);
+		this.setDestinations(destinations);
 	}
 	
 	/**

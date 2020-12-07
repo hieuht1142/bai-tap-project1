@@ -18,9 +18,9 @@ public abstract class OverSubscription extends PairGenerator {
 	public int modulo ;
 	
 	public int k;
-	 
-    public FatTreeRoutingAlgorithm routing;
-    public FatTreeGraph G;
+	
+	public FatTreeRoutingAlgorithm routing;
+	public FatTreeGraph G;
     
 	
 	public OverSubscription() {
@@ -57,10 +57,10 @@ public abstract class OverSubscription extends PairGenerator {
     }
 	
 	@Override
-    public void setAllHosts(Integer[] allHosts) {
-    	super.setAllHosts(allHosts);
-    	this.modulo = allHosts.length;
-    }
+	public void setAllHosts(Integer[] allHosts) {
+		super.setAllHosts(allHosts);
+		this.modulo = allHosts.length;
+	}
 	
 	/**
 	 * @param source source host
@@ -68,39 +68,36 @@ public abstract class OverSubscription extends PairGenerator {
 	 * @return core switch id
 	 */
 	public int getCoreSwitch(int source, int destination) {
-        int edge = G.adj(source).get(0);
-        int agg = G.adj(edge).get(k/2);
-        int core = G.adj(agg).get(k/2);
-        return core;
-    }
+		int edge = G.adj(source).get(0);
+		int agg = G.adj(edge).get(k/2);
+		int core = G.adj(agg).get(k/2);
+		return core;
+	}
 
 	/**
 	 * @param source source host
 	 * @param destination destination host
 	 * @return real core switch id
 	 */
-    public int getRealCoreSwitch(int source, int destination) {
-        int edge = G.adj(source).get(0);
-        Address address = G.getAddress(destination);
-        Map<Integer, Map<Integer, Integer>> suffixTables = routing.getSuffixTables();
-        Map<Integer, Map<Triplet<Integer, Integer, Integer>, Integer>> prefixTables = routing.getPrefixTables();
+	public int getRealCoreSwitch(int source, int destination) {
+		int edge = G.adj(source).get(0);
+		Address address = G.getAddress(destination);
+		Map<Integer, Map<Integer, Integer>> suffixTables = routing.getSuffixTables();
+		Map<Integer, Map<Triplet<Integer, Integer, Integer>, Integer>> prefixTables = routing.getPrefixTables();
 
-        Map<Integer, Integer> suffixTable = suffixTables.get(edge);
-        int suffix = address._4;
-        int agg = suffixTable.get(suffix);
+		Map<Integer, Integer> suffixTable = suffixTables.get(edge);
+		int suffix = address._4;
+		int agg = suffixTable.get(suffix);
 
-        Triplet<Integer, Integer, Integer> prefix
-                = new Triplet<>(address._1, address._2, address._3);
+		Triplet<Integer, Integer, Integer> prefix = new Triplet<>(address._1, address._2, address._3);
 
-        Map<Triplet<Integer, Integer, Integer>, Integer> prefixTable =
-                prefixTables.get(agg);
-        suffixTable = suffixTables.get(agg);
+		Map<Triplet<Integer, Integer, Integer>, Integer> prefixTable = prefixTables.get(agg);
+		suffixTable = suffixTables.get(agg);
 
-        if (prefixTable.containsKey(prefix)) {
-            return prefixTable.get(prefix);
-        } else {
-            return suffixTable.get(suffix);
-        }
-    }
-
+		if (prefixTable.containsKey(prefix)) {
+			return prefixTable.get(prefix);
+		} else {
+			return suffixTable.get(suffix);
+		}
+	}
 }

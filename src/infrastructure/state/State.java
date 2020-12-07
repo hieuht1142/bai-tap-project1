@@ -59,22 +59,22 @@ public class State {
 	 */
 	private void handleCurrentNode(Node currentNode, DiscreteEventSimulator sim, ExitBuffer exitBuffer) {
 		if (currentNode.isSourceNode()) {
-            Host sourceNode = (Host)currentNode;
-            SourceQueue sourceQueue = sourceNode.physicalLayer.sourceQueue;
-            Packet packet = sourceQueue.getPeekPacket();
-            if (packet != null) {
-                if (!sourceQueue.hasEventOfPacket(packet)) {
-                	long time = (long)sourceQueue.physicalLayer.simulator.time();
-                    Event event = new BLeavingSourceQueueEvent(
-                    		sim,
-                    		time, time, sourceQueue, packet);
-                    event.register(); // insert new event
-                }
-            }
-        } else if (currentNode instanceof Switch) {
-            Switch sw = (Switch)currentNode;
-            exitBuffer.getNode().getNetworkLayer().controlFlow(exitBuffer);
-        }
+			Host sourceNode = (Host)currentNode;
+			SourceQueue sourceQueue = sourceNode.physicalLayer.sourceQueue;
+			Packet packet = sourceQueue.getPeekPacket();
+			if (packet != null) {
+				if (!sourceQueue.hasEventOfPacket(packet)) {
+					long time = (long)sourceQueue.physicalLayer.simulator.time();
+					Event event = new BLeavingSourceQueueEvent(
+							sim,
+							time, time, sourceQueue, packet);
+					event.register(); // insert new event
+				}
+			}
+		} else if (currentNode instanceof Switch) {
+			Switch sw = (Switch)currentNode;
+			exitBuffer.getNode().getNetworkLayer().controlFlow(exitBuffer);
+		}
 	}
 	
 	/**
@@ -85,22 +85,21 @@ public class State {
 	private void handlePacket(Packet packet, ExitBuffer exitBuffer) {
 		if (packet != null) {
             if (!(exitBuffer.hasEventOfPacket(packet))) {
-                if (exitBuffer.getNode().isSourceNode()) {
-                	long time = (long) exitBuffer.physicalLayer.simulator.time();
-                    Event event = new CLeavingEXBEvent(
-                    		exitBuffer.physicalLayer.simulator,
-                    		time, time, exitBuffer, packet);
-                    event.register(); // insert new event
-                }
-                else if (exitBuffer.getNode() instanceof Switch) {
-                	long time = (long) exitBuffer.physicalLayer.simulator.time();
-                    Event event = new FLeavingSwitchEvent(
-                    		exitBuffer.physicalLayer.simulator,
-                    		time, time + Constant.SWITCH_CYCLE, exitBuffer, packet);
-                    event.register(); // insert new event
-                }
+            	if (exitBuffer.getNode().isSourceNode()) {
+            		long time = (long) exitBuffer.physicalLayer.simulator.time();
+            		Event event = new CLeavingEXBEvent(
+            				exitBuffer.physicalLayer.simulator,
+            				time, time, exitBuffer, packet);
+            		event.register(); // insert new event
+            	} else if (exitBuffer.getNode() instanceof Switch) {
+            		long time = (long) exitBuffer.physicalLayer.simulator.time();
+            		Event event = new FLeavingSwitchEvent(
+            				exitBuffer.physicalLayer.simulator,
+            				time, time + Constant.SWITCH_CYCLE, exitBuffer, packet);
+            		event.register(); // insert new event
+            	}
             }
-        }
+		}
 	}
 	
 	

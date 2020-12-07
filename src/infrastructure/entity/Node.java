@@ -35,23 +35,23 @@ public abstract class Node extends Device {
 		this.networkLayer = networkLayer;
 	}
 	
-    public Node(int id) {
-        super(id);
-    }
+	public Node(int id) {
+		super(id);
+	}
     
-    /**
-     * This method is used to set simulator for device
-     * @param sim simulator
-     */
-    public void setSimulator(DiscreteEventSimulator sim) {
-    	physicalLayer.simulator = sim;
-    }
+	/**
+	 * This method is used to set simulator for device
+	 * @param sim simulator
+	 */
+	public void setSimulator(DiscreteEventSimulator sim) {
+		physicalLayer.simulator = sim;
+	}
     
-    public boolean isDestinationNode() {
-    	return false;
-    }
+	public boolean isDestinationNode() {
+		return false;
+	}
     
-    public boolean isSourceNode() {
-    	return false;
-    }
+	public boolean isSourceNode() {
+		return false;
+	}
 }

@@ -146,13 +146,11 @@ public class GridGraph extends Graph {
     public double pathCableLength(List<Integer> path) {
         double length = 0;
 
-        for (int i = 0; i < path.size() - 1; i++)
-//            if (isSwitchVertex(path.get(i)) && isSwitchVertex(path.get(i + 1))) {
-                length += euclidDistance(path.get(i), path.get(i + 1));
-//            }
-
+        for (int i = 0; i < path.size() - 1; i++) {
+        	length += euclidDistance(path.get(i), path.get(i + 1));
+        }	
         return length;
-    }
+	}
 
     public List<Integer> getHostsOfSwitch(int sid) {
         List<Integer> result = new ArrayList<>();
