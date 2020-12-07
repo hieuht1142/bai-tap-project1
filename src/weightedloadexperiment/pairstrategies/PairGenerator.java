@@ -18,6 +18,10 @@ public abstract class PairGenerator {
         return allHosts;
     }
 
+    /**
+     * This method is used to set the array of all hosts
+     * @param allHosts
+     */
     public void setAllHosts(Integer[] allHosts) {
     	this.allHosts = allHosts;
     }
@@ -60,7 +64,13 @@ public abstract class PairGenerator {
         
     }
     
-    
+    /**
+     * 
+     * @param link
+     * @param maxIndexOfCore max index of core switch
+     * @param minIndexOfCore min index of core switch
+     * @return true if link is oversubscripted
+     */
     public static boolean isOversubscriptedLink(Link link, int maxIndexOfCore, int minIndexOfCore) {
     	
     	boolean result = false;

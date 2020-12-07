@@ -13,6 +13,11 @@ public class RoutingTable {
         return table;
     }
 
+    /**
+     * This method is used to add routes for routing table
+     * @param destination
+     * @param nextHop
+     */
     public void addRoute(int destination, int nextHop) {
         table.put(destination, nextHop);
     }
@@ -21,6 +26,10 @@ public class RoutingTable {
         return table.get(u);
     }
 
+    /**
+     * This method is used get size of the routing table
+     * @return size of the routing table
+     */
     public int size() {
         return table.size();
     }

@@ -11,5 +11,4 @@ public class Switch extends Node {
 	public Switch(int id) {
 		super(id);
 	}
-
 }

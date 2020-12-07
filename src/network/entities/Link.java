@@ -42,23 +42,32 @@ public class Link extends Device {
         this.length = length;
     }
 
+    /**
+     * This method is used to get other node into the link
+     */
     public Node getOtherNode(Node node) {
         return ways.get(node.getId()).getToNode();
     }
 
-
-    public UnidirectionalWay getWayToOtherNode(Node node){
+    /**
+     * This method is used to get way to other node
+     */
+    public UnidirectionalWay getWayToOtherNode(Node node) {
         return ways.get(node.getId());
     }
 
-    public Map<Integer, UnidirectionalWay> Ways(){
+    public Map<Integer, UnidirectionalWay> Ways() {
         return ways;
     }
 
+    /**
+     * This method is used to calculate the serial latency
+     * @param packetSize the size of packet
+     * @return the serial latency
+     */
     public long serialLatency(int packetSize) {
     	if (OverSubscription.isOversubscriptedLink(this, 35, 32)) {
-    		if(this.bandwidth != OverSubscription.OVERSUBSCRIPTION_BANDWIDTH)
-    		{
+    		if(this.bandwidth != OverSubscription.OVERSUBSCRIPTION_BANDWIDTH) {
     			System.exit(0);
     		}
     	} else {
@@ -69,10 +78,17 @@ public class Link extends Device {
         return (long) (1e9 * packetSize / this.bandwidth);
     }
     
+    /**
+     * @return the propagation latency
+     */
     public long propagationLatency() {
         return (long) (length / Constant.PROPAGATION_VELOCITY);
     }
 
+    /**
+     * @param packetSize the size of packet
+     * @return total latency
+     */
     public long getTotalLatency(int packetSize) {
         return serialLatency(packetSize) + propagationLatency();
     }

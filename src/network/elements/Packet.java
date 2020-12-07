@@ -17,8 +17,6 @@ public class Packet extends Element{
     private double endTime;
     public int nHop = 0;
 
-    
-
     public DataLinkLayer dataLinkLayer;
 
     public Packet(int id, int source, int destination, double startTime) {

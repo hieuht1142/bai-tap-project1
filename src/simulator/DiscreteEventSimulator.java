@@ -63,6 +63,9 @@ public class DiscreteEventSimulator extends Simulator {
         return timeLimit;
     }    
     
+    /**
+     * Simulator starting
+     */
     @Override
     public void start() {
     	if (eventList.isEmpty())
@@ -106,7 +109,9 @@ public class DiscreteEventSimulator extends Simulator {
 		return lastPercentage;
     }
     
-    
+    /**
+     * This method is used to remove first event
+     */
     @Override
     protected Event removeFirstEvent() {
         if (this.stopped) {
@@ -134,6 +139,10 @@ public class DiscreteEventSimulator extends Simulator {
         }
     }
     
+    /**
+     * This method is used to add event
+     * @param e event
+     */
     public void addEvent(Event e) {
         this.getEventList().add(e);
     }

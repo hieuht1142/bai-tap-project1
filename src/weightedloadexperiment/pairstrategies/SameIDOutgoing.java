@@ -126,13 +126,17 @@ public class SameIDOutgoing extends OverSubscription {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param id id of host
+	 * @return host id of host address
+	 */
 	public int getHostID(int id) {
 		Address host = G.getAddress(id);
 		int lastPart = host._4;
 		int hostID = 0;
 		if (lengthOfHostID == 8) {
-			hostID = (lastPart << 24) >> 24;
-			
+			hostID = (lastPart << 24) >> 24;	
 		}
 		
 		if (lengthOfHostID == 16) {

@@ -42,6 +42,9 @@ public class InterPodIncoming extends OverSubscription {
         }    	
     }
 
+    /**
+     * This method is used to pair hosts
+     */
     @Override
     public void pairHosts() {
         List<Integer> sources = getSources();

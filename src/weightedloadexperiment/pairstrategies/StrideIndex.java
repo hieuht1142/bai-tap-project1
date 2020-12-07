@@ -16,6 +16,9 @@ public class StrideIndex extends OverSubscription {
         modulo = allHosts.length;    
     }
 
+    /**
+     * This method is used to pair hosts
+     */
     @Override
     public void pairHosts() {
         List<Integer> sources = getSources();

@@ -14,8 +14,9 @@ public class N0 extends State {
     public N0(EntranceBuffer entranceBuffer){
         this.element = entranceBuffer;
     }
+    
     @Override
-    public void act(){
+    public void act() {
         // add event H
         EntranceBuffer entranceBuffer = (EntranceBuffer)element;
         long time = (long)entranceBuffer.physicalLayer.simulator.time();
@@ -31,17 +32,21 @@ public class N0 extends State {
 
         if(packet != null) {
         	if (!unidirectionalWay.hasEventOfPacket(packet)) {
-                // add event D
-            	time = (long)entranceBuffer.physicalLayer.simulator.time();
-                event = new DReachingENBEvent(
-                		entranceBuffer.physicalLayer.simulator,
-                		time
-                        , time + unidirectionalWay.getLink().getTotalLatency(packet.getSize())
-                        , unidirectionalWay, packet);
-                event.register(); // add new event
-
+        		generateEvent(entranceBuffer, unidirectionalWay, packet);
             }
         }
-
+    }
+    
+    /**
+     * This method is used to add event type D
+     */
+    private void generateEvent(EntranceBuffer entranceBuffer, UnidirectionalWay unidirectionalWay, Packet packet) {
+    	long time = (long)entranceBuffer.physicalLayer.simulator.time();
+        Event event = new DReachingENBEvent(
+        		entranceBuffer.physicalLayer.simulator,
+        		time
+                , time + unidirectionalWay.getLink().getTotalLatency(packet.getSize())
+                , unidirectionalWay, packet);
+        event.register(); // add new event
     }
 }

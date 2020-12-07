@@ -47,6 +47,12 @@ public class SourceQueue  extends Buffer{
         return allPackets.size() == 1;
     }
 
+    /**
+     * This method is used to generate packet and insert it into the queue of all packets
+     * 
+     * @param currentTime the current time
+     * @return generated packet
+     */
     public Packet generatePacket(long currentTime) {
         if (this.isDelayed(currentTime)) return null;
 
@@ -57,6 +63,10 @@ public class SourceQueue  extends Buffer{
         return p;
     }
 
+    /**
+     * This method is used to remove an packet from the queue of all packets
+     * @return the removed packet
+     */
     public Packet removePacket() {
         if(allPackets.size() == 1) {
             if(state instanceof Sq2) {
@@ -67,19 +77,29 @@ public class SourceQueue  extends Buffer{
         return allPackets.dequeue();
     }
 
+    /**
+     * This method is used to insert an packet into the queue of all packets
+     * @param p the packet
+     */
     public void insertPacket(Packet p) {
         allPackets.enqueue(p);
         if(state instanceof Sq1){
             state = new Sq2(this);
         }
-
     }
 
+    /**
+     * @param currentTime the current time
+     * @return true if delaying generating next packet
+     */
     public boolean isDelayed(long currentTime) {
         long r = currentTime/Constant.HOST_DELAY; // HOST_DELAY denotes the required time to generate next packet 
         return r <= numGeneratedPacket;
     }
 
+    /**
+     * @return time of the next packet
+     */
     public double getNextPacketTime(){
         return (double)(numGeneratedPacket +1) * Constant.HOST_DELAY;
     }

@@ -20,12 +20,10 @@ public class ForcePair extends InterPodIncoming {
 	}
 	
 	@Override
-	public void checkValid()
-    {
+	public void checkValid() {
 		List<Integer> sources = getSources();
         List<Integer> destinations = getDestinations();
         int realCore = 0;
-        
         
         for(int i = 0; i < sources.size(); i++) {
             realCore = getRealCoreSwitch(sources.get(i), destinations.get(i));
@@ -34,18 +32,18 @@ public class ForcePair extends InterPodIncoming {
                     + "/" + realCore
                     + " to "
                     + destinations.get(i) 
-            );
-
-            
+            );  
         }
     }
 	
+	/**
+	 * This method is used to pair hosts
+	 */
 	public void pairHosts() {
 		List<Integer> sources = getSources();
         List<Integer> destinations = getDestinations();
         
-        if(this.modulo != 0)
-        {
+        if(this.modulo != 0) {
         	Integer[] pairs = pairHostsByModulo(this.modulo);
         	sources.addAll(Arrays.asList(pairs));
         } else {
@@ -94,6 +92,10 @@ public class ForcePair extends InterPodIncoming {
         this.setDestinations(destinations);
 	}
 	
+	/**
+	 * This method is used to pair hosts by modulo
+	 * @param x host id
+	 */
 	private Integer[] pairHostsByModulo(int x) {
 		Integer[] results = new Integer[16];
 		if (x == 1) {
@@ -109,10 +111,7 @@ public class ForcePair extends InterPodIncoming {
 		}
 		
 		if (x == 4) {
-			results = new Integer[]{1, 2, 3, 26, 
-									9, 10, 11, 18, 
-									8, 17, 16, 19, 
-									0, 25, 27, 24};
+			results = new Integer[]{1, 2, 3, 26, 9, 10, 11, 18, 8, 17, 16, 19, 0, 25, 27, 24};
 		}
 		
 		if (x == 13) {

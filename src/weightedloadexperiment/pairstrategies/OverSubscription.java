@@ -28,13 +28,14 @@ public abstract class OverSubscription extends PairGenerator {
 	}
 
 	public OverSubscription(Integer[] allHosts) {
-		super(allHosts);
-		
+		super(allHosts);	
 	}
 	
+	/**
+	 * This method is used to set up bandwidth
+	 */
 	@Override
-	public void setUpBandwidth(Topology network)
-    {
+	public void setUpBandwidth(Topology network) {
 		Integer[] allHosts = getAllHosts();
         
         List<Switch> switches = network.getSwitches();
@@ -61,6 +62,11 @@ public abstract class OverSubscription extends PairGenerator {
     	this.modulo = allHosts.length;
     }
 	
+	/**
+	 * @param source source host
+	 * @param destination destination host
+	 * @return core switch id
+	 */
 	public int getCoreSwitch(int source, int destination) {
         int edge = G.adj(source).get(0);
         int agg = G.adj(edge).get(k/2);
@@ -68,6 +74,11 @@ public abstract class OverSubscription extends PairGenerator {
         return core;
     }
 
+	/**
+	 * @param source source host
+	 * @param destination destination host
+	 * @return real core switch id
+	 */
     public int getRealCoreSwitch(int source, int destination) {
         int edge = G.adj(source).get(0);
         Address address = G.getAddress(destination);

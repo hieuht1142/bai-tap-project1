@@ -68,8 +68,7 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 				int dst = getHostIndex(i);
 				if (isCoreAvailable(dst, indexOfFirstCore, usedPods)) {
 					dests.add(dst);
-				}
-				 
+				}	 
 			}
 		}
 	}
@@ -87,6 +86,12 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 		return result;
 	}
 	
+	/**
+	 * @param dst destination
+	 * @param firstIndex first index
+	 * @param usedPods list of used pods
+	 * @return true if the core switch is available
+	 */
 	private boolean isCoreAvailable(int dst, int firstIndex, List<Integer> usedPods) {
 		int countOfLoop = 0;
 		boolean found = false;
@@ -95,10 +100,8 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 		if (dests.contains(dst)) {
 			return false;
 		}
-		
 		while (countOfLoop < oversubscriptedCores.length && !found) {
 			int delta = RandomGenerator.nextInt(0, k * k * k / 4);
-			
 			for (int i = 0; i < k * k * k / 4; i++) {
 				int src = getHostIndex((i + delta) % (k * k * k / 4));
 				if (!sources.contains(src) && src != dst && (src / (k * k / 4 + k) != dst / (k * k / 4 + k))) {
@@ -119,8 +122,13 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 		return found;
 	}
 	
+	/**
+	 * @param usedPods list of used pods
+	 * @param src source
+	 * @param dst destination
+	 * @return true if the core switch is from acceptable pod
+	 */
 	private boolean isFromAcceptablePod(List<Integer> usedPods, int src, int dst) {
-		
 		int pod = src / (k * k / 4 + k);
 		if (usedPods.size() == 0) {
 			usedPods.add(pod);
@@ -138,8 +146,7 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 					return true;
 				}
 			}
-		}
-		
+		}	
 	}
 
 }

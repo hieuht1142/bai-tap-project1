@@ -16,6 +16,7 @@ import routing.RoutingAlgorithm;
 public class NetworkLayer extends Layer implements IEventGenerator{
 	
 	protected State state;
+	
 	public State getState() {
 		return state;
 	}
@@ -34,6 +35,10 @@ public class NetworkLayer extends Layer implements IEventGenerator{
 		this.routingAlgorithm = routingAlgorithm;
 	}
 
+	/**
+	 * This method is used to control flow
+	 * @param exitBuffer
+	 */
 	public void controlFlow(ExitBuffer exitBuffer) {
 		if (!(exitBuffer.isRequestListEmpty())) {
 			int selectedId = Integer.MAX_VALUE;
@@ -51,25 +56,35 @@ public class NetworkLayer extends Layer implements IEventGenerator{
 				}
 			}
 			if (selectedENB != null) {
-				long time = (long)selectedENB.physicalLayer.simulator.time();
-				Event event = new EMovingInSwitchEvent(
-						selectedENB.physicalLayer.simulator,
-						time, time + Constant.SWITCH_CYCLE,
-						selectedENB, selectedENB.getPeekPacket());
-				event.register(); // insert new event
+				generateEvent(selectedENB);
 			}
 		}
 	}
+	
+	/**
+	 * This method is used to generate event type E
+	 * @param selectedENB the selected entrance buffer
+	 */
+	private void generateEvent(EntranceBuffer selectedENB) {
+		long time = (long)selectedENB.physicalLayer.simulator.time();
+		Event event = new EMovingInSwitchEvent(
+				selectedENB.physicalLayer.simulator,
+				time, time + Constant.SWITCH_CYCLE,
+				selectedENB, selectedENB.getPeekPacket());
+		event.register(); // insert new event
+	}
 
+	/**
+	 * This method is used to route for network layer
+	 * @param entranceBuffer the entrance buffer
+	 */
 	public void route(EntranceBuffer entranceBuffer) {
 		if (entranceBuffer.getNextNodeId() == -1) {
 			Packet packet = entranceBuffer.getPeekPacket();
 			if ((packet == null)) {
 				System.out.println("ERROR: 2");
 			}
-			
 			int nextNodeID = routingAlgorithm.next(packet, entranceBuffer.getNode());
-
 			entranceBuffer.setNextNode(nextNodeID);
 
 			ExitBuffer exitBuffer = entranceBuffer.physicalLayer.exitBuffers.get(nextNodeID);

@@ -18,6 +18,9 @@ public abstract class Simulator extends umontreal.ssj.simevents.Simulator{
         return this.currentTime;
     }
 
+    /**
+     * This method is used to initiate simulator
+     */
     public void init() {
         this.currentTime = 0;
         this.stopped = false;

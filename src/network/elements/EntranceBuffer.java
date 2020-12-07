@@ -15,12 +15,20 @@ public class EntranceBuffer extends LimitedBuffer {
         this.nextNodeId = -1;
         this.setState( new N0(this));
     }
+    
     public void checkStateChange(){
     }
 
+    /**
+     * @return next node id
+     */
     public int getNextNodeId() {
         return nextNodeId;
     }
+    
+    /**
+     * This method is used to drop next node
+     */
     public void dropNextNode(){
         this.nextNodeId = -1;
     }
@@ -29,6 +37,9 @@ public class EntranceBuffer extends LimitedBuffer {
         this.nextNodeId = nextNodeId;
     }
 
+    /**
+     * @return true if the current node has next node
+     */
     public boolean hasNextNode(){
         return !(nextNodeId == -1);
     }

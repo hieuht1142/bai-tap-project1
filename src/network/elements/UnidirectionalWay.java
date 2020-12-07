@@ -35,12 +35,20 @@ public class UnidirectionalWay extends Element {
 		return toNode;
 	}
 
+	/**
+	 * This method is used to remove packet
+	 * @return the removed packet
+	 */
 	public Packet removePacket(){
 		Packet packet = this.packet;
 		this.packet = null;
 		return packet;
 	}
 
+	/**
+	 * This method is used to add packet for UnidirectionalWay
+	 * @param packet
+	 */
 	public void addPacket(Packet packet) {
 		this.packet = packet;
 	}
