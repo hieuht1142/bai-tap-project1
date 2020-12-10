@@ -48,7 +48,7 @@ Directory listing:
 
 * simulator: code for create the simulator and its actions
 
-* weightedloadexperiment: contains some ways to pair source hosts and destination hosts, GUI of the throughput grapha and main method
+* weightedloadexperiment: contains some ways to pair source hosts and destination hosts, GUI of the throughput graph and the main method
 
 ## INSTRUCTIONS FOR USE
 
