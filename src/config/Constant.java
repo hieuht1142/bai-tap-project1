@@ -8,8 +8,8 @@ public class Constant {
     // Switch delay ~ 100ns
     public static final int SWITCH_DELAY = 100;
     // Link bandwidth, set default to 1Gps
-    public static final long LINK_BANDWIDTH = //(long) 1e9;//1Gb
-    											96*1000*1000;
+    public static final long LINK_BANDWIDTH = (long)96 * 1000 * 1000; //(long) 1e9;//1Gb
+    											
     // Default length of link ~ 5m
     public static final double DEFAULT_LINK_LENGTH = 5;
     public static final double HOST_TO_SWITCH_LENGTH = 0.1;
@@ -18,7 +18,7 @@ public class Constant {
     public static final double PROPAGATION_VELOCITY = 1.0 / 5;//0.2 m/ns
 
     // Host/Switch delay, default is 100ns
-    public static final int HOST_DELAY = 100000;//ns => 10^5 * 10^(-9) = 10^(-4)(s)
+    public static final int HOST_DELAY = 100000; //ns => 10^5 * 10^(-9) = 10^(-4)(s)
 
     // Packet size ~ 1Mb
     public static final int PACKET_SIZE = 9600; //9.6Kb

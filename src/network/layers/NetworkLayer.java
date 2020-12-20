@@ -98,6 +98,6 @@ public class NetworkLayer extends Layer implements IEventGenerator{
 	}
 	
 	public long getDurrationTime() {
-		return 1000*1000*1000;
+		return (long)1000 * 1000 * 1000;
 	}
 }

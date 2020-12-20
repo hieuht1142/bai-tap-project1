@@ -211,7 +211,7 @@ public class GridGraph extends Graph {
         int uy = u / nCol;
         int vx = v % nCol;
         int vy = v / nCol;
-        return Math.sqrt(Math.pow(ux - vx, 2) + Math.pow(uy - vy, 2));
+        return Math.sqrt(Math.pow(1.0 * ux - vx, 2) + Math.pow(1.0 * uy - vy, 2));
     }
 
     public int getnCol() {
@@ -255,33 +255,43 @@ public class GridGraph extends Graph {
     }
 
     public void writeFileGeos(String fileName) {
+    	FileWriter writer = null;
         try {
             File file = new File(fileName);
             // creates the file
-            file.createNewFile();
-
-            FileWriter writer = new FileWriter(file);
-
+            boolean createFile = file.createNewFile();
+            
+            if (createFile) {
+            	writer = new FileWriter(file);
+            }
             // Writes the content to the file
             writer.write(this.switches().size() + "\n");
             for (int i : this.switches()) {
                 writer.write(i + " " + i / nCol + " " + i % nCol + "\n");
             }
-            writer.flush();
-            writer.close();
+            writer.flush();        
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+        	if (writer != null) {
+        		try {
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+        	}
         }
     }
 
     public void writeFileEdges(String fileName) {
+    	FileWriter writer = null;
         try {
             File file = new File(fileName);
             // creates the file
-            file.createNewFile();
-
-            FileWriter writer = new FileWriter(file);
-
+            boolean createFile = file.createNewFile();
+            if (createFile) {
+            	writer = new FileWriter(file);
+            }
             int nEdge = 0;
             for (int i : this.switches()) {
                 for (int j : this.adj(i)) {
@@ -298,9 +308,16 @@ public class GridGraph extends Graph {
                 }
             }
             writer.flush();
-            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+        	if (writer != null) {
+        		try {
+					writer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+        	}
         }
     }
 

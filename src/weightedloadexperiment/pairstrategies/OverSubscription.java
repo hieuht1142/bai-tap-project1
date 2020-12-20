@@ -40,7 +40,7 @@ public abstract class OverSubscription extends PairGenerator {
         
         List<Switch> switches = network.getSwitches();
         
-        int k = (int)Math.cbrt(4*allHosts.length);
+        int k = (int)Math.cbrt(4.0 * allHosts.length);
         int maxIndexOfCore = allHosts.length + 5*k*k/4 - 1;
     	int minIndexOfCore = maxIndexOfCore - k + 1;
     	

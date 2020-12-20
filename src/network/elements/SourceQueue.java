@@ -57,7 +57,7 @@ public class SourceQueue  extends Buffer{
         if (this.isDelayed(currentTime)) return null;
 
         numGeneratedPacket++;
-        double timeSent = numGeneratedPacket * Constant.HOST_DELAY;
+        double timeSent = (double)numGeneratedPacket * Constant.HOST_DELAY;
         Packet p = new Packet(0, sourceId, destinationId, timeSent);
         insertPacket(p);
         return p;

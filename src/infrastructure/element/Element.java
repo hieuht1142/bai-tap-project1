@@ -66,11 +66,7 @@ public abstract class Element implements IEventGenerator {
 		if (sim == null) {
 			return false;
 		}
-
-		if (packet == null) {
-			return false;
-		} else { 
-			return false; 
-		}
+		
+		return false;
 	}
 }

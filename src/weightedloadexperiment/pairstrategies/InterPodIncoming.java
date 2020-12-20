@@ -23,7 +23,7 @@ public class InterPodIncoming extends OverSubscription {
     @Override
     public void setAllHosts(Integer[] allHosts) {
     	super.setAllHosts(allHosts);
-    	this.k =  (int) Math.cbrt(4 * allHosts.length); // number of hosts = k*k*k/4
+    	this.k =  (int) Math.cbrt(4.0 * allHosts.length); // number of hosts = k*k*k/4
         
         int numOfHosts = allHosts.length; // number of hosts
         
@@ -110,13 +110,13 @@ public class InterPodIncoming extends OverSubscription {
                     expectedSrc = allHosts[j];
                     if (!sources.contains(expectedSrc) && ((expectedSrc / sizeOfPod) != (dst / sizeOfPod))) {
                         found = true;
-                        currPod = addSourceAndDest(sizeOfPod, sources, destinations, currPod, index, expectedSrc, dst);
+                        currPod = addSourceAndDest(sizeOfPod, sources, destinations, index, expectedSrc, dst);
                         break;
                     }
                 }
             } else if (expectedSrc / sizeOfPod != dst / sizeOfPod) {
                     found = true;
-                    currPod = addSourceAndDest(sizeOfPod, sources, destinations, currPod, index, expectedSrc, dst);                           
+                    currPod = addSourceAndDest(sizeOfPod, sources, destinations, index, expectedSrc, dst);                           
                     break;
             }
             if (!found) {
@@ -140,9 +140,9 @@ public class InterPodIncoming extends OverSubscription {
      * @return current pod
      */
     private int addSourceAndDest(int i, List<Integer> sources, List<Integer> destinations, 
-    									int currPod, int index, int expectedSrc, int dst) {
-    	
-    	int sizeOfPod = k*k/4;
+    									int index, int expectedSrc, int dst) {
+    	int currPod;
+    	int sizeOfPod = k * k / 4;
     	sources.add(expectedSrc);
         destinations.add(dst); 
         

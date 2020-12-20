@@ -52,9 +52,9 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 			if (type == FatTreeGraph.CORE) { // the current switch is core switch	
 				return super.next(source, current, destination);      
 			} else if (type == FatTreeGraph.AGG) { // the current switch is agg switch
-                return nextAgg(current, destination);
+                return nextAggSwitch(current, destination);
 			} else { // the current switch is edge switch
-				return nextEdge(current, destination);
+				return nextEdgeSwitch(current, destination);
 			}
 		}
 	}
@@ -64,7 +64,7 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	 * @param destination the id of the destination host
 	 * @return the id of the next node which the packet will be forwarded to
 	 */
-	private int nextAgg(int current, int destination) {
+	private int nextAggSwitch(int current, int destination) {
 		Address address = G.getAddress(destination);
 
 		Triplet<Integer, Integer, Integer> prefix = new Triplet<>(address._1, address._2, address._3);
@@ -85,7 +85,7 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	 * @param destination the id of the destination host
 	 * @return the id of the next node which the packet will be forwarded to
 	 */
-	private int nextEdge(int current, int destination) {
+	private int nextEdgeSwitch(int current, int destination) {
 		Address address = G.getAddress(destination);
 		int suffix = address._4;
 
@@ -113,9 +113,9 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 			if (type == FatTreeGraph.CORE) { // the current switch is core switch
 				return super.next(source, current, destination); 
 			} else if (type == FatTreeGraph.AGG) { // the current switch is agg switch
-				return nextAgg(current, destination);
+				return nextAggSwitch(current, destination);
 			} else { // the current switch is edge switch
-				return nextEdge(current, destination);
+				return nextEdgeSwitch(current, destination);
 			}
 		}
 	}

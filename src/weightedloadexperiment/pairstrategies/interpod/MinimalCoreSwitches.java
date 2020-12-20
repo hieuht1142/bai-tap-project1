@@ -22,7 +22,7 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 	@Override
 	public void setAllHosts(Integer[] allHosts) {
 		super.setAllHosts(allHosts);
-    	this.k =  (int) Math.cbrt(4 * allHosts.length);
+    	this.k =  (int) Math.cbrt(4.0 * allHosts.length);
         
         int numOfHosts = allHosts.length;
         

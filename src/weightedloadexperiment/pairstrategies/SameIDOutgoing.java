@@ -113,7 +113,7 @@ public class SameIDOutgoing extends OverSubscription {
 	@Override
 	public void setAllHosts(Integer[] allHosts) {
 		super.setAllHosts(allHosts);
-    	this.k =  (int)Math.cbrt(4*allHosts.length);
+    	this.k =  (int)Math.cbrt(4.0 * allHosts.length);
 	}
 	
 	private boolean IsSameSubNet(int preHost, int currHost) {

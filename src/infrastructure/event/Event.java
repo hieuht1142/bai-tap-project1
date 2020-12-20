@@ -84,8 +84,10 @@ public abstract class Event extends umontreal.ssj.simevents.Event{
 					time,
 					time + unidirectionalWay.getLink().getTotalLatency(packet.getSize()),
 					unidirectionalWay, packet);
-		}       
-		event.register(); // insert new event
+		}
+		if (event != null) {
+			event.register(); // insert new event
+		}	
 	}
 	
 	/**
