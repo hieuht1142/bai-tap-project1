@@ -32,11 +32,11 @@ public class GridGraph extends Graph {
         this.nSwitch = G.nSwitch;
         this.E = G.E;
 
-        adj = (List<Integer>[]) new List[V];
+        adj = new List[V];
         for (int v = 0; v < V; v++) {
             adj[v] = new ArrayList<Integer>();
             // reverse so that adjacency list is in same order as original
-            Stack<Integer> reverse = new Stack<Integer>();
+            Stack<Integer> reverse = new Stack<>();
             for (int w : G.adj[v]) {
                 reverse.push(w);
             }
@@ -56,7 +56,7 @@ public class GridGraph extends Graph {
         this.nHost = nSwitch * HOST_PER_SWITCH;
 
         this.V = nHost + nSwitch;
-        adj = (List<Integer>[]) new List[V];
+        adj = new List[V];
         for (int v = 0; v < V; v++) {
             adj[v] = new ArrayList<Integer>();
         }
@@ -80,7 +80,7 @@ public class GridGraph extends Graph {
         this.nHost = nSwitch * HOST_PER_SWITCH;
 
         this.V = nHost + nSwitch;
-        adj = (List<Integer>[]) new List[V];
+        adj = new List[V];
         for (int v = 0; v < V; v++) {
             adj[v] = new ArrayList<Integer>();
         }

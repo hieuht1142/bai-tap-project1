@@ -30,10 +30,8 @@ public class N0 extends State {
                 .getWayToOtherNode(entranceBuffer.getConnectNode());
         Packet packet = unidirectionalWay.getPacket();
 
-        if(packet != null) {
-        	if (!unidirectionalWay.hasEventOfPacket(packet)) {
-        		generateEvent(entranceBuffer, unidirectionalWay, packet);
-            }
+        if(packet != null && !unidirectionalWay.hasEventOfPacket(packet)) {
+        	generateEvent(entranceBuffer, unidirectionalWay, packet);
         }
     }
     

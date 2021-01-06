@@ -7,11 +7,24 @@ import java.util.Map;
 import network.Topology;
 import network.elements.UnidirectionalWay;
 import network.entities.Link;
-import network.entities.Switch;
 
 public abstract class PairGenerator {
 	
     private Integer[] allHosts;
+    
+    private List<Integer> sources;
+    private List<Integer> destinations;
+    
+    protected PairGenerator() {
+    	sources = new ArrayList<>();
+        destinations = new ArrayList<>();
+    }
+
+    protected PairGenerator(Integer[] allHosts) {
+        this.allHosts = allHosts;
+        sources = new ArrayList<>();
+        destinations = new ArrayList<>();
+    }
     
 
     public Integer[] getAllHosts() {
@@ -40,20 +53,6 @@ public abstract class PairGenerator {
 
     public void setDestinations(List<Integer> destinations) {
         this.destinations = destinations;
-    }
-
-    private List<Integer> sources;
-    private List<Integer> destinations;
-    
-    public PairGenerator() {
-    	sources = new ArrayList<Integer>();
-        destinations = new ArrayList<Integer>();
-    }
-
-    public PairGenerator(Integer[] allHosts) {
-        this.allHosts = allHosts;
-        sources = new ArrayList<Integer>();
-        destinations = new ArrayList<Integer>();
     }
 
     public abstract void pairHosts();

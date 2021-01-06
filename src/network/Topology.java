@@ -28,7 +28,6 @@ public class Topology {
     private Map<Integer, Switch> switchById;
     private List<Integer> sourceNodes;
     private List<Integer> destinationNodes;
-    private long bandwidthToHost = 0;
     public Map<Integer, String> cordOfNodes; // new property added by ThanhNT 14/10 
     public PairGenerator pairGenerator;
     

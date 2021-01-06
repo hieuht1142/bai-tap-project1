@@ -8,7 +8,7 @@ public abstract class Buffer extends Element {
 	protected Queue<Packet> allPackets;
 	public PhysicalLayer physicalLayer;
 
-	public Buffer() {
+	protected Buffer() {
 		allPackets = new Queue<>();
 	}
 	

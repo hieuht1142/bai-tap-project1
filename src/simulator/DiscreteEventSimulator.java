@@ -20,13 +20,14 @@ public class DiscreteEventSimulator extends Simulator {
     private boolean isAssigned = false;
     public long totalHop = 0;
     
-    public List<Integer> sizeOfCurrEvents = new ArrayList<Integer>();
+    public List<Integer> sizeOfCurrEvents = new ArrayList<>();
     
     private static final DiscreteEventSimulator des = new DiscreteEventSimulator(true, Constant.MAX_TIME, false);
     
     public int halfSizeOfEvents = 0;
     
-    private static boolean IS_LIMIT = false, VERBOSE = false;
+    private static boolean IS_LIMIT = false;
+    private static boolean VERBOSE = false;
     private static double TIME_LIMIT = 0;
     
     public static void Initialize(boolean isLimit, double timeLimit, boolean verbose) {
@@ -80,7 +81,6 @@ public class DiscreteEventSimulator extends Simulator {
 			while ((ev = removeFirstEvent()) != null && !stopped && (!isLimit || currentTime < timeLimit)) {
 				countEvent++;
 				ev.actions();
-				int percentage = (int) (currentTime ) / (int) Constant.EXPERIMENT_INTERVAL; 
 				lastPercentage = setProgress(startTime, lastPercentage);
 			}
 			StdOut.print("\r");
@@ -147,10 +147,8 @@ public class DiscreteEventSimulator extends Simulator {
         this.getEventList().add(e);
     }
 
-    public long selectNextCurrentTime(long currentTime) {
-    	long result = Long.MAX_VALUE;
-		
-    	return result;
+    public long selectNextCurrentTime(long currentTime) {	
+    	return Long.MAX_VALUE;
     }
 
 }

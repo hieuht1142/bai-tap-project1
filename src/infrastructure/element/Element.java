@@ -12,7 +12,7 @@ public abstract class Element implements IEventGenerator {
 	protected State state;
 	protected long soonestEndTime = Long.MAX_VALUE;
 
-	public Element(){
+	protected Element() {
 		
 	}
 

@@ -33,7 +33,7 @@ public class FatTreeGraph extends Graph {
         this.V = numServers + numPodSwitches + numCores;
         this.E = 0;
 
-        adj = (List<Integer>[]) new List[V];
+        adj = new List[V];
         for (int v = 0; v < V; v++) {
             adj[v] = new ArrayList<Integer>();
         }

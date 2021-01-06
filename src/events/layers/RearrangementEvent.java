@@ -17,7 +17,6 @@ public class RearrangementEvent extends Event {
 
 	@Override
 	public void actions() {
-		DiscreteEventSimulator sim = DiscreteEventSimulator.getInstance();
 		NetworkLayer networkLayer = (NetworkLayer) element;
 		FatTreeFlowClassifier ftfc = (FatTreeFlowClassifier)networkLayer.routingAlgorithm;
 		ftfc.update(null, null);

@@ -6,13 +6,14 @@ import network.entities.*;
 import simulator.DiscreteEventSimulator;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PhysicalLayer extends Layer {
 
-	public HashMap<Integer, ExitBuffer> exitBuffers;
-	public HashMap<Integer, EntranceBuffer> entranceBuffers;
+	public Map<Integer, ExitBuffer> exitBuffers;
+	public Map<Integer, EntranceBuffer> entranceBuffers;
 	public SourceQueue sourceQueue;
-	public HashMap<Integer, Link> links;
+	public Map<Integer, Link> links;
 	public DiscreteEventSimulator simulator;
 	public Node node;
 	

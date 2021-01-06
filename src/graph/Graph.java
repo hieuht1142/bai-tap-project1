@@ -96,7 +96,7 @@ public abstract class Graph {
      * @return list of vertexes on the shortest path
      */
     public List<Integer> shortestPath(int u, int v) {
-        Queue<Integer> queue = new LinkedList<Integer>(); // queue of marked vertexes
+        Queue<Integer> queue = new LinkedList<>(); // queue of marked vertexes
         List<Integer> path = new ArrayList<>(); // list of vertexes on the shortest path
         boolean[] visited = new boolean[this.V]; // array of visited vertexes
         int[] trace = new int[this.V]; // array of previous visited vertexes on the path
@@ -135,7 +135,7 @@ public abstract class Graph {
      * @return Map of all shortest paths from vertex u to others.
      */
     public Map<Integer, List<Integer>> shortestPaths(int u) {
-        Queue<Integer> queue = new LinkedList<Integer>();
+        Queue<Integer> queue = new LinkedList<>();
         boolean[] visited = new boolean[this.V];
         int[] trace = new int[this.V]; // tree of shortest paths
         queue.add(u);
@@ -192,7 +192,7 @@ public abstract class Graph {
      */
     public Map<Integer, Map<Integer, List<Integer>>> allShortestPaths() {
         Map<Integer, Map<Integer, List<Integer>>> paths = new HashMap<>();
-        Queue<Integer> queue = new LinkedList<Integer>();
+        Queue<Integer> queue = new LinkedList<>();
         boolean[] visited = new boolean[this.V];
         int[] trace = new int[this.V];
 

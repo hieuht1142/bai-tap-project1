@@ -71,13 +71,14 @@ public class InterPodIncoming extends OverSubscription {
     	
     	int numOfHosts = allHosts.length;
         int sizeOfPod = k*k/4;
-    	int currPod = 0, prePod = 0; // current pod, previous pod
+    	int currPod = 0; // current pod
+    	int prePod = 0; // previous pod
     	for(int i = 0; i < numOfHosts; i++) {
             int dst = allHosts[i]; // destination host
             prePod = currPod;
             if (!destinations.contains(dst)) {
                 int index = getIndex(i, delta, numOfHosts, sizeOfPod, prePod, dst);
-                currPod = findSourceAndDest(i, sources, destinations, allHosts, currPod, dst, index);
+                currPod = findSourceAndDest(sources, destinations, allHosts, currPod, dst, index);
             } else {
                 currPod = i / sizeOfPod;
             }
@@ -97,7 +98,7 @@ public class InterPodIncoming extends OverSubscription {
      * @param index
      * @return current pod
      */
-    private int findSourceAndDest(int i, List<Integer> sources, List<Integer> destinations, 
+    private int findSourceAndDest(List<Integer> sources, List<Integer> destinations, 
     								Integer[] allHosts, int currPod, int dst, int index) {    	
     	int numOfHosts = allHosts.length;
         int sizeOfPod = k*k/4;
@@ -255,6 +256,7 @@ public class InterPodIncoming extends OverSubscription {
      * @param destination the destination host
      * @return the core switch
      */
+    @Override
     public int getCoreSwitch(int source, int destination) {
         int edge = G.adj(source).get(0);
         int agg = G.adj(edge).get(k/2);
@@ -262,6 +264,7 @@ public class InterPodIncoming extends OverSubscription {
         return core;
     }
 
+    @Override
     public int getRealCoreSwitch(int source, int destination) {
         int edge = G.adj(source).get(0);
         Address address = G.getAddress(destination);

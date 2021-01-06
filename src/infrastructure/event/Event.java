@@ -19,7 +19,7 @@ public abstract class Event extends umontreal.ssj.simevents.Event{
 
 	protected IEventGenerator element;
 		
-	public Event(DiscreteEventSimulator sim, long time) {
+	protected Event(DiscreteEventSimulator sim, long time) {
 		super(sim);
 		this.eventTime = (double)time;
 	}

@@ -23,21 +23,19 @@ public class W0 extends State {
         UnidirectionalWay unidirectionalWay = (UnidirectionalWay) element;
         ExitBuffer exitBuffer = unidirectionalWay.getFromNode().physicalLayer.exitBuffers.get(unidirectionalWay.getToNode().getId());
         Packet packet = exitBuffer.getPeekPacket();
-        if (packet != null) {
-            if (!(exitBuffer.hasEventOfPacket(packet))) {
-            	if (exitBuffer.getNode() instanceof Host) {
-                    long time = (long) exitBuffer.physicalLayer.simulator.time();
-                    Event event = new CLeavingEXBEvent(
-                    		exitBuffer.physicalLayer.simulator,
-                    		time, time, exitBuffer, packet);
-                    event.register(); // add new event type C
-                } else if (exitBuffer.getNode() instanceof Switch) {
-                	long time = (long)exitBuffer.physicalLayer.simulator.time();
-                    Event event = new FLeavingSwitchEvent(
-                    		exitBuffer.physicalLayer.simulator,
-                    		time, time + Constant.SWITCH_CYCLE, exitBuffer, packet);
-                    event.register(); // add new event type F
-                }
+        if (packet != null && !(exitBuffer.hasEventOfPacket(packet))) {
+        	if (exitBuffer.getNode() instanceof Host) {
+                long time = (long) exitBuffer.physicalLayer.simulator.time();
+                Event event = new CLeavingEXBEvent(
+                		exitBuffer.physicalLayer.simulator,
+                		time, time, exitBuffer, packet);
+                event.register(); // add new event type C
+            } else if (exitBuffer.getNode() instanceof Switch) {
+            	long time = (long)exitBuffer.physicalLayer.simulator.time();
+                Event event = new FLeavingSwitchEvent(
+                		exitBuffer.physicalLayer.simulator,
+                		time, time + Constant.SWITCH_CYCLE, exitBuffer, packet);
+                event.register(); // add new event type F
             }
         }
     }

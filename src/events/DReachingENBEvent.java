@@ -50,7 +50,7 @@ public class DReachingENBEvent extends Event {
 			if (entranceBuffer.isFull()) {
 				handleFullENB(entranceBuffer, unidirectionalWay);
 			} else {
-				handleNotFullENB(entranceBuffer, unidirectionalWay);
+				handleNotFullENB(unidirectionalWay);
 			}
 			entranceBuffer.getNode().getNetworkLayer().route(entranceBuffer);
 		}
@@ -79,7 +79,7 @@ public class DReachingENBEvent extends Event {
 	 * @param entranceBuffer
 	 * @param unidirectionalWay
 	 */
-	private void handleNotFullENB(EntranceBuffer entranceBuffer, UnidirectionalWay unidirectionalWay) {
+	private void handleNotFullENB(UnidirectionalWay unidirectionalWay) {
 		type = TypeD.D1; // ENB not full
 		//change state of EXB
 		ExitBuffer sendExitBuffer = unidirectionalWay.getFromNode().physicalLayer

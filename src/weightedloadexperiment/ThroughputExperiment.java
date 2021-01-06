@@ -43,7 +43,7 @@ public class ThroughputExperiment {
 
         DiscreteEventSimulator.Initialize(true, Constant.MAX_TIME, verbose);
         DiscreteEventSimulator simulator = DiscreteEventSimulator.getInstance();
-        setSimulator(trafficPattern, verbose, simulator);
+        setSimulator(trafficPattern, simulator);
 
         List<Double> scores = new ArrayList<Double>();
         double[][] points = processingCalculation(trafficPattern, simulator, scores);
@@ -92,7 +92,7 @@ public class ThroughputExperiment {
     /**
      * This method is used to build a Discrete Event Simulator.
      */
-    private void setSimulator(Map<Integer, Integer> trafficPattern, boolean verbose, DiscreteEventSimulator simulator) {
+    private void setSimulator(Map<Integer, Integer> trafficPattern, DiscreteEventSimulator simulator) {
         topology.clear();
         topology.setSimulator(simulator);
 
@@ -132,8 +132,8 @@ public class ThroughputExperiment {
         								//new MinimalCoreSwitches(ra, G);
         								//new SameIDOutgoing(G, ra);
         Topology topology = new Topology(G, ra, pairGenerator);    
-		//new StaggeredProb(hosts, 4, 1, 0);
-		//new InterPodIncoming(hosts, k, ra, G);
+							//new StaggeredProb(hosts, 4, 1, 0);
+							//new InterPodIncoming(hosts, k, ra, G);
  
         ThroughputExperiment experiment = new ThroughputExperiment(topology);  
         Map<Integer, Integer> traffic = new HashMap<>();

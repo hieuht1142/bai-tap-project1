@@ -8,7 +8,7 @@ import network.states.enb.N0;
 public class EntranceBuffer extends LimitedBuffer {
     protected int nextNodeId;
 
-    public EntranceBuffer(Node node, Node connectNode, int size){
+    public EntranceBuffer(Node node, Node connectNode, int size) {
         this.node = node;
         this.size = size;
         this.connectNode = connectNode;
@@ -16,7 +16,7 @@ public class EntranceBuffer extends LimitedBuffer {
         this.setState( new N0(this));
     }
     
-    public void checkStateChange(){
+    public void checkStateChange() {
     }
 
     /**
@@ -40,7 +40,7 @@ public class EntranceBuffer extends LimitedBuffer {
     /**
      * @return true if the current node has next node
      */
-    public boolean hasNextNode(){
-        return !(nextNodeId == -1);
+    public boolean hasNextNode() {
+        return (nextNodeId != -1);
     }
 }

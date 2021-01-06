@@ -14,6 +14,10 @@ public abstract class Node extends Device {
 	public PhysicalLayer physicalLayer;
 	public DataLinkLayer dataLinkLayer;
 	
+	protected Node(int id) {
+		super(id);
+	}
+	
 	/**
 	 * This method is used to set network layer for device
 	 * @param ra RoutingAlgorithm
@@ -33,10 +37,6 @@ public abstract class Node extends Device {
 	 */
 	public void setNetworkLayer(NetworkLayer networkLayer) {
 		this.networkLayer = networkLayer;
-	}
-	
-	public Node(int id) {
-		super(id);
 	}
     
 	/**

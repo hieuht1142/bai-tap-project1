@@ -48,11 +48,9 @@ public class NetworkLayer extends Layer implements IEventGenerator{
 			for (EntranceBuffer enb : exitBuffer.getRequestList()) {
 				p = enb.getPeekPacket();
 				// select the Inport having the smallest id
-				if (p != null && !(enb.hasEventOfPacket(p))) {
-					if (p.getId() < selectedId) {
-						selectedId = p.getId();
-						selectedENB = enb;
-					}
+				if (p != null && !(enb.hasEventOfPacket(p)) && (p.getId() < selectedId)) {
+					selectedId = p.getId();
+					selectedENB = enb;
 				}
 			}
 			if (selectedENB != null) {

@@ -58,10 +58,10 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 		delta = delta % numOfOversubscriptedCores;
 		List<Integer> dests = getDestinations();
 		 
-		List<Integer> usedPods = new ArrayList<Integer>();
+		List<Integer> usedPods;
 		
 		for (int pod = 0; pod < k; pod++) {
-			usedPods = new ArrayList<Integer>();
+			usedPods = new ArrayList<>();
 			int indexOfFirstCore = delta;
 			for (int offset = 0; offset < k * k / 4; offset++) {
 				int i = pod * k * k / 4 + offset;
@@ -105,12 +105,11 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 			for (int i = 0; i < k * k * k / 4; i++) {
 				int src = getHostIndex((i + delta) % (k * k * k / 4));
 				if (!sources.contains(src) && src != dst && (src / (k * k / 4 + k) != dst / (k * k / 4 + k))) {
-					if (getRealCoreSwitch(src, dst) == oversubscriptedCores[firstIndex]) {
-						if(isFromAcceptablePod(usedPods, src, dst)) {
-							sources.add(src);
-							found = true;
-							return found;
-						}
+					if (getRealCoreSwitch(src, dst) == oversubscriptedCores[firstIndex]
+							&& isFromAcceptablePod(usedPods, src, dst)) {
+						sources.add(src);
+						found = true;
+						return found;
 					}
 				}
 			}
@@ -130,7 +129,7 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 	 */
 	private boolean isFromAcceptablePod(List<Integer> usedPods, int src, int dst) {
 		int pod = src / (k * k / 4 + k);
-		if (usedPods.size() == 0) {
+		if (usedPods.isEmpty()) {
 			usedPods.add(pod);
 			return true;
 		} else {
@@ -140,11 +139,7 @@ public class MinimalCoreSwitches extends InterPodIncoming {
 			} else {
 				int delta = (k - 1) - usedPods.size();
 				int remaining = (k*k/4) - dst % (k * k / 4);
-				if (delta < remaining && delta != 0) {
-					return false;
-				} else {
-					return true;
-				}
+				return (delta < remaining && delta != 0);
 			}
 		}	
 	}

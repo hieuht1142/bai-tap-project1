@@ -37,13 +37,13 @@ public class SameIDOutgoing extends OverSubscription {
 		int count = 0;
 		int i = 0;
 		while (i < numOfHosts && count < numOfHosts * 1000) {
-			List<Integer> allTempDsts = new ArrayList<Integer>();
-			List<Integer> allTempSrcs = new ArrayList<Integer>();
+			List<Integer> allTempDsts = new ArrayList<>();
+			List<Integer> allTempSrcs = new ArrayList<>();
             
 			pairing(i, allHosts, delta, destinations, allTempDsts, allTempSrcs);
             
 			if (allTempDsts.size() == k/2) {
-				handleAllTempDsts(i, sources, destinations, allTempSrcs, allTempDsts);
+				handleAllTempDsts(sources, destinations, allTempSrcs, allTempDsts);
 			} else {
 				delta = RandomGenerator.nextInt(0, k*k*k/4);
 			}
@@ -54,10 +54,9 @@ public class SameIDOutgoing extends OverSubscription {
 	/**
 	 * This method is used to handle if size of allTempDsts == k/2
 	 */
-	private void handleAllTempDsts(int i, List<Integer> sources, List<Integer> destinations,
+	private void handleAllTempDsts(List<Integer> sources, List<Integer> destinations,
 										List<Integer> allTempSrcs, List<Integer> allTempDsts) {
 		
-		i += k/2;
 		System.out.print("\n");
 		sources.addAll(allTempSrcs);
 		destinations.addAll(allTempDsts);
@@ -116,16 +115,6 @@ public class SameIDOutgoing extends OverSubscription {
     	this.k =  (int)Math.cbrt(4.0 * allHosts.length);
 	}
 	
-	private boolean IsSameSubNet(int preHost, int currHost) {
-		if (Math.abs(preHost - currHost) >= k/2) {
-			return false;
-		}
-		if (preHost / (k/2) == currHost / (k/2)) {
-			return true;
-		}
-		return false;
-	}
-	
 	/**
 	 * 
 	 * @param id id of host
@@ -161,9 +150,18 @@ public class SameIDOutgoing extends OverSubscription {
 		int firstBit = firstPart >> 31;
 		int firstTwoBits = firstPart >> 30;
 		int firstThreeBits = firstPart >> 29;
-		if(firstBit == 0)  { lengthOfHostID = 24; return;}
-		if(firstTwoBits == 1) { lengthOfHostID = 16; return ;}
-		if(firstThreeBits == 5) { lengthOfHostID = 8; return ;}		
+		if (firstBit == 0) {
+			lengthOfHostID = 24;
+			return;
+		}
+		if (firstTwoBits == 1) {
+			lengthOfHostID = 16;
+			return ;
+		}
+		if (firstThreeBits == 5) { 
+			lengthOfHostID = 8;
+			return ;
+		}		
 	}
 	
 	/**

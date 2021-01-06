@@ -2,10 +2,6 @@ package network.elements;
 
 import config.Constant;
 import infrastructure.element.Buffer;
-
-
-
-//import network.states.packet.StateP1;
 import network.states.sourcequeue.*;
 
 
@@ -68,11 +64,9 @@ public class SourceQueue  extends Buffer{
      * @return the removed packet
      */
     public Packet removePacket() {
-        if(allPackets.size() == 1) {
-            if(state instanceof Sq2) {
-                state = new Sq1(this);
-                state.act();
-            }
+        if (allPackets.size() == 1 && state instanceof Sq2) {
+        	state = new Sq1(this);
+            state.act();
         }
         return allPackets.dequeue();
     }

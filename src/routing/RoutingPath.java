@@ -10,5 +10,5 @@ public class RoutingPath {
     /**
      * list of switches on the routing path
      */
-    final public List<Integer> path = new ArrayList<>();
+    public final List<Integer> path = new ArrayList<>();
 }

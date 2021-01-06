@@ -13,7 +13,7 @@ import routing.RoutingAlgorithm;
 public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 	
 	public Map<Pair<Integer, Integer>, Long> flowSizesPerDuration = new HashMap<>();
-	public Map<Integer, Long> outgoingTraffic = new HashMap<Integer, Long>();
+	public Map<Integer, Long> outgoingTraffic = new HashMap<>();
 	public Map<Pair<Integer, Integer>, Long> flowTable = new HashMap<>();
 	private int currentNode;
 	private int time = 0;
@@ -126,9 +126,9 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		RoutingAlgorithm ra = super.build(node);
 		if (ra instanceof FatTreeFlowClassifier) {
 			FatTreeFlowClassifier ftfc = (FatTreeFlowClassifier)ra;
-			ftfc.outgoingTraffic = new HashMap<Integer, Long>();
-			ftfc.flowSizesPerDuration = new HashMap<Pair<Integer, Integer>, Long>();
-			ftfc.flowTable = new HashMap<Pair<Integer, Integer>, Long>();
+			ftfc.outgoingTraffic = new HashMap<>();
+			ftfc.flowSizesPerDuration = new HashMap<>();
+			ftfc.flowTable = new HashMap<>();
 			return ftfc;
 		}
 		return ra;
@@ -142,7 +142,7 @@ public class FatTreeFlowClassifier extends FatTreeRoutingAlgorithm {
 		if (currentTime - time >= Constant.TIME_REARRANGE) {
 			time = currentTime;
 			// Update the result of the routing table
-			flowSizesPerDuration = new HashMap<Pair<Integer, Integer>, Long>();
+			flowSizesPerDuration = new HashMap<>();
 		} else {
 			Pair<Integer, Integer> flow = new Pair<>(src, dst);
 			long value = p.getSize();

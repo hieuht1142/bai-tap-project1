@@ -23,11 +23,11 @@ public abstract class OverSubscription extends PairGenerator {
 	public FatTreeGraph G;
     
 	
-	public OverSubscription() {
+	protected OverSubscription() {
 		
 	}
 
-	public OverSubscription(Integer[] allHosts) {
+	protected OverSubscription(Integer[] allHosts) {
 		super(allHosts);	
 	}
 	

@@ -72,7 +72,6 @@ public class State {
 				}
 			}
 		} else if (currentNode instanceof Switch) {
-			Switch sw = (Switch)currentNode;
 			exitBuffer.getNode().getNetworkLayer().controlFlow(exitBuffer);
 		}
 	}
@@ -102,9 +101,11 @@ public class State {
 		}
 	}
 	
-	
+	/**
+	 * This method is used to get next state of an element
+	 * @param e Element
+	 */
 	public void getNextState(Element e) {
 	}
-
 }
 

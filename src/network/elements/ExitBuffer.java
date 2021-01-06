@@ -6,6 +6,7 @@ import infrastructure.state.State;
 import infrastructure.state.Type;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExitBuffer extends LimitedBuffer {
 	
@@ -22,7 +23,7 @@ public class ExitBuffer extends LimitedBuffer {
 		this.setState(s);
 	}
 
-	public ArrayList<EntranceBuffer> getRequestList() {
+	public List<EntranceBuffer> getRequestList() {
 		return requestList;
 	}
 	
